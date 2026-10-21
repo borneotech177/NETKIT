@@ -1,0 +1,12 @@
+{
+  "appId": "id.borneotech.netkit",
+  "appName": "NetKit",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  },
+  "android": {
+    "backgroundColor": "#10202a"
+  }
+}
