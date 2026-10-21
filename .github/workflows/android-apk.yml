@@ -1,0 +1,50 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Susun folder dari file di root repo
+        run: |
+          mkdir -p www native scripts assets
+          [ -f index.html ] && cp index.html www/index.html || true
+          for f in NetToolsPlugin.java MainActivity.java; do [ -f "$f" ] && cp "$f" native/ || true; done
+          [ -f patch-android.sh ] && cp patch-android.sh scripts/ || true
+          for f in icon-only.png icon-foreground.png icon-background.png splash.png splash-dark.png; do [ -f "$f" ] && cp "$f" assets/ || true; done
+          test -f www/index.html || { echo "GAGAL: index.html tidak ada di repo"; exit 1; }
+          test -f native/NetToolsPlugin.java || { echo "GAGAL: NetToolsPlugin.java tidak ada di repo"; exit 1; }
+          test -f scripts/patch-android.sh || { echo "GAGAL: patch-android.sh tidak ada di repo"; exit 1; }
+          ls -R www native scripts assets
+
+      - run: npm install
+      - run: npx cap add android
+      - run: npx @capacitor/assets generate --android
+      - run: bash scripts/patch-android.sh
+      - run: npx cap sync android
+
+      - name: Build APK debug
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NetKit-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
