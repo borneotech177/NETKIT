@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#e7ebee">
+<script>try{var _t=localStorage.getItem("netkit.theme"),_d=_t==="dark"||(_t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.dataset.theme=_d?"dark":"light";var _l=localStorage.getItem("netkit.layout")||"auto";document.documentElement.dataset.layout=_l==="auto"?(innerWidth>=900?"desktop":"mobile"):_l}catch(e){document.documentElement.dataset.theme="light";document.documentElement.dataset.layout="mobile"}</script>
+<title>NetKit - Toolkit Network Engineer</title>
+<style>
+:root{--bg:#e7ebee;--sf:#fbfcfc;--tx:#18222c;--mu:#566472;--ln:#c9d1d8;--in:#eef2f4;--code:#14202a;--codetx:#c9e7d8;--wn:#b4531a;--ok:#1f7a45;--k:#d9661a;--kb:#fbeadd;--onk:#fff}
+html[data-theme=dark]{--bg:#0f1419;--sf:#18202a;--tx:#e6ecf1;--mu:#93a1ae;--ln:#2a3541;--in:#111820;--code:#0b1015;--wn:#f0a064;--ok:#5fd28a;--k:#f08a3e;--kb:#35261a;--onk:#10151a}
+[data-k=o]{--k:#d9661a;--kb:#fbeadd}[data-k=g]{--k:#2c8a52;--kb:#e0f1e7}[data-k=b]{--k:#2a6db3;--kb:#e0ebf8}[data-k=n]{--k:#8a5a38;--kb:#f0e6dd}
+html[data-theme=dark] [data-k=o]{--k:#f08a3e;--kb:#35261a}html[data-theme=dark] [data-k=g]{--k:#4fc07f;--kb:#16301f}html[data-theme=dark] [data-k=b]{--k:#5aa2ee;--kb:#162a40}html[data-theme=dark] [data-k=n]{--k:#c99068;--kb:#2e2219}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.55 "Segoe UI Variable","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(66px + env(safe-area-inset-bottom,0px))}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--sf);border-bottom:1px solid var(--ln)}
+header b{font-size:19px;letter-spacing:.3px}
+header span{color:var(--mu);font-size:12.5px;margin-left:8px}
+main{max-width:760px;margin:0 auto;padding:16px 14px}
+.tab{display:none}.tab.on{display:block}
+.card{background:var(--sf);border:1px solid var(--ln);border-top:3px solid var(--k);border-radius:6px;padding:14px;margin-bottom:14px}
+h2{font-size:17px;margin:0 0 10px;display:flex;align-items:center}
+h3{font-size:14px;margin:14px 0 4px}
+label{display:block;font-size:13px;color:var(--mu);margin:9px 0 3px}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--ln);border-radius:4px;background:var(--in);color:var(--tx);font:inherit;font-size:16px}
+textarea{min-height:90px;resize:vertical;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px}
+input:focus,select:focus,textarea:focus,button:focus-visible,summary:focus-visible{outline:2px solid var(--k);outline-offset:1px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end}
+@media(max-width:340px){.row{grid-template-columns:1fr}}
+.btn{margin-top:12px;padding:11px 16px;border:0;border-radius:4px;background:var(--k);color:var(--onk);font:inherit;font-weight:600;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.btn.alt{background:var(--kb);color:var(--k);border:1px solid var(--k)}
+.btn.sm{margin:0 0 0 6px;padding:7px 11px;font-size:13px}
+.kv{display:grid;grid-template-columns:128px 1fr;gap:5px 10px;font-size:14px}
+.kv dt{color:var(--mu)}.kv dd{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;word-break:break-all}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;font-family:ui-monospace,Menlo,Consolas,monospace}
+th,td{padding:7px 8px;border-bottom:1px solid var(--ln);text-align:left;white-space:nowrap}
+th{color:var(--mu);font-weight:600;border-bottom:2px solid var(--k)}
+pre{background:var(--code);color:var(--codetx);padding:12px;border-radius:4px;overflow-x:auto;font-size:13px;margin:10px 0 0;white-space:pre}
+.err{color:var(--wn);font-size:14px;margin-top:8px}
+.ok{color:var(--ok)}.bad{color:var(--wn)}
+.bin{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--mu);word-break:break-all}
+.note{border-top:1px solid var(--ln);padding:10px 0}.note:first-child{border-top:0}
+.note small{color:var(--mu)}
+.chip{display:inline-block;padding:1px 8px;border-radius:99px;background:var(--kb);color:var(--k);font-size:12px;margin-right:6px}
+.empty{color:var(--mu);font-size:14px}
+.lead{margin:0 0 6px;color:var(--mu);font-size:14px}
+.hq{width:24px;height:24px;margin-left:8px;border-radius:50%;border:1.5px solid var(--k);background:var(--kb);color:var(--k);font:700 13px/1 system-ui;cursor:pointer;padding:0;flex:none}
+.hq[aria-expanded=true]{background:var(--k);color:var(--onk)}
+.help{background:var(--kb);border-left:3px solid var(--k);border-radius:4px;padding:10px 12px;margin:0 0 10px;font-size:14px}
+.help[hidden]{display:none}
+.help p{margin:0 0 6px}.help ol,.help ul{margin:4px 0 6px;padding-left:20px}.help li{margin-bottom:3px}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;background:var(--in);padding:0 4px;border-radius:3px}
+details{border-top:1px solid var(--ln);padding:8px 0}details:first-of-type{border-top:0}
+summary{cursor:pointer;font-weight:600;padding:4px 0}
+details[open]>summary{color:var(--k)}
+details .bd{font-size:14px;padding:4px 0 6px}details .bd p{margin:0 0 8px}details .bd ul,details .bd ol{margin:4px 0 8px;padding-left:20px}details .bd li{margin-bottom:3px}
+.qbox{font-size:17px;margin:8px 0}
+.score{display:flex;gap:16px;font-size:13px;color:var(--mu);margin-bottom:4px}.score b{color:var(--tx);font-size:16px}
+#toast{position:fixed;left:50%;bottom:calc(78px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:8px 14px;border-radius:4px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9}
+#toast.on{opacity:1}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);background:var(--sf);border-top:1px solid var(--ln);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px 9px;border:0;background:none;color:var(--mu);font:inherit;font-size:11.5px;cursor:pointer}
+nav button.on{color:var(--k);font-weight:700;box-shadow:inset 0 3px 0 var(--k)}
+.hb{width:34px;height:34px;border-radius:50%;border:1px solid var(--ln);background:var(--in);color:var(--tx);font-size:22px;line-height:1;cursor:pointer;display:inline-grid;place-items:center;padding:0 0 3px}
+.hb[hidden],#ver[hidden]{display:none}
+.gh{margin:16px 0 8px;font-size:14px;color:var(--mu);font-weight:600}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;padding:12px;background:var(--sf);border:1px solid var(--ln);border-left:4px solid var(--k);border-radius:6px;color:var(--tx);font:inherit;cursor:pointer;min-height:108px}
+.tile:active{background:var(--kb)}
+.tile .ic{width:36px;height:36px;border-radius:8px;background:var(--kb);color:var(--k);display:grid;place-items:center}
+.tile b{font-size:15px}.tile small{color:var(--mu);font-size:12.5px;line-height:1.35}
+
+#ttl{white-space:nowrap}
+.hb{padding:0}
+.hero{background:var(--code);color:#e6f0ee;border-radius:8px;padding:16px;margin-bottom:4px}
+.hero b{display:block;font-size:21px;margin-bottom:4px;letter-spacing:.2px}
+.hero p{margin:0 0 14px;font-size:13.5px;color:#9fb4b8;line-height:1.45}
+.ports{display:flex;gap:6px}
+.ports i{flex:1;height:26px;background:#05090c;border:1px solid #2b3a42;border-radius:3px 3px 6px 6px;position:relative}
+.ports i::after{content:"";position:absolute;top:3px;right:3px;width:5px;height:5px;border-radius:50%;background:var(--l)}
+.grid .tile:last-child:nth-child(odd){grid-column:span 2;min-height:0}
+.head{margin:12px 0 10px;padding:10px 12px;background:var(--kb);border-left:4px solid var(--k);border-radius:4px}
+.rng{font:700 17px ui-monospace,Menlo,Consolas,monospace;word-break:break-all}
+.sub{font-size:13px;color:var(--mu);margin-top:3px}
+.bitrow{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:8px}
+.og small{display:block;text-align:center;font:12px ui-monospace,Menlo,Consolas,monospace;color:var(--mu);margin-top:3px}
+.bits{display:grid;grid-template-columns:repeat(8,1fr);gap:1px}
+.bits i{font:10px/22px ui-monospace,Menlo,Consolas,monospace;font-style:normal;text-align:center;border-radius:2px;box-sizing:border-box}
+i.nb{background:var(--k);color:var(--onk)}
+i.hb2{background:var(--in);color:var(--mu);border:1px solid var(--ln)}
+.legend{display:flex;gap:14px;font-size:12.5px;color:var(--mu);margin-bottom:12px;flex-wrap:wrap}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-2px;margin-right:5px}
+.kv dt{padding:3px 0}.kv dd{padding:3px 0}
+
+body{background-image:radial-gradient(var(--ln) 1px,transparent 1px);background-size:18px 18px;background-attachment:fixed}
+.hero{background-image:radial-gradient(#243842 1px,transparent 1px);background-size:14px 14px;padding-bottom:10px}
+.net{display:block;width:100%;height:auto;margin-top:4px}
+.net .nd{fill:#0b1a24;stroke:#34526a;stroke-width:1.2}
+.net text{fill:#cfe3e8;font:8.5px ui-monospace,Menlo,Consolas,monospace;text-anchor:middle}
+.net .lk{fill:none;stroke-width:2}
+.net .pk{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-dasharray:1 11;animation:flow 1.1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-12}}
+@media(prefers-reduced-motion:reduce){.net .pk{animation:none}}
+.logo{width:26px;height:26px;color:var(--k);flex:none}
+.logo[hidden]{display:none}
+.tile{position:relative}
+.pt{position:absolute;top:9px;right:9px;font:10.5px ui-monospace,Menlo,Consolas,monospace;font-style:normal;color:var(--mu)}
+.pt::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ok);margin-right:4px;vertical-align:1px}
+.topo{display:block;width:100%;height:auto;margin:0 0 8px}
+.topo .tn{fill:var(--in);stroke:var(--k);stroke-width:1.5}
+.topo .tl{fill:none;stroke:var(--mu);stroke-width:1.5;stroke-dasharray:3 3}
+.topo text{fill:var(--tx);font:8.5px ui-monospace,Menlo,Consolas,monospace;text-anchor:middle}
+.topo .m{fill:var(--mu);font-size:7.5px}
+.vbar{display:flex;height:34px;border-radius:4px;overflow:hidden;margin:12px 0 4px;border:1px solid var(--ln)}
+.vbar span{display:block;min-width:0;line-height:34px;text-align:center;text-overflow:ellipsis;color:#fff;font:600 11px/34px ui-monospace,Menlo,Consolas,monospace;overflow:hidden;white-space:nowrap;padding:0 3px;border-right:2px solid var(--sf)}
+.vbar .free{background:repeating-linear-gradient(45deg,var(--in),var(--in) 5px,var(--ln) 5px,var(--ln) 6px);color:var(--mu)}
+.hero .hint{margin:6px 0 0;text-align:center;font-size:12.5px;color:#9fb4b8}
+.net g[data-go]:active .nd,.net g[data-go]:focus-visible .nd{stroke:#6fb3d6;fill:#12293a}
+.net g:focus{outline:none}
+
+.tile{flex-direction:row;align-items:center;gap:10px;min-height:0;padding:9px 10px}
+.tile .ic{width:34px;height:34px;flex:none}
+.tile .tx{display:flex;flex-direction:column;min-width:0}
+.tile b{font-size:14.5px}.tile small{font-size:12px;line-height:1.3}
+.pt{top:6px;right:8px;font-size:9.5px}
+.grid .tile:last-child:nth-child(odd){min-height:0}
+.hero{padding:12px 14px 8px;margin:10px 0 2px}.hero b{font-size:18px;margin-bottom:0}
+.srch{position:sticky;top:0;z-index:4;background:var(--bg);padding:2px 0 8px}
+.srch input{padding:12px 12px 12px 38px;border-radius:22px;background:var(--sf) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23889' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E") 12px center/18px no-repeat}
+.rc{display:inline-block;margin:0 6px 6px 0;padding:5px 12px;border-radius:99px;border:1px solid var(--k);background:var(--kb);color:var(--k);font:inherit;font-size:13px;cursor:pointer}
+#recent .gh{margin:6px 0}
+.nores{color:var(--mu);padding:14px 0}
+.prog{height:8px;border-radius:4px;background:var(--in);border:1px solid var(--ln);overflow:hidden;margin:6px 0 10px}.prog i{display:block;height:100%;background:var(--k)}
+.ck{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--ln);font-size:14.5px}
+.ck input{width:22px;height:22px;flex:none;margin-top:1px;accent-color:var(--k)}
+.ck.done span{color:var(--mu);text-decoration:line-through}
+.opt{display:block;width:100%;text-align:left;margin:8px 0 0;padding:11px 12px;border:1px solid var(--ln);border-radius:4px;background:var(--in);color:var(--tx);font:inherit;cursor:pointer}
+.opt.good{border-color:var(--ok);background:var(--kb);font-weight:600}.opt.no{border-color:var(--wn)}
+.blk{margin-top:12px}.blk h3{margin:0 0 4px}.blk ul{margin:0;padding-left:20px;font-size:14px}
+#rpt-sheet{display:none}
+.rp{font:13px/1.45 Arial,Helvetica,sans-serif;color:#000;background:#fff;padding:14px;border-radius:4px}
+.rp h1{font-size:20px;margin:0}.rp h2{font-size:15px;margin:16px 0 6px;border-bottom:1px solid #000;padding-bottom:3px}
+.rp table{width:100%;border-collapse:collapse;font:12px Arial,sans-serif}.rp th,.rp td{border:1px solid #666;padding:4px 6px;white-space:normal;color:#000;text-align:left}
+.rp .kop{border-bottom:3px solid #000;padding-bottom:8px;margin-bottom:10px}
+.lbls{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.lb{border:1px dashed #666;padding:8px;text-align:center;background:#fff;color:#000}.lb b{display:block;font:700 20px Arial,sans-serif}.lb small{font-size:11px}
+@media print{body>*:not(#rpt-sheet){display:none!important}#rpt-sheet{display:block!important}body{background:#fff!important;padding:0!important}}
+.pt{display:none}
+.tile small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hero .net{height:112px}
+.hero .hint{margin-top:2px}
+
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0 6px}
+.seg button{padding:10px 2px;border:1px solid var(--ln);border-radius:4px;background:var(--in);color:var(--tx);font:inherit;font-size:13px;cursor:pointer}
+.seg button.on{background:var(--k);border-color:var(--k);color:var(--onk);font-weight:600}
+.dn-wrap{border:1px solid var(--ln);border-radius:4px;overflow:hidden;background:#fff}
+.dn-wrap svg{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.lg{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--mu);margin:8px 0}
+.lg i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:5px;vertical-align:-2px}
+input[type=range]{padding:0;accent-color:var(--k);background:none;border:0}
+
+.dn-wrap{position:relative}
+.dn-wrap svg{background:#e4e9ee}
+.zc{position:absolute;top:8px;right:8px;display:flex;flex-direction:column;gap:6px}
+.zc button{width:38px;height:38px;border-radius:50%;border:1px solid #c5ced6;background:rgba(255,255,255,.94);color:#17212b;font:600 19px/1 system-ui;cursor:pointer;padding:0}
+.zc button.pas{font-size:11.5px}
+.lg .zt{border:1px solid var(--ln);background:var(--in);color:var(--tx);border-radius:99px;padding:4px 10px;font:inherit;font-size:12.5px;cursor:pointer}
+.lg .zt:not(.on){opacity:.45}
+.seg3{grid-template-columns:repeat(3,1fr)}
+#sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center}
+#sheet[hidden]{display:none}
+.sh-bg{position:absolute;inset:0;background:rgba(0,0,0,.5)}
+.sh-box{position:relative;background:var(--sf);border-radius:12px 12px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));width:100%;max-width:480px;max-height:90vh;overflow:auto}
+#side{display:none;position:fixed;left:0;top:0;bottom:0;width:236px;flex-direction:column;gap:1px;background:var(--sf);border-right:1px solid var(--ln);overflow-y:auto;z-index:7;padding:12px 8px}
+#side .sb{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px;padding:4px 8px 10px}
+#side .sb .logo{display:block}
+#side input{margin:0 0 8px;padding:8px 10px;font-size:14px}
+.sl{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border:0;border-radius:6px;background:none;color:var(--tx);font:inherit;font-size:14px;text-align:left;cursor:pointer}
+.sl .i{color:var(--k);width:20px;height:20px}
+.sl:hover{background:var(--in)}.sl.on{background:var(--kb);font-weight:700}
+.sg{margin:12px 10px 4px;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu)}
+html[data-layout=desktop] body{padding-bottom:0;padding-left:236px}
+html[data-layout=desktop] nav{display:none}
+html[data-layout=desktop] #side{display:flex}
+html[data-layout=desktop] header{position:sticky;top:0;z-index:6}
+html[data-layout=desktop] main{max-width:1040px;padding:20px 28px}
+html[data-layout=desktop] .grid{grid-template-columns:repeat(3,1fr)}
+html[data-layout=desktop] .grid .tile:last-child:nth-child(odd){grid-column:auto}
+html[data-layout=desktop] .srch{position:static}
+html[data-layout=desktop] #toast{bottom:24px}
+html[data-layout=desktop] .sh-box{border-radius:12px;margin-bottom:auto;margin-top:12vh}
+html[data-layout=desktop] #sheet{align-items:flex-start}
+html[data-layout=desktop] .hero .net{height:150px}
+html[data-layout=desktop] .tile small{-webkit-line-clamp:3}
+html[data-layout=mobile] main{max-width:480px}
+html[data-layout=mobile] nav{max-width:480px;left:50%;right:auto;width:100%;transform:translateX(-50%)}
+.dn-wrap{width:100%;max-width:calc(72vh * var(--ar,1.333));margin:0 auto}
+</style>
+</head>
+<body data-k="o">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-theme" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0M12 3v18"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></symbol><symbol id="i-kabel" viewBox="0 0 24 24"><path d="M3 8h6a4 4 0 0 1 4 4a4 4 0 0 0 4 4h4M3 8v0M20 12h1M3 12h1"/></symbol><symbol id="i-cekip" viewBox="0 0 24 24"><path d="M3 12a8 8 0 1 0 16 0a8 8 0 1 0-16 0M9 12l2 2 4-4M20 20l-3-3"/></symbol><symbol id="i-parser" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM10 12l-2 2 2 2M14 12l2 2-2 2"/></symbol><symbol id="i-backup" viewBox="0 0 24 24"><path d="M12 4v10M8 10l4 4 4-4M4 19h16"/></symbol><symbol id="i-checklist" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM8 12l3 3 5-6"/></symbol><symbol id="i-laporan" viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M7 14h10v7H7z"/></symbol><symbol id="i-label" viewBox="0 0 24 24"><path d="M3 12l9-9h8v8l-9 9zM16 8h.01"/></symbol><symbol id="i-sim" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0M10 8l6 4-6 4z"/></symbol><symbol id="i-kuis" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10c1 1 1 2 1 3h6c0-1 0-2 1-3a6 6 0 0 0-4-10z"/></symbol><symbol id="i-pecah" viewBox="0 0 24 24"><path d="M4 12h6M10 12l6-6h4M10 12l6 6h4"/></symbol><symbol id="i-bandwidth" viewBox="0 0 24 24"><path d="M3 17a9 9 0 0 1 18 0M12 17l4-6M7 17h.01M17 17h.01"/></symbol><symbol id="i-listrik" viewBox="0 0 24 24"><path d="M13 2L5 14h6l-1 8 8-12h-6z"/></symbol><symbol id="i-portfwd" viewBox="0 0 24 24"><path d="M4 12h10M10 8l4 4-4 4M17 4h3v16h-3"/></symbol><symbol id="i-snip" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol><symbol id="i-port" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M6 8h12v4a6 6 0 0 1-12 0zM12 18v3"/></symbol><symbol id="i-mac" viewBox="0 0 24 24"><path d="M7 7h10v10H7zM9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4"/></symbol><symbol id="i-sandi" viewBox="0 0 24 24"><path d="M15 9a4 4 0 1 0-8 0a4 4 0 0 0 8 0M11 13l-7 7M6 18l2 2"/></symbol><symbol id="i-utp" viewBox="0 0 24 24"><path d="M5 7h14v10H5zM8 7V4M12 7V4M16 7V4M9 11v3M12 11v3M15 11v3"/></symbol><symbol id="i-denah" viewBox="0 0 24 24"><path d="M3 3h18v18H3zM9 3v8h12M9 21v-6M14 15l3-3 3 3"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><path d="M9 12a3 3 0 1 0 6 0a3 3 0 1 0-6 0M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/></symbol><symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/></symbol><symbol id="i-subnet" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></symbol><symbol id="i-vlsm" viewBox="0 0 24 24"><path d="M3 4h18v16H3zM3 10h12M15 4v16M15 14h6"/></symbol><symbol id="i-cfg" viewBox="0 0 24 24"><path d="M3 5h18v14H3zM7 10l3 2-3 2M12 15h5"/></symbol><symbol id="i-cctv" viewBox="0 0 24 24"><path d="M3 8h13v8H3zM16 11l5-3v8l-5-3"/></symbol><symbol id="i-ipam" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10M18 18h2"/></symbol><symbol id="i-conv" viewBox="0 0 24 24"><path d="M4 8h14l-3-3M20 16H6l3 3"/></symbol><symbol id="i-note" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM9 12h7M9 16h7"/></symbol><symbol id="i-live" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0M12 19.5h.01"/></symbol><symbol id="i-quiz" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></symbol><symbol id="i-learn" viewBox="0 0 24 24"><path d="M3 5c3-1 6-1 9 1 3-2 6-2 9-1v14c-3-1-6-1-9 1-3-2-6-2-9-1zM12 6v14"/></symbol></svg>
+<header><div style="display:flex;align-items:center;gap:10px"><svg id="logo" class="logo" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M13 7v6M13 13l-6 6M13 13l6 6"/><circle cx="13" cy="5" r="3" fill="currentColor"/><circle cx="6" cy="20" r="3" fill="currentColor"/><circle cx="20" cy="20" r="3" fill="currentColor"/></svg><button id="back" class="hb" hidden aria-label="Kembali ke beranda">&#8249;</button><b id="ttl">NetKit</b><span id="ver">Borneo-Tech</span></div><div style="display:flex;gap:8px"><button class="hb" id="themeBtn" aria-label="Ganti tema terang atau gelap" title="Ganti tema"><svg class="i"><use href="#i-theme"/></svg></button><button class="hb" id="setBtn" aria-label="Pengaturan tampilan" title="Pengaturan tampilan"><svg class="i"><use href="#i-gear"/></svg></button></div></header>
+<aside id="side" aria-label="Daftar alat"></aside>
+<div id="sheet" hidden><div class="sh-bg" data-close="1"></div><div class="sh-box" role="dialog" aria-label="Pengaturan tampilan"><h2>Pengaturan tampilan</h2><label>Tema</label><div class="seg seg3" id="st-theme"><button data-v="auto">Otomatis</button><button data-v="light">Terang</button><button data-v="dark">Gelap</button></div><label>Mode layar</label><div class="seg seg3" id="st-layout"><button data-v="auto">Otomatis</button><button data-v="mobile">Mobile</button><button data-v="desktop">Desktop</button></div><p class="lead" style="margin-top:10px">Otomatis mengikuti pengaturan HP atau lebar layar. Mode Desktop menampilkan daftar alat di samping dan kolom lebih lebar. Mode Mobile memakai menu bawah.</p><p class="lead" id="st-ver">NetKit v1.0.0 - Borneo-Tech</p><button class="btn" id="st-close">Selesai</button></div></div>
+<main>
+<div id="toast" role="status"></div>
+<section class="tab" id="t-home">
+ <div class="srch"><input id="hs" type="search" placeholder="Cari alat: ip, cctv, vlan, cetak" autocomplete="off" aria-label="Cari alat"></div>
+ <div id="recent"></div>
+ <div class="hero"><b>Mau kerjain apa hari ini?</b><svg class="net" viewBox="0 0 340 150" role="img" aria-label="Contoh topologi: internet ke router, switch, lalu perangkat"><path class="lk" d="M66 60H88" stroke="#e8731a"/><path class="pk" d="M66 60H88"/><path class="lk" d="M140 60H162" stroke="#2a6fb8"/><path class="pk" d="M140 60H162"/><path class="lk" d="M214 60C232 60 232 18 250 18" stroke="#2f9e57"/><path class="pk" d="M214 60C232 60 232 18 250 18"/><path class="lk" d="M214 60C232 60 232 56 250 56" stroke="#8a5a38"/><path class="pk" d="M214 60C232 60 232 56 250 56"/><path class="lk" d="M214 60C232 60 232 94 250 94" stroke="#2f9e57"/><path class="pk" d="M214 60C232 60 232 94 250 94"/><path class="lk" d="M214 60C232 60 232 132 250 132" stroke="#8a5a38"/><path class="pk" d="M214 60C232 60 232 132 250 132"/><g data-go="live" data-k="o" tabindex="0" role="button" aria-label="Buka Uji koneksi" style="cursor:pointer"><rect class="nd" x="8" y="47" width="58" height="26" rx="4"/><text x="37" y="63">Internet</text></g><g data-go="cfg" data-k="o" tabindex="0" role="button" aria-label="Buka Generator config" style="cursor:pointer"><rect class="nd" x="88" y="47" width="52" height="26" rx="4"/><text x="114" y="63">Router</text></g><g data-go="vlsm" data-k="o" tabindex="0" role="button" aria-label="Buka VLSM" style="cursor:pointer"><rect class="nd" x="162" y="47" width="52" height="26" rx="4"/><text x="188" y="63">Switch</text></g><g data-go="ipam" data-k="o" tabindex="0" role="button" aria-label="Buka Daftar IP" style="cursor:pointer"><rect class="nd" x="250" y="6" width="82" height="24" rx="4"/><text x="291" y="21">AP WiFi</text></g><g data-go="cctv" data-k="o" tabindex="0" role="button" aria-label="Buka Hitung CCTV" style="cursor:pointer"><rect class="nd" x="250" y="44" width="82" height="24" rx="4"/><text x="291" y="59">CCTV</text></g><g data-go="subnet" data-k="o" tabindex="0" role="button" aria-label="Buka Subnet" style="cursor:pointer"><rect class="nd" x="250" y="82" width="82" height="24" rx="4"/><text x="291" y="97">PC</text></g><g data-go="cctv" data-k="o" tabindex="0" role="button" aria-label="Buka Hitung CCTV" style="cursor:pointer"><rect class="nd" x="250" y="120" width="82" height="24" rx="4"/><text x="291" y="135">NVR</text></g></svg><p class="hint">Ketuk perangkat untuk membuka alatnya.</p></div>
+ <div id="gl">
+ <div class="grp"><div class="gh">Hitung</div>
+ <div class="grid">
+  <button class="tile" data-go="subnet" data-k="g" data-kw="cidr netmask ip"><span class="ic"><svg class="i"><use href="#i-subnet"/></svg></span><span class="tx"><b>Subnet</b><small>Network, broadcast, range host</small></span><em class="pt">ether1</em></button>
+  <button class="tile" data-go="pecah" data-k="g" data-kw="split summary supernet"><span class="ic"><svg class="i"><use href="#i-pecah"/></svg></span><span class="tx"><b>Pecah subnet</b><small>Pecah dan ringkas jaringan</small></span><em class="pt">ether2</em></button>
+  <button class="tile" data-go="vlsm" data-k="g" data-kw="bagi subnet"><span class="ic"><svg class="i"><use href="#i-vlsm"/></svg></span><span class="tx"><b>VLSM</b><small>Bagi jaringan sesuai kebutuhan</small></span><em class="pt">ether3</em></button>
+  <button class="tile" data-go="conv" data-k="g" data-kw="desimal"><span class="ic"><svg class="i"><use href="#i-conv"/></svg></span><span class="tx"><b>Konversi</b><small>IP, biner, hex, mask</small></span><em class="pt">ether4</em></button>
+  <button class="tile" data-go="bandwidth" data-k="g" data-kw="kecepatan mbps unduh paket internet"><span class="ic"><svg class="i"><use href="#i-bandwidth"/></svg></span><span class="tx"><b>Bandwidth</b><small>Waktu transfer, kebutuhan user</small></span><em class="pt">ether5</em></button>
+ </div></div>
+ <div class="grp"><div class="gh">Kabel dan listrik</div>
+ <div class="grid">
+  <button class="tile" data-go="kabel" data-k="n" data-kw="utp rj45 poe meter kotak"><span class="ic"><svg class="i"><use href="#i-kabel"/></svg></span><span class="tx"><b>Kabel, PoE</b><small>Meter kabel, konektor, daya</small></span><em class="pt">ether6</em></button>
+  <button class="tile" data-go="utp" data-k="n" data-kw="crimping rj45 warna pin"><span class="ic"><svg class="i"><use href="#i-utp"/></svg></span><span class="tx"><b>Urutan kabel UTP</b><small>T568A, T568B, crossover</small></span><em class="pt">ether7</em></button>
+  <button class="tile" data-go="listrik" data-k="n" data-kw="watt ampere mcb aki baterai ups"><span class="ic"><svg class="i"><use href="#i-listrik"/></svg></span><span class="tx"><b>Listrik dan UPS</b><small>Arus, MCB, drop tegangan, UPS</small></span><em class="pt">ether8</em></button>
+  <button class="tile" data-go="cctv" data-k="n" data-kw="kamera nvr hdd storage"><span class="ic"><svg class="i"><use href="#i-cctv"/></svg></span><span class="tx"><b>CCTV</b><small>Bandwidth, hard disk, IP</small></span><em class="pt">ether9</em></button>
+  <button class="tile" data-go="denah" data-k="n" data-kw="denah layout kamera sudut fov dori posisi gambar"><span class="ic"><svg class="i"><use href="#i-denah"/></svg></span><span class="tx"><b>Denah CCTV</b><small>Letak kamera dan sudut pandang</small></span><em class="pt">ether29</em></button>
+  <button class="tile" data-go="label" data-k="n" data-kw="patch panel cetak"><span class="ic"><svg class="i"><use href="#i-label"/></svg></span><span class="tx"><b>Label kabel</b><small>Label patch panel siap cetak</small></span><em class="pt">ether10</em></button>
+ </div></div>
+ <div class="grp"><div class="gh">Konfigurasi dan data</div>
+ <div class="grid">
+  <button class="tile" data-go="cfg" data-k="b" data-kw="mikrotik cisco vlan dhcp nat firewall"><span class="ic"><svg class="i"><use href="#i-cfg"/></svg></span><span class="tx"><b>Config</b><small>Perintah MikroTik dan Cisco</small></span><em class="pt">ether11</em></button>
+  <button class="tile" data-go="portfwd" data-k="b" data-kw="nat dst-nat remote cctv"><span class="ic"><svg class="i"><use href="#i-portfwd"/></svg></span><span class="tx"><b>Port forward</b><small>Buat aturan buka port</small></span><em class="pt">ether12</em></button>
+  <button class="tile" data-go="parser" data-k="b" data-kw="export routeros"><span class="ic"><svg class="i"><use href="#i-parser"/></svg></span><span class="tx"><b>Baca config</b><small>Ringkas /export MikroTik</small></span><em class="pt">ether13</em></button>
+  <button class="tile" data-go="snip" data-k="b" data-kw="snippet script cli backup queue"><span class="ic"><svg class="i"><use href="#i-snip"/></svg></span><span class="tx"><b>Kumpulan perintah</b><small>Siap salin: MikroTik, Cisco, Linux</small></span><em class="pt">ether14</em></button>
+  <button class="tile" data-go="ipam" data-k="o" data-kw="daftar ip"><span class="ic"><svg class="i"><use href="#i-ipam"/></svg></span><span class="tx"><b>IPAM</b><small>Catat siapa pakai IP mana</small></span><em class="pt">ether15</em></button>
+  <button class="tile" data-go="cekip" data-k="o" data-kw="bentrok duplikat"><span class="ic"><svg class="i"><use href="#i-cekip"/></svg></span><span class="tx"><b>Cek IP</b><small>Cari IP dobel atau salah subnet</small></span><em class="pt">ether16</em></button>
+  <button class="tile" data-go="note" data-k="b" data-kw="catat"><span class="ic"><svg class="i"><use href="#i-note"/></svg></span><span class="tx"><b>Catatan</b><small>Temuan dan kerjaan lapangan</small></span><em class="pt">ether17</em></button>
+ </div></div>
+ <div class="grp"><div class="gh">Referensi</div>
+ <div class="grid">
+  <button class="tile" data-go="port" data-k="o" data-kw="tcp udp ssh rdp rtsp winbox"><span class="ic"><svg class="i"><use href="#i-port"/></svg></span><span class="tx"><b>Daftar port</b><small>Cari port dan layanannya</small></span><em class="pt">ether18</em></button>
+  <button class="tile" data-go="mac" data-k="o" data-kw="oui vendor"><span class="ic"><svg class="i"><use href="#i-mac"/></svg></span><span class="tx"><b>MAC address</b><small>Format dan pabrikan</small></span><em class="pt">ether19</em></button>
+  <button class="tile" data-go="sandi" data-k="o" data-kw="password wifi random"><span class="ic"><svg class="i"><use href="#i-sandi"/></svg></span><span class="tx"><b>Buat sandi</b><small>Password acak kuat</small></span><em class="pt">ether20</em></button>
+ </div></div>
+ <div class="grp"><div class="gh">Proyek dan laporan</div>
+ <div class="grid">
+  <button class="tile" data-go="checklist" data-k="g" data-kw="centang cctv wifi"><span class="ic"><svg class="i"><use href="#i-checklist"/></svg></span><span class="tx"><b>Checklist</b><small>Survei dan instalasi</small></span><em class="pt">ether21</em></button>
+  <button class="tile" data-go="laporan" data-k="g" data-kw="pdf kop cetak"><span class="ic"><svg class="i"><use href="#i-laporan"/></svg></span><span class="tx"><b>Laporan</b><small>Cetak atau simpan PDF</small></span><em class="pt">ether22</em></button>
+  <button class="tile" data-go="backup" data-k="n" data-kw="backup restore json"><span class="ic"><svg class="i"><use href="#i-backup"/></svg></span><span class="tx"><b>Cadangan data</b><small>Ekspor dan impor data</small></span><em class="pt">ether23</em></button>
+ </div></div>
+ <div class="grp"><div class="gh">Cek di lapangan</div>
+ <div class="grid">
+  <button class="tile" data-go="live" data-k="n" data-kw="ping http scan"><span class="ic"><svg class="i"><use href="#i-live"/></svg></span><span class="tx"><b>Uji</b><small>Cek jangkauan, sapu rentang IP</small></span><em class="pt">ether24</em></button>
+ </div></div>
+ <div class="grp"><div class="gh">Belajar</div>
+ <div class="grid">
+  <button class="tile" data-go="quiz" data-k="o" data-kw="soal hitung"><span class="ic"><svg class="i"><use href="#i-quiz"/></svg></span><span class="tx"><b>Latihan subnet</b><small>Soal hitung acak</small></span><em class="pt">ether25</em></button>
+  <button class="tile" data-go="kuis" data-k="o" data-kw="soal port vlan"><span class="ic"><svg class="i"><use href="#i-kuis"/></svg></span><span class="tx"><b>Kuis konsep</b><small>Pilihan ganda jaringan</small></span><em class="pt">ether26</em></button>
+  <button class="tile" data-go="sim" data-k="b" data-kw="langkah animasi"><span class="ic"><svg class="i"><use href="#i-sim"/></svg></span><span class="tx"><b>Simulator</b><small>DHCP, ARP, dan NAT</small></span><em class="pt">ether27</em></button>
+  <button class="tile" data-go="learn" data-k="g" data-kw="osi materi"><span class="ic"><svg class="i"><use href="#i-learn"/></svg></span><span class="tx"><b>Belajar</b><small>Materi dasar jaringan</small></span><em class="pt">ether28</em></button>
+ </div></div>
+ </div>
+ <div class="nores" id="nores" hidden>Tidak ada alat yang cocok. Coba kata lain, misalnya "ip" atau "cetak".</div>
+</section>
+
+
+<section class="tab on" id="t-subnet">
+ <div class="card"><h2>Kalkulator subnet<button class="hq" data-h="subnet" aria-expanded="false" aria-controls="h-subnet" aria-label="Cara penggunaan Kalkulator subnet" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-subnet" hidden><p><b>Fungsi:</b> membagi satu jaringan menjadi bagian lebih kecil dan menunjukkan batas-batasnya.</p>
+<ol><li>Ketik alamat IP diikuti <code>/prefix</code>, contoh <code>192.168.10.37/26</code>.</li><li>Hasil muncul otomatis saat mengetik.</li></ol>
+<p><b>Cara membaca hasil:</b></p>
+<ul><li><b>Network</b>: alamat jaringan itu sendiri, tidak dipakai perangkat.</li><li><b>Broadcast</b>: alamat siaran ke semua perangkat, juga tidak dipakai perangkat.</li><li><b>Host pertama - terakhir</b>: rentang IP yang boleh dipasang ke perangkat.</li><li><b>Wildcard</b>: kebalikan netmask, dipakai di ACL Cisco dan OSPF.</li></ul>
+<p><b>Contoh:</b> <code>/24</code> = <code>255.255.255.0</code> = 254 host. Makin besar angka prefix, makin kecil jaringannya.</p></div>
+  <label>IP / CIDR (contoh 192.168.10.37/26)</label>
+  <input id="sn-in" value="192.168.10.37/26" inputmode="text" autocomplete="off">
+  <div id="sn-out"></div>
+ </div>
+</section>
+
+<section class="tab" id="t-vlsm">
+ <div class="card"><h2>VLSM<button class="hq" data-h="vlsm" aria-expanded="false" aria-controls="h-vlsm" aria-label="Cara penggunaan VLSM" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-vlsm" hidden><p><b>Fungsi:</b> membagi satu network induk menjadi beberapa subnet dengan ukuran berbeda sesuai kebutuhan, supaya IP tidak terbuang.</p>
+<ol><li>Isi <b>Network induk</b>, misalnya <code>192.168.0.0/24</code>.</li><li>Tulis kebutuhan, satu baris satu subnet, format <code>nama:jumlah host</code>.</li><li>Tekan <b>Hitung</b>.</li></ol>
+<p>Alokasi dimulai dari kebutuhan terbesar. Alamat network dan broadcast sudah dihitung otomatis, jadi isi jumlah perangkat sebenarnya.</p>
+<p><b>Tips:</b> tambahkan cadangan 20-30% untuk pertumbuhan perangkat. Kalau muncul pesan ruang tidak cukup, pakai network induk yang lebih besar.</p></div>
+  <label>Network induk</label><input id="v-net" value="192.168.0.0/24">
+  <label>Kebutuhan host (satu per baris, format nama:jumlah)</label>
+  <textarea id="v-need">Kantor:60
+CCTV:25
+Server:10
+WiFi Tamu:20</textarea>
+  <button class="btn" id="v-go">Hitung</button>
+  <div id="v-out"></div>
+ </div>
+</section>
+
+<section class="tab" id="t-cfg">
+ <div class="card"><h2>Generator konfigurasi<button class="hq" data-h="cfg" aria-expanded="false" aria-controls="h-cfg" aria-label="Cara penggunaan Generator konfigurasi" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-cfg" hidden><p><b>Fungsi:</b> membuat perintah konfigurasi siap tempel untuk MikroTik atau Cisco.</p>
+<ol><li>Pilih <b>Perangkat</b> dan <b>Jenis</b>.</li><li>Isi network LAN dalam format CIDR, nama interface, dan DNS.</li><li>Tekan <b>Buat konfigurasi</b>, lalu <b>Salin</b>.</li><li>Tempel di terminal MikroTik atau console Cisco.</li></ol>
+<ul><li><b>VLAN + DHCP</b>: memisahkan jaringan secara logis (misal CCTV terpisah dari kantor). Gateway otomatis memakai IP pertama, pool DHCP mulai dari .10.</li><li><b>NAT internet</b>: membuat jaringan LAN bisa keluar ke internet lewat interface WAN.</li><li><b>Firewall dasar</b>: memblokir akses dari luar, hanya LAN yang boleh mengakses router.</li></ul>
+<p><b>Hati-hati:</b> samakan nama interface dengan perangkat asli, backup konfigurasi dulu, dan jangan coba firewall di router produksi tanpa akses fisik karena bisa terkunci.</p></div>
+  <div class="row">
+   <div><label>Perangkat</label><select id="c-dev"><option value="mt">MikroTik</option><option value="cs">Cisco IOS</option></select></div>
+   <div><label>Jenis</label><select id="c-type"><option value="vlan">VLAN + DHCP</option><option value="nat">NAT internet</option><option value="fw">Firewall dasar</option></select></div>
+  </div>
+  <div class="row" id="c-vlanf">
+   <div><label>VLAN ID</label><input id="c-id" type="number" value="10" min="1" max="4094"></div>
+   <div><label>Nama VLAN</label><input id="c-name" value="CCTV"></div>
+  </div>
+  <div class="row">
+   <div><label>Network LAN (CIDR)</label><input id="c-net" value="192.168.10.0/24"></div>
+   <div><label>DNS</label><input id="c-dns" value="8.8.8.8,1.1.1.1"></div>
+  </div>
+  <div class="row">
+   <div><label>Interface / bridge LAN</label><input id="c-lan" value="bridge"></div>
+   <div><label>Interface WAN</label><input id="c-wan" value="ether1"></div>
+  </div>
+  <button class="btn" id="c-go">Buat konfigurasi</button>
+  <button class="btn alt sm" id="c-copy" style="margin-top:12px">Salin</button>
+  <div id="c-err" class="err"></div>
+  <pre id="c-out">Isi data di atas, lalu tekan Buat konfigurasi.</pre>
+ </div>
+</section>
+
+<section class="tab" id="t-conv">
+ <div class="card"><h2>Konversi<button class="hq" data-h="conv" aria-expanded="false" aria-controls="h-conv" aria-label="Cara penggunaan Konversi" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-conv" hidden><p><b>Fungsi:</b> mengubah angka antar format. Berguna untuk belajar biner, karena IP sebenarnya adalah 4 kelompok 8 bit.</p>
+<p>Contoh yang bisa diketik:</p>
+<ul><li><code>192.168.1.1</code>: IP menjadi desimal, hex, dan biner.</li><li><code>24</code>: ditampilkan juga sebagai netmask <code>/24</code>.</li><li><code>0xC0A80101</code>: hex menjadi IP.</li><li><code>0b11000000</code>: biner menjadi desimal.</li><li><code>255.255.255.0</code>: dikenali sebagai mask <code>/24</code>.</li></ul></div>
+  <label>Angka, IP, biner (0b...), atau hex (0x...)</label>
+  <input id="cv-in" value="192.168.1.1" autocomplete="off">
+  <div id="cv-out"></div>
+ </div>
+</section>
+
+<section class="tab" id="t-note">
+ <div class="card"><h2>Catatan lapangan<button class="hq" data-h="note" aria-expanded="false" aria-controls="h-note" aria-label="Cara penggunaan Catatan lapangan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-note" hidden><p><b>Fungsi:</b> mencatat temuan, IP, dan pekerjaan di lapangan.</p>
+<ol><li>Isi judul, tag (opsional), dan isi catatan, lalu tekan <b>Simpan catatan</b>.</li><li>Pakai kolom <b>Cari</b> untuk menyaring berdasarkan judul, isi, atau tag.</li></ol>
+<p><b>Penting:</b> catatan hanya tersimpan di browser atau perangkat ini. Kalau data browser dihapus, catatan hilang. Tekan <b>Ekspor JSON</b> secara berkala untuk cadangan. Hapus catatan tidak bisa dibatalkan.</p></div>
+  <div class="row">
+   <div><label>Judul</label><input id="n-title" placeholder="Mis. Cek AP lantai 2"></div>
+   <div><label>Tag</label><input id="n-tag" placeholder="CCTV, Jaringan, ..."></div>
+  </div>
+  <label>Isi catatan</label><textarea id="n-body"></textarea>
+  <button class="btn" id="n-add">Simpan catatan</button>
+  <button class="btn alt sm" id="n-exp" style="margin-top:12px">Ekspor JSON</button>
+  <label style="margin-top:14px">Cari</label><input id="n-q" placeholder="Cari judul, isi, atau tag">
+  <div id="n-list" style="margin-top:8px"></div>
+ </div>
+</section>
+
+<section class="tab" id="t-live">
+ <div class="card"><h2>Uji koneksi<button class="hq" data-h="live" aria-expanded="false" aria-controls="h-live" aria-label="Cara penggunaan Uji koneksi" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-live" hidden><p><b>Fungsi:</b> mengecek apakah sebuah perangkat bisa dijangkau dan berapa lama responnya.</p>
+<ol><li>Isi host (IP atau domain), misalnya IP router <code>192.168.88.1</code>.</li><li>Tekan <b>Cek HTTP</b>.</li></ol>
+<ul><li><b>respon xx ms</b>: perangkat menjawab, angkanya waktu tempuh.</li><li><b>gagal / timeout</b>: tidak terjangkau, atau tidak menjalankan layanan web.</li></ul>
+<p>Cek HTTP bukan ping ICMP asli, jadi perangkat harus punya layanan web aktif. <b>Ping ICMP</b> dan <b>Cek port TCP</b> hanya jalan di versi app (butuh plugin native).</p></div>
+  <label>Host atau URL</label><input id="l-host" value="192.168.88.1">
+  <div class="row">
+   <div><label>Port (untuk cek TCP)</label><input id="l-port" type="number" value="80"></div>
+   <div><label>Jumlah percobaan</label><input id="l-n" type="number" value="4" min="1" max="20"></div>
+  </div>
+  <button class="btn" id="l-http">Cek HTTP (browser)</button>
+  <button class="btn alt sm" id="l-ping" style="margin-top:12px">Ping ICMP (native)</button>
+  <button class="btn alt sm" id="l-tcp" style="margin-top:12px">Cek port TCP (native)</button>
+  <pre id="l-out">Cek HTTP jalan di browser. Ping dan TCP butuh plugin native NetTools saat dikonversi ke app.</pre>
+ </div>
+
+ <div class="card"><h2>Sapu rentang IP</h2>
+  <p class="lead">Mencari perangkat yang menjawab di port tertentu. Ini cek layanan web (bukan ping), jadi perangkat tanpa layanan di port itu tidak akan muncul.</p>
+  <div class="row keep"><div><label>IP awal</label><input id="sw-a" value="192.168.88.1" inputmode="decimal"></div><div><label>IP akhir</label><input id="sw-b" value="192.168.88.30" inputmode="decimal"></div></div>
+  <label>Port</label><input id="sw-p" type="number" value="80" inputmode="numeric">
+  <button class="btn" id="sw-go">Mulai sapu</button>
+  <pre id="sw-out">Maksimal 254 alamat sekali sapu.</pre>
+ </div>
+</section>
+
+<section class="tab" id="t-learn">
+ <div class="card"><h2>Belajar jaringan</h2>
+  <p style="margin:0 0 8px;color:var(--mu);font-size:14px">Ketuk judul untuk membuka. Materi dasar yang dipakai oleh tool lain di aplikasi ini.</p>
+  <details><summary>Dasar IP dan subnet</summary><div class="bd"><p>Alamat IPv4 terdiri dari 32 bit, ditulis 4 kelompok angka (oktet) 0-255. Netmask menentukan bagian mana yang <b>network</b> dan bagian mana yang <b>host</b>.</p>
+<ul><li>Perangkat dalam satu subnet bisa saling bicara langsung. Beda subnet harus lewat router (gateway).</li><li>Alamat pertama = network, terakhir = broadcast, tidak boleh dipasang ke perangkat.</li><li>Rumus jumlah host: <code>2^(32-prefix) - 2</code>.</li></ul>
+<div class="scroll"><table><tr><th>Prefix</th><th>Netmask</th><th>Host</th></tr><tr><td>/24</td><td>255.255.255.0</td><td>254</td></tr><tr><td>/25</td><td>255.255.255.128</td><td>126</td></tr><tr><td>/26</td><td>255.255.255.192</td><td>62</td></tr><tr><td>/27</td><td>255.255.255.224</td><td>30</td></tr><tr><td>/28</td><td>255.255.255.240</td><td>14</td></tr><tr><td>/29</td><td>255.255.255.248</td><td>6</td></tr><tr><td>/30</td><td>255.255.255.252</td><td>2</td></tr></table></div>
+<p style="margin-top:8px"><b>IP privat:</b> <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code>. Tidak dirutekan di internet, butuh NAT untuk keluar.</p></div></details>
+  <details><summary>Model OSI dan TCP/IP</summary><div class="bd"><ol><li><b>Fisik</b>: kabel, sinyal, konektor.</li><li><b>Data link</b>: MAC address, switch, VLAN.</li><li><b>Network</b>: IP, router, ICMP (ping).</li><li><b>Transport</b>: TCP dan UDP, nomor port.</li><li><b>Session</b>, 6. <b>Presentation</b>, 7. <b>Aplikasi</b>: HTTP, DNS, DHCP, dll.</li></ol>
+<p>Cara pakai saat troubleshooting: mulai dari bawah. Kabel lepas (lapisan 1) sering jadi penyebab masalah yang tampak rumit.</p></div></details>
+  <details><summary>VLAN</summary><div class="bd"><p>VLAN memisahkan jaringan secara logis di switch yang sama. Contoh: CCTV, kantor, dan WiFi tamu masing-masing satu VLAN sehingga tidak saling campur.</p>
+<ul><li><b>Access port</b>: untuk perangkat akhir (PC, kamera), membawa satu VLAN tanpa tag.</li><li><b>Trunk port</b>: antar switch atau ke router, membawa banyak VLAN dengan tag 802.1Q.</li><li>Antar VLAN tidak bisa saling akses kecuali lewat router (inter-VLAN routing) dan aturan firewall mengizinkan.</li><li>Rentang ID 1-4094. VLAN 1 biasanya default, hindari dipakai untuk data penting.</li></ul></div></details>
+  <details><summary>DHCP</summary><div class="bd"><p>DHCP memberi IP otomatis ke perangkat. Prosesnya <b>DORA</b>: Discover, Offer, Request, Acknowledge.</p>
+<ul><li>Server memberi IP, netmask, gateway, dan DNS.</li><li>Pool jangan menimpa IP statis (gateway, server, kamera, printer).</li><li>Perangkat penting sebaiknya pakai <b>static lease</b> (IP tetap berdasarkan MAC).</li><li>Dapat IP <code>169.254.x.x</code> berarti DHCP gagal.</li></ul></div></details>
+  <details><summary>DNS</summary><div class="bd"><p>DNS menerjemahkan nama (contoh: <code>google.com</code>) menjadi IP. Kalau ping IP berhasil tetapi ping nama gagal, masalahnya di DNS.</p>
+<ul><li>DNS publik umum: <code>8.8.8.8</code> (Google), <code>1.1.1.1</code> (Cloudflare).</li><li>Di MikroTik, aktifkan <code>allow-remote-requests=yes</code> agar router jadi DNS server untuk LAN.</li></ul></div></details>
+  <details><summary>NAT</summary><div class="bd"><p>NAT mengubah IP privat menjadi IP publik saat keluar ke internet, sehingga banyak perangkat berbagi satu IP publik.</p>
+<ul><li><b>Masquerade / overload</b>: untuk akses internet dari LAN (srcnat).</li><li><b>Port forward / dst-nat</b>: membuka layanan di dalam LAN ke luar, misalnya akses CCTV dari internet. Batasi dan amankan, jangan buka port sembarangan.</li></ul></div></details>
+  <details><summary>Routing dan gateway</summary><div class="bd"><ul><li><b>Gateway</b>: router tempat paket dikirim jika tujuan di luar subnet.</li><li><b>Default route</b> <code>0.0.0.0/0</code>: jalur untuk semua tujuan yang tidak dikenal, biasanya ke ISP.</li><li><b>Static route</b>: jalur manual ke jaringan tertentu. Contoh MikroTik: <code>/ip route add dst-address=192.168.20.0/24 gateway=192.168.10.2</code></li><li>Routing harus dua arah: tujuan juga harus tahu jalan pulang.</li></ul></div></details>
+  <details><summary>Firewall dan ACL</summary><div class="bd"><ul><li>Aturan dibaca <b>berurutan dari atas</b>, aturan pertama yang cocok dipakai.</li><li>Pola aman: izinkan <i>established,related</i>, drop <i>invalid</i>, izinkan yang perlu, drop sisanya.</li><li><b>Input</b>: lalu lintas ke router. <b>Forward</b>: lalu lintas melewati router.</li><li>Selalu pastikan akses admin Anda diizinkan sebelum menambah aturan drop terakhir.</li></ul></div></details>
+  <details><summary>Port umum</summary><div class="bd"><div class="scroll"><table><tr><th>Port</th><th>Layanan</th></tr><tr><td>20/21</td><td>FTP</td></tr><tr><td>22</td><td>SSH</td></tr><tr><td>23</td><td>Telnet (tidak aman)</td></tr><tr><td>25 / 587</td><td>SMTP</td></tr><tr><td>53</td><td>DNS (UDP/TCP)</td></tr><tr><td>67/68</td><td>DHCP (UDP)</td></tr><tr><td>80 / 443</td><td>HTTP / HTTPS</td></tr><tr><td>123</td><td>NTP (UDP)</td></tr><tr><td>161</td><td>SNMP (UDP)</td></tr><tr><td>554</td><td>RTSP (streaming CCTV)</td></tr><tr><td>3389</td><td>RDP</td></tr><tr><td>8291</td><td>WinBox MikroTik</td></tr><tr><td>8728 / 8729</td><td>API MikroTik / API-SSL</td></tr></table></div></div></details>
+  <details><summary>Troubleshooting berurutan</summary><div class="bd"><ol><li><b>Fisik</b>: kabel, lampu link, port, adaptor daya.</li><li><b>IP</b>: apakah dapat IP yang benar? Cek <code>ipconfig</code> atau <code>ip a</code>.</li><li><b>Gateway</b>: ping IP gateway.</li><li><b>Internet</b>: ping <code>8.8.8.8</code>. Gagal = masalah routing, NAT, atau ISP.</li><li><b>DNS</b>: ping <code>google.com</code>. Gagal padahal langkah 4 berhasil = masalah DNS.</li><li><b>Layanan</b>: cek port aplikasi dan firewall.</li></ol>
+<p>Ubah satu hal per langkah dan catat apa yang diubah.</p></div></details>
+  <details><summary>Perintah berguna</summary><div class="bd"><p><b>Windows / Linux</b></p>
+<ul><li><code>ipconfig /all</code> atau <code>ip a</code>: lihat IP.</li><li><code>ping 192.168.1.1</code>: cek jangkauan.</li><li><code>tracert host</code> atau <code>traceroute host</code>: lihat jalur.</li><li><code>nslookup domain</code>: cek DNS.</li><li><code>arp -a</code>: tabel IP dan MAC.</li><li><code>netstat -an</code>: koneksi aktif.</li></ul>
+<p><b>MikroTik</b></p>
+<ul><li><code>/ip address print</code>, <code>/ip route print</code>, <code>/ip dhcp-server lease print</code></li><li><code>/ping 8.8.8.8 count=4</code>, <code>/tool traceroute 8.8.8.8</code></li><li><code>/export file=backup</code> (backup config teks), <code>/system backup save name=bk</code></li></ul>
+<p><b>Cisco</b></p>
+<ul><li><code>show ip interface brief</code>, <code>show vlan brief</code>, <code>show ip route</code>, <code>show running-config</code></li><li><code>copy running-config startup-config</code>: simpan konfigurasi.</li></ul></div></details>
+  <details><summary>Kabel dan WiFi di lapangan</summary><div class="bd"><ul><li><b>UTP</b>: standar T568B urutan: oranye-putih, oranye, hijau-putih, biru, biru-putih, hijau, coklat-putih, coklat. Kedua ujung sama = straight.</li><li>Jarak maksimal kabel UTP: 100 meter.</li><li><b>PoE</b> (kamera, AP): cek budget daya switch dan standar (af/at/bt).</li><li><b>WiFi 2.4 GHz</b>: jangkauan jauh, rawan interferensi, pakai kanal 1, 6, atau 11 agar tidak tumpang tindih.</li><li><b>WiFi 5 GHz</b>: lebih cepat, jangkauan lebih pendek.</li></ul></div></details>
+ </div>
+</section>
+
+
+<section class="tab" id="t-cctv">
+ <div class="card"><h2>Hitung kebutuhan CCTV<button class="hq" data-h="cctv" aria-expanded="false" aria-controls="h-cctv" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-cctv" hidden>
+   <p>Dipakai sebelum membeli perangkat: berapa bandwidth, kapasitas hard disk, daya PoE, dan IP yang dibutuhkan untuk sejumlah kamera.</p>
+   <ol><li>Isi jumlah kamera dan bitrate per kamera. Bitrate ada di menu pengaturan kamera atau NVR (kira-kira 2-4 Mbps untuk 2 MP, 4-8 Mbps untuk 4 MP, tergantung kompresi).</li><li>Isi jam rekam per hari dan lama penyimpanan.</li><li>Isi daya per kamera dan budget PoE switch (lihat spesifikasi switch).</li><li>Tekan <b>Hitung</b>.</li></ol>
+   <p>Kapasitas hard disk sudah ditambah cadangan 20%. Hasilnya perkiraan, rekaman deteksi gerak biasanya lebih hemat.</p>
+  </div>
+  <div class="row keep"><div><label>Jumlah kamera</label><input id="cc-n" type="number" value="8" min="1" max="250" inputmode="numeric"></div><div><label>Bitrate/kamera (Mbps)</label><input id="cc-br" type="number" value="4" step="0.5" inputmode="decimal"></div></div>
+  <div class="row keep"><div><label>Jam rekam per hari</label><input id="cc-hr" type="number" value="24" max="24" inputmode="numeric"></div><div><label>Lama simpan (hari)</label><input id="cc-dy" type="number" value="30" inputmode="numeric"></div></div>
+  <div class="row keep"><div><label>Daya per kamera (W)</label><input id="cc-w" type="number" value="12" step="0.5" inputmode="decimal"></div><div><label>Budget PoE switch (W)</label><input id="cc-bud" type="number" value="120" inputmode="numeric"></div></div>
+  <div class="row"><div><label>Network kamera</label><input id="cc-net" value="192.168.50.0/24"></div><div><label>Mulai dari host ke-</label><input id="cc-st" type="number" value="11" inputmode="numeric"></div></div>
+  <label>Awalan nama kamera</label><input id="cc-pre" value="CAM">
+  <button class="btn" id="cc-go">Hitung</button><button class="btn alt sm" id="cc-copy" style="margin-top:12px">Salin daftar IP (CSV)</button>
+  <div id="cc-err" class="err"></div><div id="cc-out"></div>
+ </div>
+</section>
+
+<section class="tab" id="t-ipam">
+ <div class="card"><h2>Daftar IP (IPAM)<button class="hq" data-h="ipam" aria-expanded="false" aria-controls="h-ipam" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-ipam" hidden>
+   <p>Buku catatan IP: siapa memakai alamat mana. Tujuannya mencegah IP bentrok dan memudahkan serah terima ke teknisi lain.</p>
+   <ol><li>Isi IP dan nama perangkat. Tipe, lokasi, dan MAC boleh dikosongkan.</li><li>Tekan <b>Simpan</b>. Kalau IP sudah ada, aplikasi menolak dan menunjukkan pemakainya.</li><li>Cari dengan kolom pencarian, ekspor CSV untuk dibuka di Excel.</li></ol>
+   <p>Data hanya di perangkat ini. Ekspor berkala sebagai cadangan.</p>
+  </div>
+  <div class="row"><div><label>Alamat IP</label><input id="ip-ip" placeholder="192.168.10.21" inputmode="decimal"></div><div><label>Nama perangkat</label><input id="ip-name" placeholder="AP Lobi"></div></div>
+  <div class="row"><div><label>Tipe</label><select id="ip-type"><option>Kamera</option><option>Access point</option><option>Switch</option><option>Router</option><option>PC / Laptop</option><option>Server / NVR</option><option>Printer</option><option>Lainnya</option></select></div><div><label>Lokasi</label><input id="ip-loc" placeholder="Lantai 2, ruang server"></div></div>
+  <label>MAC (opsional)</label><input id="ip-mac" placeholder="AA:BB:CC:DD:EE:FF">
+  <button class="btn" id="ip-add">Simpan</button><button class="btn alt sm" id="ip-exp" style="margin-top:12px">Ekspor CSV</button>
+  <div id="ip-err" class="err"></div>
+  <label style="margin-top:14px">Cari</label><input id="ip-q" placeholder="IP, nama, tipe, atau lokasi">
+  <div id="ip-count" class="lead" style="margin-top:8px"></div>
+  <div class="scroll" id="ip-list"></div>
+ </div>
+</section>
+
+<section class="tab" id="t-quiz">
+ <div class="card"><h2>Latihan subnet<button class="hq" data-h="quiz" aria-expanded="false" aria-controls="h-quiz" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-quiz" hidden>
+   <p>Soal acak untuk melatih hitung subnet. Jawab, tekan <b>Periksa</b>, lalu baca pembahasannya.</p>
+   <ul><li>Alamat IP ditulis seperti biasa, misalnya <code>192.168.10.64</code>.</li><li>Untuk jumlah host, tulis angkanya saja.</li><li>Coba hitung di kertas dulu, lalu cocokkan dengan tab Subnet.</li></ul>
+  </div>
+  <label>Tingkat</label><select id="q-lv"><option value="1">Mudah (/24 sampai /30)</option><option value="2">Sedang (/16 sampai /30)</option></select>
+  <div class="score" style="margin-top:12px"><span>Benar <b id="q-ok">0</b> dari <b id="q-all">0</b></span><span>Beruntun <b id="q-st">0</b></span></div>
+  <div class="qbox" id="q-text"></div>
+  <input id="q-ans" autocomplete="off" inputmode="decimal" placeholder="Jawaban">
+  <button class="btn" id="q-chk">Periksa</button><button class="btn alt sm" id="q-next" style="margin-top:12px">Soal berikutnya</button>
+  <div id="q-res" style="margin-top:10px"></div>
+ </div>
+</section>
+
+<section class="tab" id="t-kabel">
+ <div class="card"><h2>Kabel dan PoE<button class="hq" data-h="kabel" aria-expanded="false" aria-controls="h-kabel" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-kabel" hidden><p>Menghitung bahan kabel dan daya PoE untuk survei atau RAB.</p><ol><li>Isi jumlah titik dan rata-rata panjang tiap titik.</li><li>Isi perangkat PoE yang akan dipasang beserta wattnya (lihat datasheet).</li><li>Tekan <b>Hitung</b>.</li></ol><p>Batas aman kabel UTP permanen 90 m (total 100 m dengan patch cord). Kalau lebih, pakai switch tambahan atau fiber.</p></div>
+<div class="row keep"><div><label>Jumlah titik</label><input id="kb-n" type="number" value="24" inputmode="decimal"></div><div><label>Rata-rata panjang (m)</label><input id="kb-len" type="number" value="35" inputmode="decimal"></div></div><div class="row keep"><div><label>Cadangan (%)</label><input id="kb-res" type="number" value="15" inputmode="decimal"></div><div><label>Isi 1 kotak kabel (m)</label><input id="kb-box" type="number" value="305" inputmode="decimal"></div></div><h3>Kebutuhan daya PoE</h3><div class="row keep"><div><label>Kamera (unit)</label><input id="pe-c" type="number" value="8" inputmode="decimal"></div><div><label>Watt per kamera</label><input id="pe-cw" type="number" value="12" inputmode="decimal"></div></div><div class="row keep"><div><label>Access point (unit)</label><input id="pe-a" type="number" value="2" inputmode="decimal"></div><div><label>Watt per AP</label><input id="pe-aw" type="number" value="15" inputmode="decimal"></div></div><div class="row keep"><div><label>Lainnya (unit)</label><input id="pe-o" type="number" value="0" inputmode="decimal"></div><div><label>Watt per unit</label><input id="pe-ow" type="number" value="7" inputmode="decimal"></div></div><div><label>Budget PoE switch (W)</label><input id="pe-b" type="number" value="120" inputmode="decimal"></div><button class="btn" id="kb-go">Hitung</button><div id="kb-err" class="err"></div><div id="kb-out"></div>
+ </div>
+</section>
+<section class="tab" id="t-cekip">
+ <div class="card"><h2>Cek IP<button class="hq" data-h="cekip" aria-expanded="false" aria-controls="h-cekip" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-cekip" hidden><p>Memeriksa daftar IP: yang dobel, salah format, atau di luar subnet.</p><ol><li>Isi network (CIDR), misalnya <code>192.168.10.0/24</code>.</li><li>Tempel daftar IP satu per baris (boleh diikuti nama), atau tekan <b>Ambil dari IPAM</b>.</li><li>Tekan <b>Periksa</b>.</li></ol></div>
+<label>Network (CIDR, boleh dikosongkan)</label><input id="ck-net" value="192.168.10.0/24"><label>Daftar IP</label><textarea id="ck-list" placeholder="192.168.10.2 Router
+192.168.10.2 Kamera 1
+192.168.20.5 PC"></textarea><button class="btn" id="ck-go">Periksa</button><button class="btn alt sm" id="ck-fill" style="margin-top:12px">Ambil dari IPAM</button><div id="ck-out"></div>
+ </div>
+</section>
+<section class="tab" id="t-parser">
+ <div class="card"><h2>Baca config MikroTik<button class="hq" data-h="parser" aria-expanded="false" aria-controls="h-parser" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-parser" hidden><p>Merangkum hasil <code>/export</code> MikroTik jadi tabel yang mudah dibaca.</p><ol><li>Di MikroTik jalankan <code>/export</code> (atau <code>/export file=cfg</code>).</li><li>Tempel isinya di kolom, tekan <b>Baca config</b>.</li></ol><p>Ringkasan memuat interface/VLAN, IP, DHCP, route, NAT, dan firewall, plus peringatan sederhana. Tombol <b>Isi contoh</b> untuk mencoba.</p></div>
+<textarea id="mt-in" style="min-height:150px" placeholder="Tempel hasil /export di sini"></textarea><button class="btn" id="mt-go">Baca config</button><button class="btn alt sm" id="mt-ex" style="margin-top:12px">Isi contoh</button><div id="mt-out"></div>
+ </div>
+</section>
+<section class="tab" id="t-backup">
+ <div class="card"><h2>Cadangan data<button class="hq" data-h="backup" aria-expanded="false" aria-controls="h-backup" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-backup" hidden><p>Data IPAM, catatan, checklist, dan pengaturan hanya tersimpan di perangkat ini. Cadangkan sebelum ganti HP, hapus data browser, atau menginstal ulang app.</p><ul><li><b>Salin JSON</b> atau <b>Unduh file</b> untuk mencadangkan.</li><li>Untuk memulihkan, tempel JSON di kolom lalu tekan <b>Impor</b>.</li></ul></div>
+<div id="bk-st" class="lead"></div><button class="btn" id="bk-copy">Salin JSON</button><button class="btn alt sm" id="bk-dl" style="margin-top:12px">Unduh file</button><label style="margin-top:14px">Pulihkan dari cadangan</label><textarea id="bk-in" placeholder="Tempel JSON cadangan di sini"></textarea><button class="btn" id="bk-imp">Impor</button><div id="bk-err" class="err"></div>
+ </div>
+</section>
+<section class="tab" id="t-checklist">
+ <div class="card"><h2>Checklist<button class="hq" data-h="checklist" aria-expanded="false" aria-controls="h-checklist" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-checklist" hidden><p>Daftar periksa untuk survei dan instalasi. Centang langsung di lokasi, progres tersimpan otomatis.</p><ul><li>Pilih jenis pekerjaan, isi nama lokasi.</li><li><b>Salin hasil</b> untuk dikirim ke grup atau klien.</li><li>Checklist ikut masuk ke menu Laporan.</li></ul></div>
+<div class="row"><div><label>Jenis pekerjaan</label><select id="cl-t"><option value="cctv">Pasang CCTV</option><option value="wifi">Pasang WiFi</option><option value="kantor">Jaringan kantor</option></select></div><div><label>Nama lokasi</label><input id="cl-site" placeholder="Mis. Kantor Desa A"></div></div><div id="cl-pr" class="lead" style="margin-top:10px"></div><div class="prog"><i id="cl-bar" style="width:0"></i></div><div id="cl-list"></div><button class="btn alt" id="cl-copy">Salin hasil</button><button class="btn alt sm" id="cl-reset" style="margin-top:12px">Kosongkan centang</button>
+ </div>
+</section>
+<section class="tab" id="t-laporan">
+ <div class="card"><h2>Laporan<button class="hq" data-h="laporan" aria-expanded="false" aria-controls="h-laporan" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-laporan" hidden><p>Membuat laporan pekerjaan dari data di aplikasi, siap cetak atau disimpan sebagai PDF.</p><ol><li>Isi kop dan keterangan, pilih bagian yang dimasukkan.</li><li><b>Pratinjau</b> untuk melihat isinya.</li><li><b>Cetak / simpan PDF</b>, lalu pilih "Simpan sebagai PDF" di dialog cetak.</li></ol><p>Di versi app, fungsi cetak bergantung pada WebView perangkat.</p></div>
+<div class="row"><div><label>Nama perusahaan (kop)</label><input id="rp-co" value="Borneo-Tech"></div><div><label>Judul</label><input id="rp-ti" value="Laporan Pekerjaan"></div></div><div class="row"><div><label>Lokasi / klien</label><input id="rp-lo"></div><div><label>Teknisi</label><input id="rp-te"></div></div><label>Bagian yang disertakan</label><label class="ck" style="border:0;padding:4px 0"><input type="checkbox" id="rp-i" checked><span>Daftar IP (IPAM)</span></label><label class="ck" style="border:0;padding:4px 0"><input type="checkbox" id="rp-n" checked><span>Catatan lapangan</span></label><label class="ck" style="border:0;padding:4px 0"><input type="checkbox" id="rp-c" checked><span>Checklist</span></label><button class="btn alt" id="rp-pv">Pratinjau</button><button class="btn sm" id="rp-pr" style="margin-top:12px">Cetak / simpan PDF</button><div id="rp-out" style="margin-top:12px"></div>
+ </div>
+</section>
+<section class="tab" id="t-label">
+ <div class="card"><h2>Label kabel<button class="hq" data-h="label" aria-expanded="false" aria-controls="h-label" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-label" hidden><p>Membuat label untuk kabel dan patch panel, siap dicetak.</p><ol><li>Isi awalan (mis. <code>PP1</code>), nomor awal, dan jumlah.</li><li>Tujuan boleh diisi, akan tercetak kecil di bawah nomor.</li><li>Centang cetak 2 ujung kalau label dipasang di kedua sisi kabel.</li></ol></div>
+<div class="row keep"><div><label>Awalan</label><input id="lb-p" value="PP1"></div><div><label>Mulai dari</label><input id="lb-s" type="number" value="1" inputmode="decimal"></div></div><div class="row keep"><div><label>Jumlah</label><input id="lb-n" type="number" value="24" inputmode="decimal"></div><div><label>Cetak 2 ujung</label><select id="lb-2"><option value="1">Ya</option><option value="0">Tidak</option></select></div></div><label>Tujuan (opsional)</label><input id="lb-d" placeholder="Mis. Lantai 2 - Ruang Server"><button class="btn" id="lb-go">Buat label</button><button class="btn alt sm" id="lb-pr" style="margin-top:12px">Cetak</button><div id="lb-out" style="margin-top:12px"></div>
+ </div>
+</section>
+<section class="tab" id="t-sim">
+ <div class="card"><h2>Simulator jaringan<button class="hq" data-h="sim" aria-expanded="false" aria-controls="h-sim" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-sim" hidden><p>Melihat langkah demi langkah apa yang terjadi di jaringan.</p><ol><li>Pilih skenario: DHCP, ARP, atau NAT.</li><li>Tekan <b>Berikutnya</b> untuk maju, panah di diagram menunjukkan arah paket.</li></ol></div>
+<select id="sm-sc"><option value="dhcp">DHCP: PC dapat IP otomatis</option><option value="arp">ARP: mencari MAC address</option><option value="nat">NAT: keluar ke internet</option></select><div id="sm-out" style="margin-top:10px"></div><button class="btn alt" id="sm-prev">Sebelumnya</button><button class="btn sm" id="sm-next" style="margin-top:12px">Berikutnya</button>
+ </div>
+</section>
+<section class="tab" id="t-kuis">
+ <div class="card"><h2>Kuis konsep<button class="hq" data-h="kuis" aria-expanded="false" aria-controls="h-kuis" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-kuis" hidden><p>Soal pilihan ganda seputar port, VLAN, DHCP, dan troubleshooting. Pilih jawaban, lalu baca penjelasannya.</p></div>
+<div class="score"><span>Benar <b id="k-ok">0</b> dari <b id="k-all">0</b></span><span>Beruntun <b id="k-st">0</b></span></div><div class="qbox" id="k-q"></div><div id="k-opts"></div><div id="k-res" style="margin-top:10px"></div><button class="btn alt" id="k-next" style="margin-top:12px">Soal berikutnya</button>
+ </div>
+</section>
+<section class="tab" id="t-pecah">
+ <div class="card"><h2>Pecah dan ringkas subnet<button class="hq" data-h="pecah" aria-expanded="false" aria-controls="h-pecah" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-pecah" hidden><p><b>Pecah:</b> membagi satu network jadi beberapa subnet sama besar. Isi network dan prefix baru (lebih besar dari prefix awal).</p><p><b>Ringkas:</b> menggabungkan beberapa network jadi satu route (summary) yang mencakup semuanya. Dipakai untuk menyederhanakan routing. Hasil bisa mencakup alamat ekstra yang tidak ada di daftar, dan itu ditampilkan.</p></div>
+<h3>Pecah subnet</h3><div class="row keep"><div><label>Network (CIDR)</label><input id="pc-net" value="192.168.0.0/24"></div><div><label>Jadi prefix /</label><input id="pc-p" type="number" value="26" inputmode="decimal"></div></div><button class="btn" id="pc-go">Pecah</button><div id="pc-out"></div><h3 style="margin-top:22px">Ringkas route</h3><label>Daftar network (satu per baris)</label><textarea id="rs-in">192.168.0.0/24
+192.168.1.0/24
+192.168.2.0/24
+192.168.3.0/24</textarea><button class="btn" id="rs-go">Ringkas</button><div id="rs-out"></div>
+ </div>
+</section>
+<section class="tab" id="t-bandwidth">
+ <div class="card"><h2>Bandwidth<button class="hq" data-h="bandwidth" aria-expanded="false" aria-controls="h-bandwidth" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-bandwidth" hidden><p><b>Waktu transfer:</b> berapa lama file besar selesai dikirim. Kecepatan nyata biasanya 70-90% dari angka paket, karena overhead.</p><p><b>Kebutuhan user:</b> perkirakan total bandwidth kantor atau sekolah. Tidak semua user aktif bersamaan, jadi isi persentase user aktif.</p><p>Ingat: Mbps (bit) dibagi 8 menjadi MB/s (byte).</p></div>
+<h3>Waktu transfer</h3><div class="row keep"><div><label>Ukuran file</label><input id="bw-s" type="number" value="10" inputmode="decimal"></div><div><label>Satuan</label><select id="bw-u"><option value="1">MB</option><option value="1000">GB</option><option value="1000000">TB</option></select></div></div><div class="row keep"><div><label>Kecepatan (Mbps)</label><input id="bw-v" type="number" value="100" inputmode="decimal"></div><div><label>Efisiensi (%)</label><input id="bw-e" type="number" value="80" inputmode="decimal"></div></div><button class="btn" id="bw-go">Hitung waktu</button><div id="bw-out"></div><h3 style="margin-top:22px">Kebutuhan bandwidth</h3><div class="row keep"><div><label>Jumlah user</label><input id="bw-n" type="number" value="30" inputmode="decimal"></div><div><label>Pemakaian per user</label><select id="bw-p"><option value="1">Browsing ringan (1 Mbps)</option><option value="3">Video call (3 Mbps)</option><option value="5">Streaming HD (5 Mbps)</option><option value="25">Streaming 4K (25 Mbps)</option></select></div></div><div><label>User aktif bersamaan (%)</label><input id="bw-c" type="number" value="60" inputmode="decimal"></div><button class="btn" id="bw-go2">Hitung kebutuhan</button><div id="bw-out2"></div>
+ </div>
+</section>
+<section class="tab" id="t-utp">
+ <div class="card"><h2>Urutan kabel UTP<button class="hq" data-h="utp" aria-expanded="false" aria-controls="h-utp" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-utp" hidden><p>Panduan memasang konektor RJ45. Pilih jenis kabel, lihat urutan warna di tiap ujung.</p><ul><li><b>Straight</b>: kedua ujung sama (T568B-T568B). Untuk PC ke switch, router ke switch.</li><li><b>Crossover</b>: satu ujung T568A, satu ujung T568B. Perangkat modern umumnya sudah otomatis (Auto MDI-X), jadi straight biasanya cukup.</li></ul><p>Posisi: kontak emas menghadap ke atas, klip konektor ke bawah, pin 1 di sisi kiri.</p></div>
+<div><label>Jenis kabel</label><select id="ut-t"><option value="BB">Straight (T568B - T568B)</option><option value="AA">Straight (T568A - T568A)</option><option value="AB">Crossover (T568A - T568B)</option></select></div><div id="ut-out" style="margin-top:12px"></div><h3>Langkah crimping</h3><ol style="font-size:14px;padding-left:20px"><li>Kupas selubung luar sekitar 1,5 cm.</li><li>Urutkan 8 kabel sesuai warna, luruskan.</li><li>Potong rata, sisakan sekitar 1 cm.</li><li>Masukkan sampai ujung kabel menyentuh ujung konektor.</li><li>Crimp dengan tang, pastikan selubung ikut tergigit.</li><li>Tes dengan LAN tester: lampu 1-8 harus menyala berurutan.</li></ol>
+ </div>
+</section>
+<section class="tab" id="t-listrik">
+ <div class="card"><h2>Listrik dan UPS<button class="hq" data-h="listrik" aria-expanded="false" aria-controls="h-listrik" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-listrik" hidden><p>Perhitungan dasar listrik 1 fasa. Hasilnya perkiraan awal, bukan pengganti perhitungan resmi atau PUIL.</p><ul><li><b>Arus</b>: I = P / (V x cos phi).</li><li><b>MCB</b>: dipilih ukuran standar di atas arus beban, tapi tidak boleh melebihi kemampuan hantar arus kabel.</li><li><b>Drop tegangan</b>: makin panjang dan makin kecil kabel, makin besar. Usahakan di bawah 3%.</li><li><b>UPS</b>: pilih kapasitas VA di atas beban dengan cadangan 25%. Waktu cadangan tergantung kapasitas aki.</li></ul></div>
+<h3>Beban dan kabel</h3><div class="row keep"><div><label>Daya total (W)</label><input id="ls-p" type="number" value="1500" inputmode="decimal"></div><div><label>Tegangan (V)</label><input id="ls-v" type="number" value="220" inputmode="decimal"></div></div><div class="row keep"><div><label>Faktor daya (cos phi)</label><input id="ls-c" type="number" value="0.9" inputmode="decimal" step="0.05"></div><div><label>Panjang kabel (m, satu arah)</label><input id="ls-l" type="number" value="30" inputmode="decimal"></div></div><div><label>Luas penampang kabel</label><select id="ls-a"><option value="1.5">1,5 mm2</option><option value="2.5" selected>2,5 mm2</option><option value="4">4 mm2</option><option value="6">6 mm2</option><option value="10">10 mm2</option><option value="16">16 mm2</option></select></div><button class="btn" id="ls-go">Hitung</button><div id="ls-out"></div><h3 style="margin-top:22px">UPS dan baterai</h3><div class="row keep"><div><label>Beban (W)</label><input id="up-w" type="number" value="400" inputmode="decimal"></div><div><label>Faktor daya UPS</label><input id="up-f" type="number" value="0.7" inputmode="decimal" step="0.05"></div></div><div class="row keep"><div><label>Tegangan aki sistem (V)</label><input id="up-v" type="number" value="12" inputmode="decimal"></div><div><label>Kapasitas aki total (Ah)</label><input id="up-a" type="number" value="9" inputmode="decimal"></div></div><button class="btn" id="up-go">Hitung UPS</button><div id="up-out"></div>
+ </div>
+</section>
+<section class="tab" id="t-portfwd">
+ <div class="card"><h2>Port forward<button class="hq" data-h="portfwd" aria-expanded="false" aria-controls="h-portfwd" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-portfwd" hidden><p>Membuat aturan untuk membuka akses dari luar ke perangkat di LAN, misalnya NVR atau CCTV.</p><ol><li>Isi interface WAN, port yang dibuka di luar, IP perangkat tujuan, dan port tujuan.</li><li>Salin hasilnya ke terminal router.</li></ol><p><b>Waspada:</b> membuka port langsung ke internet berisiko. Untuk CCTV lebih aman lewat VPN. Batasi alamat sumber kalau bisa, dan ganti password bawaan perangkat.</p></div>
+<div><label>Perangkat</label><select id="pf-d"><option value="mt">MikroTik</option><option value="cs">Cisco IOS</option></select></div><div class="row keep"><div><label>Interface WAN</label><input id="pf-w" value="ether1"></div><div><label>Protokol</label><select id="pf-r"><option value="tcp">TCP</option><option value="udp">UDP</option></select></div></div><div class="row keep"><div><label>Port luar</label><input id="pf-e" type="number" value="8080" inputmode="decimal"></div><div><label>Port tujuan</label><input id="pf-t" type="number" value="80" inputmode="decimal"></div></div><div class="row keep"><div><label>IP tujuan</label><input id="pf-i" value="192.168.10.20"></div><div><label>Komentar</label><input id="pf-c" value="NVR"></div></div><div><label>Batasi sumber (opsional, CIDR)</label><input id="pf-s" value=""></div><button class="btn" id="pf-go">Buat aturan</button><button class="btn alt sm" id="pf-cp" style="margin-top:12px">Salin</button><div id="pf-err" class="err"></div><pre id="pf-out">Isi data, lalu tekan Buat aturan.</pre>
+ </div>
+</section>
+<section class="tab" id="t-snip">
+ <div class="card"><h2>Kumpulan perintah<button class="hq" data-h="snip" aria-expanded="false" aria-controls="h-snip" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-snip" hidden><p>Perintah yang sering dipakai, siap salin. Ketuk judul untuk membuka, tekan <b>Salin</b>, lalu tempel di terminal.</p><p>Ganti nilai contoh (IP, nama, interface) sesuai perangkat. Perintah MikroTik di sini untuk RouterOS v7, sebagian berbeda di v6.</p></div>
+<input id="sn-q" type="search" placeholder="Cari: backup, queue, vlan, nmap..."><div id="sn-list" style="margin-top:8px"></div>
+ </div>
+</section>
+<section class="tab" id="t-port">
+ <div class="card"><h2>Daftar port<button class="hq" data-h="port" aria-expanded="false" aria-controls="h-port" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-port" hidden><p>Cari nomor port atau nama layanan. Berguna saat mengatur firewall atau port forward.</p><p>Port bertanda <b>berisiko</b> sebaiknya tidak dibuka langsung ke internet.</p></div>
+<input id="pt-q" type="search" placeholder="Cari: 22, ssh, rdp, cctv..."><div class="scroll" id="pt-list" style="margin-top:8px"></div>
+ </div>
+</section>
+<section class="tab" id="t-mac">
+ <div class="card"><h2>MAC address<button class="hq" data-h="mac" aria-expanded="false" aria-controls="h-mac" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-mac" hidden><p>Tempel MAC dalam format apa pun. Aplikasi menampilkan format umum (MikroTik, Cisco, polos) dan mencoba mengenali pabrikannya dari 3 byte awal (OUI).</p><p>Daftar pabrikan di sini kecil dan bisa tidak lengkap. Untuk kepastian, cek database OUI IEEE.</p></div>
+<label>MAC address</label><input id="mc-in" placeholder="AA:BB:CC:DD:EE:FF" autocomplete="off"><div id="mc-out" style="margin-top:12px"></div>
+ </div>
+</section>
+<section class="tab" id="t-sandi">
+ <div class="card"><h2>Buat sandi<button class="hq" data-h="sandi" aria-expanded="false" aria-controls="h-sandi" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-sandi" hidden><p>Membuat password acak yang kuat, langsung di perangkat ini (tidak dikirim ke mana pun).</p><ul><li>Untuk WiFi tamu, pakai panjang 12-16 tanpa simbol agar mudah diketik.</li><li>Untuk router dan NVR, pakai 16 karakter atau lebih dengan simbol.</li><li>Jangan pakai password yang sama untuk semua perangkat.</li></ul></div>
+<div class="row keep"><div><label>Panjang</label><input id="pw-l" type="number" value="16" inputmode="decimal"></div><div><label>Jumlah hasil</label><select id="pw-n"><option value="3">3</option><option value="5">5</option><option value="8">8</option></select></div></div><label class="ck" style="border:0;padding:4px 0"><input type="checkbox" id="pw-u" checked><span>Huruf besar</span></label><label class="ck" style="border:0;padding:4px 0"><input type="checkbox" id="pw-d" checked><span>Angka</span></label><label class="ck" style="border:0;padding:4px 0"><input type="checkbox" id="pw-y" checked><span>Simbol</span></label><label class="ck" style="border:0;padding:4px 0"><input type="checkbox" id="pw-a" checked><span>Hindari karakter mirip (0 O 1 l I)</span></label><button class="btn" id="pw-go">Buat sandi</button><div id="pw-out" style="margin-top:10px"></div>
+ </div>
+</section>
+<section class="tab" id="t-denah">
+ <div class="card"><h2>Denah CCTV<button class="hq" data-h="denah" aria-expanded="false" aria-controls="h-denah" aria-label="Cara penggunaan" title="Cara penggunaan">?</button></h2>
+  <div class="help" id="h-denah" hidden><p>Menggambar denah, menaruh kamera, dan melihat <b>sudut pandang</b> serta jarak efektifnya sebelum memasang.</p>
+<ol><li>Isi lebar dan tinggi area (meter). Boleh pasang gambar denah dari galeri, lalu sesuaikan lebar/tinggi agar skalanya pas.</li><li><b>Dinding</b>: seret di denah untuk menggambar tembok.</li><li><b>Kamera</b>: ketuk lokasi. Kerucut menunjukkan area pandang.</li><li><b>Pilih</b>: ketuk kamera untuk mengatur lensa, resolusi, dan arah. Seret kamera untuk memindah, seret titik putih di ujung kerucut untuk memutar.</li><li><b>NVR</b>: taruh lokasi NVR/switch, kabel tiap kamera dihitung otomatis.</li></ol>
+<p><b>Warna kerucut:</b> hijau = wajah bisa diidentifikasi, kuning = orang bisa dikenali, biru = kejadian bisa diamati. Jarak dihitung dari lensa dan resolusi dengan standar kepadatan piksel (250, 125, 62 piksel per meter). Ini perkiraan, hasil nyata dipengaruhi cahaya dan kualitas kamera. Kerucut belum terhalang dinding, jadi pakai Batasi jarak untuk area yang tertutup tembok. Sudut lensa juga perkiraan, cek datasheet kamera.</p></div>
+<div class="row keep"><div><label>Lebar area (m)</label><input id="dn-w" type="number" value="20" inputmode="decimal" step="0.5"></div><div><label>Tinggi area (m)</label><input id="dn-h" type="number" value="15" inputmode="decimal" step="0.5"></div></div><button class="btn alt sm" id="dn-img" style="margin:8px 6px 0 0">Pasang gambar denah</button><button class="btn alt sm" id="dn-noimg" style="margin:8px 0 0">Hapus gambar</button><input type="file" id="dn-file" accept="image/*" hidden><div class="seg" id="dn-seg"><button data-m="pilih" class="on">Pilih</button><button data-m="kamera">Kamera</button><button data-m="dinding">Dinding</button><button data-m="nvr">NVR</button></div><div class="lead" id="dn-hint"></div><div class="dn-wrap"><svg id="dn-svg" viewBox="0 0 20 15" role="img" aria-label="Denah CCTV"></svg><div class="zc"><button data-z="in" aria-label="Perbesar">+</button><button data-z="out" aria-label="Perkecil">&minus;</button><button data-z="fit" class="pas" aria-label="Tampilkan seluruh denah">Pas</button></div></div><div class="lead" style="margin-top:6px">Dua jari: perbesar, perkecil, dan geser. Satu jari di area kosong: geser. Di komputer: roda mouse untuk zoom. Ketuk zona warna untuk menampilkan atau menyembunyikan.</div><div class="lg" id="dn-lg"><button class="zt on" data-z="i"><i style="background:#2f9e57"></i>Identifikasi</button><button class="zt on" data-z="r"><i style="background:#e8c32a"></i>Kenali</button><button class="zt" data-z="o"><i style="background:#2a6fb8;opacity:.5"></i>Amati</button></div><div id="dn-pn" class="blk"></div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn alt sm" id="dn-undo" style="margin:8px 0 0">Urungkan</button><button class="btn alt sm" id="dn-del" style="margin:8px 0 0">Hapus terpilih</button></div><h3 style="margin-top:16px">Ringkasan</h3><div id="dn-sum"></div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn" id="dn-png">Unduh PNG</button><button class="btn alt sm" id="dn-pr" style="margin-top:12px">Cetak</button><button class="btn alt sm" id="dn-clr" style="margin-top:12px">Kosongkan semua</button></div>
+ </div>
+</section>
+</main>
+<div id="rpt-sheet"></div>
+<nav id="nav">
+ <button data-t="home" data-k="o"><svg class="i"><use href="#i-home"/></svg>Beranda</button>
+ <button data-t="subnet" data-k="g"><svg class="i"><use href="#i-subnet"/></svg>Subnet</button>
+ <button data-t="cfg" data-k="b"><svg class="i"><use href="#i-cfg"/></svg>Config</button>
+ <button data-t="ipam" data-k="o"><svg class="i"><use href="#i-ipam"/></svg>IPAM</button>
+ <button data-t="note" data-k="b"><svg class="i"><use href="#i-note"/></svg>Catatan</button>
+</nav>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- Lapisan native: di browser pakai fallback, di app (Capacitor) pakai plugin ---------- */
+const native={
+  plugin(){return window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.NetTools},
+  async ping(host,count){const p=this.plugin();if(!p)throw new Error("Ping ICMP hanya jalan di versi aplikasi Android (plugin NetTools).");return p.ping({host,count})},
+  async tcp(host,port,timeout){const p=this.plugin();if(!p)throw new Error("Cek port TCP hanya jalan di versi aplikasi Android (plugin NetTools).");return p.tcpCheck({host,port,timeout:timeout||2000})}
+};
+
+/* ---------- Util IP ---------- */
+const ip2n=s=>{const p=s.trim().split('.');if(p.length!==4)return null;let n=0;for(const x of p){if(!/^\d{1,3}$/.test(x)||+x>255)return null;n=n*256+ +x}return n};
+const n2ip=n=>[n>>>24,(n>>>16)&255,(n>>>8)&255,n&255].join('.');
+const maskOf=p=>p===0?0:(0xFFFFFFFF<<(32-p))>>>0;
+function parseCidr(s){const m=s.trim().match(/^([\d.]+)\/(\d{1,2})$/);if(!m)return null;const ip=ip2n(m[1]),p=+m[2];if(ip===null||p>32)return null;const mk=maskOf(p),net=(ip&mk)>>>0;return{ip,p,mask:mk,net,bc:(net|(~mk>>>0))>>>0}}
+const bin=n=>n2ip(n).split('.').map(x=>(+x).toString(2).padStart(8,'0')).join('.');
+function cls(n){const a=n>>>24;if(a<128)return'A';if(a<192)return'B';if(a<224)return'C';if(a<240)return'D (multicast)';return'E'}
+function priv(n){const a=n>>>24,b=(n>>>16)&255;if(a===10)return'Ya (10.0.0.0/8)';if(a===172&&b>=16&&b<=31)return'Ya (172.16.0.0/12)';if(a===192&&b===168)return'Ya (192.168.0.0/16)';if(a===127)return'Loopback';if(a===169&&b===254)return'Link-local';return'Tidak (publik)'}
+const hosts=p=>p>=31?(p===32?1:2):Math.pow(2,32-p)-2;
+const firstH=c=>c.p>=31?c.net:c.net+1, lastH=c=>c.p>=31?c.bc:c.bc-1;
+
+/* ---------- Bantuan ---------- */
+document.addEventListener('click',e=>{const b=e.target.closest('.hq');if(!b)return;
+ const p=$('h-'+b.dataset.h),open=p.hidden;p.hidden=!open;b.setAttribute('aria-expanded',open)});
+/* ---------- Tabs ---------- */
+
+$('themeBtn').onclick=()=>{const r=document.documentElement,d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'};
+
+/* ---------- Subnet ---------- */
+function doSubnet(){const c=parseCidr($('sn-in').value),o=$('sn-out');
+ if(!c){o.innerHTML='<div class="err">Format salah. Contoh: 192.168.10.37/26</div>';return}
+ let k=0;const oc=n2ip(c.ip).split('.');
+ const bits=bin(c.ip).split('.').map((g,gi)=>'<div class="og"><div class="bits">'+g.split('').map(ch=>'<i class="'+(k++<c.p?'nb':'hb2')+'">'+ch+'</i>').join('')+'</div><small>'+oc[gi]+'</small></div>').join('');
+ const rng=c.p>=31?n2ip(c.net)+(c.p===31?' - '+n2ip(c.bc):''):n2ip(firstH(c))+' - '+n2ip(lastH(c));
+ const rows=[['Network',n2ip(c.net)+'/'+c.p],['Netmask',n2ip(c.mask)],['Wildcard',n2ip(~c.mask>>>0)],['Broadcast',n2ip(c.bc)],['Host pertama',n2ip(firstH(c))],['Host terakhir',n2ip(lastH(c))],['Kelas',cls(c.ip)],['Privat',priv(c.ip)]];
+ const gw=n2ip(firstH(c)),hs=[];for(let i=1;i<=2&&firstH(c)+i<=lastH(c);i++)hs.push(n2ip(firstH(c)+i));const more=lastH(c)-firstH(c)>2;
+ const T=(x,y,w,h,t)=>'<rect class="tn" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="4"/>'+t;
+ let topo='<svg class="topo" viewBox="0 0 300 64" role="img" aria-label="Topologi subnet"><path class="tl" d="M88 32H116M156 32C176 32 176 12 196 12M156 32H196M156 32C176 32 176 52 196 52"/>'+T(4,16,84,32,'<text class="m" x="46" y="28">Gateway</text><text x="46" y="41">'+gw+'</text>')+T(116,22,40,20,'<text x="136" y="35">SW</text>');
+ [hs[0],hs[1],more?'... '+n2ip(lastH(c)):null].forEach((t,i)=>{if(t)topo+=T(196,4+i*20,100,16,'<text x="246" y="'+(15+i*20)+'">'+t+'</text>')});topo+='</svg>';
+ o.innerHTML='<div class="head"><div class="rng">'+rng+'</div><div class="sub">'+hosts(c.p).toLocaleString('id-ID')+' host bisa dipakai <span class="chip">/'+c.p+'</span></div></div>'+topo
+ +'<div class="bitrow">'+bits+'</div><div class="legend"><span><i class="nb"></i>'+c.p+' bit network</span><span><i class="hb2"></i>'+(32-c.p)+' bit host</span></div>'
+ +'<dl class="kv">'+rows.map(r=>'<dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd>').join('')+'</dl>'}
+$('sn-in').addEventListener('input',doSubnet);doSubnet();
+
+/* ---------- VLSM ---------- */
+$('v-go').onclick=()=>{const o=$('v-out'),c=parseCidr($('v-net').value);
+ if(!c){o.innerHTML='<div class="err">Network induk tidak valid.</div>';return}
+ const needs=$('v-need').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const i=l.lastIndexOf(':');return{name:l.slice(0,i).trim()||'Subnet',h:parseInt(l.slice(i+1))}});
+ if(needs.some(n=>!(n.h>0))){o.innerHTML='<div class="err">Setiap baris harus berformat nama:jumlah (angka lebih dari 0).</div>';return}
+ needs.sort((a,b)=>b.h-a.h);let cur=c.net,res=[],fail='';
+ for(const n of needs){let p=32;while(p>0&&hosts(p)<n.h)p--;const size=Math.pow(2,32-p);
+  cur=Math.ceil(cur/size)*size;
+  if(cur+size-1>c.bc){fail='Ruang tidak cukup untuk "'+n.name+'". Pakai network induk lebih besar.';break}
+  res.push({n,p,net:cur,bc:cur+size-1});cur+=size}
+ let h='';if(fail)h+='<div class="err">'+esc(fail)+'</div>';
+ if(res.length){const tot=c.bc-c.net+1,rem=c.bc+1-cur,cl=['#e8731a','#2a6fb8','#2f9e57','#8a5a38'];h+='<div class="vbar" role="img" aria-label="Peta ruang alamat">'+res.map((r,i)=>'<span style="flex:'+(r.bc-r.net+1)+';background:'+cl[i%4]+'" title="'+esc(r.n.name)+'">'+esc(r.n.name)+'</span>').join('')+(rem>0?'<span class="free" style="flex:'+rem+'">sisa</span>':'')+'</div><div class="lead">Peta ruang alamat '+n2ip(c.net)+'/'+c.p+', lebar sesuai ukuran blok.</div>'}
+ if(res.length)h+='<div class="scroll"><table style="margin-top:12px"><tr><th>Nama</th><th>Butuh</th><th>Network</th><th>Mask</th><th>Range host</th><th>Broadcast</th></tr>'+res.map(r=>{const cc={p:r.p,net:r.net,bc:r.bc};return'<tr><td>'+esc(r.n.name)+'</td><td>'+r.n.h+'</td><td>'+n2ip(r.net)+'/'+r.p+'</td><td>'+n2ip(maskOf(r.p))+'</td><td>'+n2ip(firstH(cc))+' - '+n2ip(lastH(cc))+'</td><td>'+n2ip(r.bc)+'</td></tr>'}).join('')+'</table></div>';
+ o.innerHTML=h};
+
+/* ---------- Generator konfigurasi ---------- */
+const typeSel=$('c-type');
+typeSel.onchange=()=>{$('c-vlanf').style.display=typeSel.value==='vlan'?'':'none'};typeSel.onchange();
+$('c-go').onclick=()=>{
+ const e=$('c-err'),out=$('c-out');e.textContent='';
+ const dev=$('c-dev').value,t=typeSel.value,c=parseCidr($('c-net').value);
+ if(!c||c.p>29){e.textContent='Network LAN tidak valid (maksimal /29).';return}
+ const id=+$('c-id').value,name=($('c-name').value.trim()||'LAN').replace(/\s+/g,'-'),lan=$('c-lan').value.trim(),wan=$('c-wan').value.trim();
+ if(t==='vlan'&&!(id>=1&&id<=4094)){e.textContent='VLAN ID harus 1 sampai 4094.';return}
+ const dns=$('c-dns').value.split(',').map(s=>s.trim()).filter(Boolean);
+ const gw=n2ip(c.net+1),net=n2ip(c.net),mask=n2ip(c.mask),ps=n2ip(c.net+10<lastH(c)?c.net+10:c.net+2),pe=n2ip(lastH(c)),cidr=net+'/'+c.p,L=[];
+ if(dev==='mt'){
+  if(t==='vlan'){const v='vlan'+id;L.push('# VLAN '+id+' ('+name+') + DHCP','/interface vlan add name='+v+' vlan-id='+id+' interface='+lan,'/ip address add address='+gw+'/'+c.p+' interface='+v,'/ip pool add name=pool-'+name+' ranges='+ps+'-'+pe,'/ip dhcp-server add name=dhcp-'+name+' interface='+v+' address-pool=pool-'+name+' disabled=no','/ip dhcp-server network add address='+cidr+' gateway='+gw+(dns.length?' dns-server='+dns.join(','):''))}
+  if(t==='nat'){L.push('# NAT internet','/ip firewall nat add chain=srcnat out-interface='+wan+' src-address='+cidr+' action=masquerade comment="NAT '+name+'"',dns.length?'/ip dns set servers='+dns.join(',')+' allow-remote-requests=yes':'')}
+  if(t==='fw'){L.push('# Firewall dasar (input)','/interface list add name=LAN','/interface list member add list=LAN interface='+lan,'/ip firewall filter','add chain=input connection-state=established,related action=accept','add chain=input connection-state=invalid action=drop','add chain=input protocol=icmp action=accept','add chain=input in-interface-list=LAN action=accept','add chain=input action=drop comment="drop sisanya"','# Forward','add chain=forward connection-state=established,related action=accept','add chain=forward connection-state=invalid action=drop','add chain=forward in-interface-list=LAN action=accept','add chain=forward action=drop comment="drop sisanya"','# Pastikan akses admin via LAN sebelum rule drop aktif')}
+ }else{
+  if(t==='vlan'){L.push('! VLAN '+id+' ('+name+') + DHCP','vlan '+id,' name '+name,'exit','interface vlan '+id,' ip address '+gw+' '+mask,' no shutdown','exit','ip dhcp excluded-address '+net.replace(/\d+$/,x=>+x+1)+' '+n2ip(c.net+9),'ip dhcp pool '+name,' network '+net+' '+mask,' default-router '+gw,dns.length?' dns-server '+dns.join(' '):'','exit')}
+  if(t==='nat'){L.push('! NAT overload','access-list 1 permit '+net+' '+n2ip(~c.mask>>>0),'interface '+lan,' ip nat inside','interface '+wan,' ip nat outside','ip nat inside source list 1 interface '+wan+' overload')}
+  if(t==='fw'){L.push('! ACL dasar (contoh, sesuaikan)','ip access-list extended FROM-WAN','permit tcp any any established','permit icmp any any echo-reply','deny ip any any log','interface '+wan,' ip access-group FROM-WAN in')}
+ }
+ out.textContent=L.filter(x=>x!=='').join('\n')};
+$('c-copy').onclick=async()=>{try{await navigator.clipboard.writeText($('c-out').textContent);$('c-copy').textContent='Tersalin'}catch(x){$('c-err').textContent='Salin gagal. Blok teks secara manual.'}setTimeout(()=>$('c-copy').textContent='Salin',1500)};
+
+/* ---------- Konversi ---------- */
+function doConv(){const s=$('cv-in').value.trim(),o=$('cv-out');if(!s){o.innerHTML='';return}
+ let n=null;const ip=ip2n(s);
+ if(ip!==null)n=ip;else if(/^0b[01]+$/i.test(s))n=parseInt(s.slice(2),2);else if(/^0x[0-9a-f]+$/i.test(s))n=parseInt(s.slice(2),16);else if(/^\d+$/.test(s))n=+s;
+ if(n===null||n>4294967295){o.innerHTML='<div class="err">Masukkan angka desimal, IP, 0b... atau 0x....</div>';return}
+ const rows=[['Desimal',n],['Hex','0x'+n.toString(16).toUpperCase()],['Biner','0b'+n.toString(2)],['Sebagai IPv4',n2ip(n>>>0)],['IP biner',bin(n>>>0)]];
+ const m=s.match(/^(\d+)$/);if(m&&+m[1]<=32)rows.push(['Sebagai /'+m[1],n2ip(maskOf(+m[1]))]);
+ const pc=(n>>>0).toString(2).replace(/0/g,'').length;if(/^(255|254|252|248|240|224|192|128|0)\./.test(n2ip(n>>>0))&&/^1*0*$/.test((n>>>0).toString(2).padStart(32,'0')))rows.push(['Sebagai mask','/'+pc]);
+ o.innerHTML='<dl class="kv" style="margin-top:12px">'+rows.map(r=>'<dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd>').join('')+'</dl>'}
+$('cv-in').addEventListener('input',doConv);doConv();
+
+/* ---------- Catatan (localStorage, try/catch) ---------- */
+const NK='netkit.notes';
+function loadN(){try{return JSON.parse(localStorage.getItem(NK)||'[]')}catch(e){return[]}}
+function saveN(a){try{localStorage.setItem(NK,JSON.stringify(a))}catch(e){alert('Penyimpanan tidak tersedia. Ekspor JSON secara berkala.')}}
+let notes=loadN();
+function renderNotes(){const q=$('n-q').value.toLowerCase(),l=$('n-list');
+ const f=notes.filter(n=>(n.t+n.b+n.g).toLowerCase().includes(q));
+ if(!f.length){l.innerHTML='<div class="empty">'+(notes.length?'Tidak ada yang cocok.':'Belum ada catatan. Tulis temuan lapangan pertama di atas.')+'</div>';return}
+ l.innerHTML=f.map(n=>'<div class="note"><div><b>'+esc(n.t)+'</b> '+(n.g?'<span class="chip">'+esc(n.g)+'</span>':'')+'<button class="btn alt sm" data-del="'+n.id+'">Hapus</button></div><small>'+new Date(n.id).toLocaleString('id-ID')+'</small><div style="white-space:pre-wrap;margin-top:4px">'+esc(n.b)+'</div></div>').join('')}
+$('n-add').onclick=()=>{const t=$('n-title').value.trim(),b=$('n-body').value.trim();if(!t&&!b)return;
+ notes.unshift({id:Date.now(),t:t||'Tanpa judul',b,g:$('n-tag').value.trim()});saveN(notes);
+ $('n-title').value=$('n-body').value=$('n-tag').value='';renderNotes()};
+$('n-list').onclick=e=>{const d=e.target.dataset.del;if(d&&confirm('Hapus catatan ini?')){notes=notes.filter(n=>n.id!=d);saveN(notes);renderNotes()}};
+$('n-q').addEventListener('input',renderNotes);
+$('n-exp').onclick=()=>{const w=window.open('','_blank');const s=JSON.stringify(notes,null,2);if(w){w.document.write('<pre>'+esc(s)+'</pre>')}else{navigator.clipboard&&navigator.clipboard.writeText(s)}};
+renderNotes();
+
+/* ---------- Uji koneksi ---------- */
+const log=s=>{$('l-out').textContent=s};
+$('l-http').onclick=async()=>{let h=$('l-host').value.trim(),n=Math.min(20,Math.max(1,+$('l-n').value||4));if(!h)return;
+ if(!/^https?:\/\//.test(h))h='http://'+h;let L=['HTTP '+h],ts=[];log(L.join('\n')+'\nMenguji...');
+ for(let i=1;i<=n;i++){const t0=performance.now(),ac=new AbortController(),tm=setTimeout(()=>ac.abort(),4000);
+  try{await fetch(h,{mode:'no-cors',cache:'no-store',signal:ac.signal});const d=performance.now()-t0;ts.push(d);L.push('#'+i+'  respon  '+d.toFixed(0)+' ms')}
+  catch(e){L.push('#'+i+'  gagal / timeout')}clearTimeout(tm);log(L.join('\n'))}
+ if(ts.length)L.push('---','min/rata2/maks: '+Math.min(...ts).toFixed(0)+' / '+(ts.reduce((a,b)=>a+b)/ts.length).toFixed(0)+' / '+Math.max(...ts).toFixed(0)+' ms');
+ L.push('Terkirim '+n+', diterima '+ts.length);log(L.join('\n'))};
+$('l-ping').onclick=async()=>{const h=$('l-host').value.trim();if(!h){log('Isi host dulu.');return}log('Ping '+h+'...');try{const r=await native.ping(h,+$('l-n').value||4);log(r.output||'Tidak ada keluaran.')}catch(e){log(e.message)}};
+$('l-tcp').onclick=async()=>{const h=$('l-host').value.trim(),pt=+$('l-port').value||80;if(!h){log('Isi host dulu.');return}log('Mengecek '+h+':'+pt+'...');try{const r=await native.tcp(h,pt,2500);log(r.open?h+':'+pt+' TERBUKA ('+r.ms+' ms)':h+':'+pt+' tertutup atau tidak terjangkau ('+r.ms+' ms)'+(r.error?'\n'+r.error:''))}catch(e){log(e.message)}};
+
+/* ---------- Toast, tema, tab terakhir ---------- */
+let _tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),1800)}
+$('themeBtn').addEventListener('click',()=>{try{localStorage.setItem('netkit.theme',document.documentElement.dataset.theme)}catch(e){}});
+const KMAP={home:'o',subnet:'g',vlsm:'g',cfg:'b',cctv:'n',ipam:'o',conv:'g',note:'b',live:'n',quiz:'o',learn:'g',kabel:'n',cekip:'o',parser:'b',backup:'n',checklist:'g',laporan:'g',label:'n',sim:'b',kuis:'o',pecah:'g',bandwidth:'g',utp:'n',listrik:'n',portfwd:'b',snip:'b',port:'o',mac:'o',sandi:'o',denah:'n'};
+const TT={home:'NetKit',subnet:'Subnet',vlsm:'VLSM',cfg:'Config',cctv:'CCTV',ipam:'IPAM',conv:'Konversi',note:'Catatan',live:'Uji',quiz:'Latihan',learn:'Belajar',kabel:'Kabel dan PoE',cekip:'Cek IP',parser:'Baca config',backup:'Cadangan',checklist:'Checklist',laporan:'Laporan',label:'Label kabel',sim:'Simulator',kuis:'Kuis konsep',pecah:'Pecah subnet',bandwidth:'Bandwidth',utp:'Kabel UTP',listrik:'Listrik dan UPS',portfwd:'Port forward',snip:'Perintah',port:'Daftar port',mac:'MAC address',sandi:'Buat sandi',denah:'Denah CCTV'};
+function render(t){if(!TT[t])t='home';document.body.dataset.cur=t;
+ document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.id==='t-'+t));
+ const inNav=!!document.querySelector('nav button[data-t="'+t+'"]');
+ document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.t===(inNav?t:'home')));
+ document.body.dataset.k=KMAP[t];document.querySelectorAll('#side .sl').forEach(b=>b.classList.toggle('on',b.dataset.go===t));$('ttl').textContent=TT[t];$('back').hidden=t==='home';$('logo').style.display=t==='home'?'':'none';$('ver').hidden=t!=='home';
+ window.scrollTo(0,0);try{localStorage.setItem('netkit.tab',t)}catch(x){}
+ if(t==='ipam')renderIp();if(t==='note')renderNotes();if(t==='quiz'&&!Q.cur)newQ();
+ if(t==='checklist')ckRender();if(t==='backup')bkStats();if(t==='kuis'&&!K.cur)newK();if(t==='sim')simRender();if(t==='laporan')rpLoad();if(t==='denah')dnInit();if(t==='port')ptRender();if(t==='snip')snRender();if(t==='utp')utRender();if(t==='sandi'&&!$('pw-out').innerHTML)pwGo();
+ if(t==='home'){renderRecent();$('hs').value='';filt()}
+ if(t!=='home'){try{let r=JSON.parse(localStorage.getItem('netkit.recent')||'[]').filter(x=>x!==t);r.unshift(t);localStorage.setItem('netkit.recent',JSON.stringify(r.slice(0,4)))}catch(x){}}}
+
+/* ---------- Navigasi & tombol back ---------- */
+function go(t){if(!TT[t])t='home';const cur=document.body.dataset.cur||'home';
+ if(t===cur){render(t);return}
+ if(t==='home'){if(history.state&&history.state.t)history.back();else render('home');return}
+ try{if(cur==='home')history.pushState({t:t},'');else history.replaceState({t:t},'')}catch(e){}
+ render(t)}
+addEventListener('popstate',e=>{$('sheet').hidden=true;const t=e.state&&e.state.t;render(t&&TT[t]?t:'home')});
+(function(){const A=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.App;let last=0;
+ if(A&&A.addListener)A.addListener('backButton',()=>{if(!$('sheet').hidden){$('sheet').hidden=true;return}
+  if((document.body.dataset.cur||'home')!=='home'){go('home');return}
+  const n=Date.now();if(n-last<2000)A.exitApp();else{last=n;toast('Tekan sekali lagi untuk keluar')}})})();
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go],nav button[data-t]');if(g)go(g.dataset.go||g.dataset.t)});
+$('back').onclick=()=>go('home');
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('g[data-go]')){e.preventDefault();go(e.target.dataset.go)}});
+async function copyTxt(t,ok){try{await navigator.clipboard.writeText(t);toast(ok||'Tersalin')}catch(e){toast('Salin gagal, blok teks manual')}}
+
+/* ---------- CCTV ---------- */
+let ccCsv='';
+$('cc-go').onclick=()=>{const g=id=>+$(id).value,e=$('cc-err'),o=$('cc-out');e.textContent='';o.innerHTML='';
+ const n=g('cc-n'),br=g('cc-br'),hr=g('cc-hr'),dy=g('cc-dy'),w=g('cc-w'),bud=g('cc-bud'),st=g('cc-st'),c=parseCidr($('cc-net').value),pre=$('cc-pre').value.trim()||'CAM';
+ if(!(n>=1&&n<=250)||!(br>0)||!(hr>0&&hr<=24)||!(dy>0)||!c||!(st>=1)){e.textContent='Cek isian: kamera 1-250, bitrate, jam (maks 24), dan hari harus lebih dari 0, dan network harus valid.';return}
+ const first=c.net+st;if(first+n-1>lastH(c)){e.textContent='Rentang IP tidak cukup untuk '+n+' kamera di network ini. Kurangi jumlah atau pakai network lebih besar.';return}
+ const bw=n*br,gbDay=br/8*3600*hr/1000,tb=gbDay*n*dy/1000,tbm=tb*1.2,poe=n*w;
+ const up=bw<=700?'<span class="ok">Aman untuk port 1 Gbps</span>':'<span class="bad">Lebih dari 70% port 1 Gbps. Pakai uplink lebih besar atau turunkan bitrate.</span>';
+ const pe=poe<=bud?'<span class="ok">Cukup (sisa '+(bud-poe).toFixed(0)+' W)</span>':'<span class="bad">Kurang '+(poe-bud).toFixed(0)+' W. Tambah switch PoE atau pakai injector.</span>';
+ const rows=[['Bandwidth total',bw.toFixed(1)+' Mbps'],['Cek uplink',up],['Per kamera / hari',gbDay.toFixed(1)+' GB'],['Penyimpanan',tb.toFixed(2)+' TB'],['Dengan cadangan 20%','<b>'+tbm.toFixed(2)+' TB</b>'],['Daya PoE total',poe.toFixed(0)+' W'],['Cek budget PoE',pe]];
+ let csv='nama,ip\n',tr='';for(let i=0;i<n;i++){const nm=pre+'-'+String(i+1).padStart(2,'0'),ip=n2ip(first+i);csv+=nm+','+ip+'\n';tr+='<tr><td>'+esc(nm)+'</td><td>'+ip+'</td></tr>'}
+ ccCsv=csv;
+ o.innerHTML='<dl class="kv" style="margin-top:12px">'+rows.map(r=>'<dt>'+r[0]+'</dt><dd>'+r[1]+'</dd>').join('')+'</dl><h3>Rencana IP kamera</h3><div class="scroll"><table><tr><th>Nama</th><th>IP</th></tr>'+tr+'</table></div><p class="lead" style="margin-top:8px">Gateway disarankan '+n2ip(c.net+1)+'. IP NVR dan switch di luar rentang ini.</p>'};
+$('cc-copy').onclick=()=>{if(!ccCsv){toast('Tekan Hitung dulu');return}copyTxt(ccCsv,'Daftar IP tersalin')};
+
+/* ---------- IPAM ---------- */
+const IK='netkit.ipam';
+function loadIp(){try{return JSON.parse(localStorage.getItem(IK)||'[]')}catch(e){return[]}}
+let ipam=loadIp();
+function saveIp(){try{localStorage.setItem(IK,JSON.stringify(ipam))}catch(e){toast('Penyimpanan tidak tersedia, ekspor CSV')}}
+function renderIp(){const q=$('ip-q').value.toLowerCase(),l=$('ip-list');
+ const f=ipam.filter(r=>[r.ip,r.name,r.type,r.loc,r.mac].join(' ').toLowerCase().includes(q)).sort((a,b)=>ip2n(a.ip)-ip2n(b.ip));
+ $('ip-count').textContent=ipam.length?ipam.length+' alamat tercatat'+(q?', '+f.length+' cocok':''):'';
+ if(!f.length){l.innerHTML='<div class="empty">'+(ipam.length?'Tidak ada yang cocok.':'Belum ada data. Catat IP pertama di atas, misalnya IP router.')+'</div>';return}
+ l.innerHTML='<table><tr><th>IP</th><th>Nama</th><th>Tipe</th><th>Lokasi</th><th>MAC</th><th></th></tr>'+f.map(r=>'<tr><td>'+esc(r.ip)+'</td><td>'+esc(r.name)+'</td><td>'+esc(r.type)+'</td><td>'+esc(r.loc)+'</td><td>'+esc(r.mac)+'</td><td><button class="btn alt sm" data-ipdel="'+esc(r.ip)+'">Hapus</button></td></tr>').join('')+'</table>'}
+$('ip-add').onclick=()=>{const e=$('ip-err');e.textContent='';const ip=$('ip-ip').value.trim(),nm=$('ip-name').value.trim();
+ if(ip2n(ip)===null){e.textContent='Alamat IP tidak valid. Contoh: 192.168.10.21';return}
+ if(!nm){e.textContent='Isi nama perangkat supaya mudah dikenali nanti.';return}
+ const d=ipam.find(r=>r.ip===ip);if(d){e.textContent='IP '+ip+' sudah dipakai oleh "'+d.name+'". Hapus dulu kalau memang sudah tidak dipakai.';return}
+ ipam.push({ip,name:nm,type:$('ip-type').value,loc:$('ip-loc').value.trim(),mac:$('ip-mac').value.trim().toUpperCase()});saveIp();
+ ['ip-ip','ip-name','ip-loc','ip-mac'].forEach(i=>$(i).value='');renderIp();toast('Tersimpan')};
+$('ip-list').onclick=e=>{const d=e.target.dataset.ipdel;if(d&&confirm('Hapus '+d+' dari daftar?')){ipam=ipam.filter(r=>r.ip!==d);saveIp();renderIp()}};
+$('ip-q').addEventListener('input',renderIp);
+$('ip-exp').onclick=()=>{if(!ipam.length){toast('Belum ada data');return}const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
+ copyTxt('ip,nama,tipe,lokasi,mac\n'+ipam.slice().sort((a,b)=>ip2n(a.ip)-ip2n(b.ip)).map(r=>[r.ip,r.name,r.type,r.loc,r.mac].map(q).join(',')).join('\n'),'CSV tersalin, tempel ke Excel atau file .csv')};
+
+/* ---------- Latihan subnet ---------- */
+const Q={cur:null,ok:0,all:0,st:0,done:false};
+const R=n=>Math.floor(Math.random()*n);
+function newQ(){const lv=$('q-lv').value,pf=lv==='1'?24+R(7):16+R(15),k=R(3);
+ const o=[[10,R(256)],[172,16+R(16)],[192,168]][k],ip=o[0]+'.'+o[1]+'.'+R(256)+'.'+(1+R(253)),c=parseCidr(ip+'/'+pf);
+ const T=[['alamat network',c=>n2ip(c.net)],['alamat broadcast',c=>n2ip(c.bc)],['jumlah host yang bisa dipakai',c=>String(hosts(c.p))],['netmask',c=>n2ip(c.mask)],['host pertama',c=>n2ip(firstH(c))],['host terakhir',c=>n2ip(lastH(c))]];
+ const t=T[R(lv==='1'?4:6)];Q.cur={c,ip,pf,t,a:t[1](c)};Q.done=false;
+ $('q-text').innerHTML='Berapa <b>'+t[0]+'</b> dari <code>'+ip+'/'+pf+'</code>?';$('q-ans').value='';$('q-res').innerHTML='';$('q-ans').focus()}
+function qScore(){$('q-ok').textContent=Q.ok;$('q-all').textContent=Q.all;$('q-st').textContent=Q.st}
+$('q-chk').onclick=()=>{if(!Q.cur||Q.done)return;const v=$('q-ans').value.trim().replace(/[.,](?=\d{3}\b)/g,'');if(!v){toast('Tulis jawabannya dulu');return}
+ const c=Q.cur.c,right=v===Q.cur.a;Q.all++;Q.done=true;if(right){Q.ok++;Q.st++}else Q.st=0;qScore();
+ $('q-res').innerHTML=(right?'<b class="ok">Benar.</b>':'<b class="bad">Belum tepat.</b> Jawaban: <code>'+esc(Q.cur.a)+'</code>')+'<p class="lead" style="margin-top:6px">Pembahasan: /'+Q.cur.pf+' = '+n2ip(c.mask)+', satu blok berisi '+Math.pow(2,32-Q.cur.pf).toLocaleString('id-ID')+' alamat. IP ini berada di blok '+n2ip(c.net)+' sampai '+n2ip(c.bc)+'. Jumlah host = blok dikurangi 2 (network dan broadcast).</p>'};
+$('q-next').onclick=newQ;$('q-lv').onchange=newQ;
+$('q-ans').addEventListener('keydown',e=>{if(e.key==='Enter')Q.done?newQ():$('q-chk').click()});
+
+/* ---------- Sapu rentang IP ---------- */
+$('sw-go').onclick=async()=>{const a=ip2n($('sw-a').value.trim()),b=ip2n($('sw-b').value.trim()),port=+$('sw-p').value||80,o=$('sw-out');
+ if(a===null||b===null||b<a||b-a>253){o.textContent='Rentang tidak valid. Isi IP awal dan akhir (maksimal 254 alamat, akhir tidak lebih kecil dari awal).';return}
+ const L=[],total=b-a+1;let done=0,i=a;
+ const upd=()=>{o.textContent='Diperiksa '+done+' dari '+total+'  |  menjawab: '+L.length+'\n'+L.join('\n')};upd();
+ const wk=async()=>{while(i<=b){const ip=n2ip(i++),t0=performance.now(),ac=new AbortController(),tm=setTimeout(()=>ac.abort(),1500);
+  try{if(native.plugin()){const r=await native.tcp(ip,port,1200);if(r.open)L.push(ip+'   '+r.ms+' ms')}else{await fetch('http://'+ip+':'+port,{mode:'no-cors',cache:'no-store',signal:ac.signal});L.push(ip+'   '+(performance.now()-t0).toFixed(0)+' ms')}}catch(e){}
+  clearTimeout(tm);done++;upd()}};
+ await Promise.all(Array.from({length:8},wk));
+ L.sort((x,y)=>ip2n(x.split(' ')[0])-ip2n(y.split(' ')[0]));upd();if(!L.length)o.textContent+='\nTidak ada yang menjawab di port '+port+'. Coba port lain (443, 8080) atau pastikan perangkat satu jaringan dengan HP ini.'};
+
+
+
+/* ---------- Simpan & bagikan file (app: Filesystem+Share, browser: unduh) ---------- */
+async function saveFile(name,data,mime,b64){const C=window.Capacitor&&window.Capacitor.Plugins,fs=C&&C.Filesystem,sh=C&&C.Share;
+ if(fs&&sh){try{const r=await fs.writeFile(b64?{path:name,data:data,directory:'CACHE'}:{path:name,data:data,directory:'CACHE',encoding:'utf8'});await sh.share({title:name,url:r.uri,dialogTitle:'Simpan atau bagikan'})}catch(e){const m=String(e&&e.message||e);if(!/cancel/i.test(m))toast('Gagal menyimpan: '+m)}return}
+ const a=document.createElement('a');a.href=b64?'data:'+mime+';base64,'+data:'data:'+mime+';charset=utf-8,'+encodeURIComponent(data);a.download=name;document.body.appendChild(a);a.click();a.remove();toast('Mengunduh '+name)}
+const RPCSS='body{font:13px/1.45 Arial,sans-serif;color:#000;margin:16px}h1{font-size:20px;margin:0}h2{font-size:15px;margin:16px 0 6px;border-bottom:1px solid #000}table{width:100%;border-collapse:collapse;font-size:12px}th,td{border:1px solid #666;padding:4px 6px;text-align:left}.kop{border-bottom:3px solid #000;padding-bottom:8px;margin-bottom:10px}.lbls{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.lb{border:1px dashed #666;padding:8px;text-align:center}.lb b{display:block;font-size:20px}.lb small{font-size:11px}svg{max-width:100%;height:auto}';
+
+/* ---------- Pencarian menu & terakhir dipakai ---------- */
+function filt(){const q=$('hs').value.trim().toLowerCase();let any=false;
+ document.querySelectorAll('#gl .grp').forEach(g=>{let v=0;g.querySelectorAll('.tile').forEach(t=>{const m=!q||(t.textContent+' '+t.dataset.kw+' '+t.dataset.go).toLowerCase().includes(q);t.hidden=!m;if(m)v++});g.hidden=!v;if(v)any=true});
+ $('nores').hidden=any;$('recent').hidden=!!q}
+$('hs').addEventListener('input',filt);
+$('hs').addEventListener('keydown',e=>{if(e.key==='Enter'){const t=document.querySelector('#gl .tile:not([hidden])');if(t){go(t.dataset.go)}}});
+function renderRecent(){let r=[];try{r=JSON.parse(localStorage.getItem('netkit.recent')||'[]')}catch(e){}
+ $('recent').innerHTML=r.length?'<div class="gh">Terakhir dipakai</div>'+r.filter(x=>TT[x]).map(x=>'<button class="rc" data-go="'+x+'" data-k="'+KMAP[x]+'">'+esc(TT[x])+'</button>').join(''):''}
+function printHtml(h){if(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform()){saveFile('netkit-laporan-'+new Date().toISOString().slice(0,10)+'.html','<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NetKit</title><style>'+RPCSS+'</style></head><body>'+h+'</body></html>','text/html');toast('Buka file hasil di Chrome, lalu Cetak atau Simpan PDF');return}
+ $('rpt-sheet').innerHTML=h;setTimeout(()=>window.print(),60)}
+
+/* ---------- Kabel dan PoE ---------- */
+$('kb-go').onclick=()=>{const g=id=>+$(id).value||0,e=$('kb-err'),o=$('kb-out');e.textContent='';
+ const n=g('kb-n'),len=g('kb-len'),res=g('kb-res'),box=g('kb-box')||305;
+ if(n<1||len<=0){e.textContent='Isi jumlah titik dan rata-rata panjang (lebih dari 0).';return}
+ const tot=n*len*(1+res/100),dev=[[g('pe-c'),g('pe-cw')],[g('pe-a'),g('pe-aw')],[g('pe-o'),g('pe-ow')]].filter(d=>d[0]>0);
+ const w=dev.reduce((a,d)=>a+d[0]*d[1],0),mx=Math.max(0,...dev.map(d=>d[1])),bud=g('pe-b');
+ const std=!dev.length?'-':mx<=15.4?'802.3af':mx<=30?'802.3at (PoE+)':mx<=60?'802.3bt tipe 3':'802.3bt tipe 4';
+ const rows=[['Total kabel',tot.toFixed(0)+' m (termasuk cadangan)'],['Kotak kabel',Math.ceil(tot/box)+' kotak ('+box+' m)'],['Konektor RJ45',Math.ceil(n*2*1.25)+' buah (+25% cadangan)'],['Boot konektor',Math.ceil(n*2*1.25)+' buah'],['Patch cord',n*2+' buah (sisi panel dan perangkat)'],['Daya PoE total',w.toFixed(0)+' W'],['Standar minimum',std],['Cek budget',w<=bud?'<span class="ok">Cukup, sisa '+(bud-w).toFixed(0)+' W</span>':'<span class="bad">Kurang '+(w-bud).toFixed(0)+' W</span>']];
+ o.innerHTML=(len>90?'<div class="err">Rata-rata panjang lebih dari 90 m. Batas aman kabel UTP permanen 90 m, pertimbangkan switch tambahan atau fiber.</div>':'')+'<dl class="kv" style="margin-top:12px">'+rows.map(r=>'<dt>'+r[0]+'</dt><dd>'+r[1]+'</dd>').join('')+'</dl><p class="lead" style="margin-top:8px">Sisakan daya switch 20-30% dari total agar tidak bekerja di batas.</p>'};
+
+/* ---------- Cek IP ---------- */
+$('ck-fill').onclick=()=>{if(!ipam.length){toast('IPAM masih kosong');return}$('ck-list').value=ipam.map(r=>r.ip+' '+r.name).join('\n')};
+$('ck-go').onclick=()=>{const c=parseCidr($('ck-net').value),o=$('ck-out'),L=$('ck-list').value.split('\n').map(x=>x.trim()).filter(Boolean);
+ if(!L.length){o.innerHTML='<div class="err">Tempel daftar IP dulu, satu per baris.</div>';return}
+ const seen={},bad=[],out=[],sp=[];
+ L.forEach((l,i)=>{const t=l.split(/[\s,;]+/)[0],n=ip2n(t);if(n===null){bad.push('Baris '+(i+1)+': '+l);return}seen[t]=(seen[t]||0)+1;
+  if(c){if(n<c.net||n>c.bc)out.push(t);else if(n===c.net||(n===c.bc&&c.p<31))sp.push(t)}});
+ const dups=Object.keys(seen).filter(k=>seen[k]>1).map(k=>k+' ('+seen[k]+' kali)');
+ const B=(t,a,okm)=>'<div class="blk"><h3>'+t+' ('+a.length+')</h3>'+(a.length?'<ul>'+a.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<span class="ok">'+okm+'</span>')+'</div>';
+ let h=B('IP dobel',dups,'Tidak ada yang dobel')+B('Format salah',bad,'Semua format benar');
+ if(c){const ins=Object.keys(seen).filter(k=>{const n=ip2n(k);return n>=firstH(c)&&n<=lastH(c)});let ff='-';for(let n=firstH(c);n<=lastH(c)&&n<firstH(c)+4096;n++){if(!seen[n2ip(n)]){ff=n2ip(n);break}}
+  h+=B('Di luar '+n2ip(c.net)+'/'+c.p,out,'Semua di dalam subnet')+B('Memakai alamat network/broadcast',sp,'Aman')+'<dl class="kv blk"><dt>Terpakai</dt><dd>'+ins.length+' dari '+hosts(c.p)+' host</dd><dt>IP kosong pertama</dt><dd>'+ff+'</dd></dl>'}
+ else h+='<p class="lead">Network tidak diisi atau tidak valid, jadi hanya cek dobel dan format.</p>';
+ o.innerHTML=h};
+
+/* ---------- Baca config MikroTik ---------- */
+const MTX='/system identity\nset name=RB-Kantor\n/interface vlan\nadd interface=bridge name=vlan10 vlan-id=10\nadd interface=bridge name=vlan20 vlan-id=20\n/ip pool\nadd name=pool-cctv ranges=192.168.10.10-192.168.10.254\n/ip dhcp-server\nadd address-pool=pool-cctv interface=vlan10 name=dhcp-cctv\n/ip address\nadd address=192.168.10.1/24 interface=vlan10 comment=CCTV\nadd address=192.168.20.1/24 interface=vlan20\n/ip dhcp-server network\nadd address=192.168.10.0/24 dns-server=8.8.8.8 gateway=192.168.10.1\n/ip firewall nat\nadd action=masquerade chain=srcnat out-interface=ether1\n/ip firewall filter\nadd action=accept chain=input connection-state=established,related\nadd action=accept chain=input in-interface=vlan10\nadd action=drop chain=input comment="drop sisanya"\n/ip route\nadd dst-address=0.0.0.0/0 gateway=192.168.100.1';
+$('mt-ex').onclick=()=>{$('mt-in').value=MTX};
+const MTG=[['/interface vlan','Interface VLAN',['name','vlan-id','interface']],['/ip address','Alamat IP',['address','interface','comment']],['/ip pool','Pool DHCP',['name','ranges']],['/ip dhcp-server','Server DHCP',['name','interface','address-pool']],['/ip dhcp-server network','Jaringan DHCP',['address','gateway','dns-server']],['/ip route','Route',['dst-address','gateway','comment']],['/ip firewall nat','NAT',['chain','action','src-address','out-interface','dst-port','to-addresses','comment']],['/ip firewall filter','Firewall filter',['chain','action','protocol','dst-port','src-address','in-interface','connection-state','comment']]];
+function mtParse(t){const items=[];let path='';
+ const kvp=x=>{const o={},re=/([\w-]+)=("([^"]*)"|\S+)/g;let m;while(m=re.exec(x))o[m[1]]=m[3]!==undefined?m[3]:m[2];return o};
+ t.replace(/\\\r?\n\s*/g,' ').split(/\r?\n/).forEach(l=>{l=l.trim();if(!l||l[0]==='#')return;
+  if(l[0]==='/'){const m=l.match(/^(\/[a-z0-9\/ -]*?)\s+(add|set)\s+(.*)$/i);if(m)items.push({p:m[1].trim(),op:m[2].toLowerCase(),kv:kvp(m[3])});else path=l;return}
+  const m=l.match(/^(add|set)\s+(.*)$/i);if(m)items.push({p:path,op:m[1].toLowerCase(),kv:kvp(m[2])})});
+ return items}
+$('mt-go').onclick=()=>{const t=$('mt-in').value,o=$('mt-out');if(!t.trim()){o.innerHTML='<div class="err">Tempel hasil /export dulu, atau tekan Isi contoh.</div>';return}
+ const it=mtParse(t);if(!it.length){o.innerHTML='<div class="err">Tidak ada perintah yang dikenali. Pastikan isinya hasil /export MikroTik.</div>';return}
+ const id=it.find(x=>x.p==='/system identity'&&x.kv.name),warn=[];
+ const fl=it.filter(x=>x.p==='/ip firewall filter'&&x.op==='add'),nat=it.filter(x=>x.p==='/ip firewall nat'&&x.op==='add');
+ if(!fl.some(x=>x.kv.chain==='input'&&x.kv.action==='drop'))warn.push('Belum ada rule drop di chain input, router mungkin terbuka dari luar.');
+ if(!nat.some(x=>x.kv.action==='masquerade'||x.kv.action==='src-nat'))warn.push('Tidak ada NAT masquerade, LAN tidak akan bisa keluar ke internet (kecuali memakai IP publik).');
+ it.filter(x=>x.p==='/ip service'&&x.kv.disabled==='no'&&['telnet','ftp'].includes(x.kv.name)).forEach(x=>warn.push('Layanan '+x.kv.name+' aktif dan tidak aman, sebaiknya dimatikan.'));
+ let h='<dl class="kv blk"><dt>Nama router</dt><dd>'+esc(id?id.kv.name:'(tidak ada)')+'</dd><dt>Total perintah</dt><dd>'+it.length+'</dd></dl>';
+ if(warn.length)h+='<div class="blk"><h3>Perlu dicek</h3><ul>'+warn.map(w=>'<li class="bad">'+esc(w)+'</li>').join('')+'</ul></div>';
+ MTG.forEach(g=>{const r=it.filter(x=>x.p===g[0]&&x.op==='add');if(!r.length)return;const cols=g[2].filter(c=>r.some(x=>x.kv[c]));
+  h+='<div class="blk"><h3>'+g[1]+' ('+r.length+')</h3><div class="scroll"><table><tr>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr>'+r.map(x=>'<tr>'+cols.map(c=>'<td>'+esc(x.kv[c]||'')+'</td>').join('')+'</tr>').join('')+'</table></div></div>'});
+ o.innerHTML=h};
+
+/* ---------- Cadangan data ---------- */
+function bkData(){const o={};try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith('netkit.')&&!['netkit.tab','netkit.recent','netkit.denahbg'].includes(k))o[k]=localStorage.getItem(k)}}catch(e){}return o}
+function bkStats(){let c={};try{c=JSON.parse(localStorage.getItem('netkit.check')||'{}')}catch(e){}
+ $('bk-st').innerHTML='Tersimpan di perangkat ini: <b>'+ipam.length+'</b> IP (IPAM), <b>'+notes.length+'</b> catatan, <b>'+Object.keys(c).length+'</b> checklist.'}
+$('bk-copy').onclick=()=>copyTxt(JSON.stringify(bkData()),'Cadangan tersalin');
+$('bk-dl').onclick=()=>saveFile('netkit-cadangan-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(bkData(),null,1),'application/json');
+$('bk-imp').onclick=()=>{const e=$('bk-err');e.textContent='';let o;try{o=JSON.parse($('bk-in').value)}catch(x){e.textContent='Teks bukan JSON yang valid. Salin ulang seluruh isi cadangan.';return}
+ const ks=Object.keys(o||{}).filter(k=>k.startsWith('netkit.'));if(!ks.length){e.textContent='Tidak ada data NetKit di dalam JSON ini.';return}
+ if(!confirm('Impor '+ks.length+' kelompok data? Data dengan nama sama di perangkat ini akan ditimpa.'))return;
+ try{ks.forEach(k=>localStorage.setItem(k,o[k]))}catch(x){e.textContent='Gagal menyimpan: penyimpanan perangkat tidak tersedia.';return}
+ notes=loadN();ipam=loadIp();bkStats();toast('Data dipulihkan');$('bk-in').value=''};
+
+/* ---------- Checklist ---------- */
+const CKT={cctv:['Pasang CCTV',['Survei titik kamera dan sudut pandang','Cek jalur kabel dan panjang (maks 90 m)','Tentukan lokasi NVR dan rak','Cek sumber listrik dan UPS','Tarik kabel UTP dan beri label','Terminasi dan tes kabel dengan tester','Pasang kamera dan atur sudut','Atur IP kamera sesuai rencana','Atur NVR (rekam, lama simpan, hard disk)','Tes akses remote dari HP','Ganti password default semua perangkat','Foto hasil dan serah terima ke klien']],
+ wifi:['Pasang WiFi',['Survei area cakupan','Tentukan titik AP (hindari penghalang tebal)','Cek budget PoE dan jalur kabel','Pasang AP dan beri label','Atur SSID dan keamanan WPA2/WPA3','Atur kanal (2.4 GHz: 1, 6, 11)','Pisahkan VLAN tamu','Batasi bandwidth tamu','Tes sinyal di titik terjauh','Catat IP dan lokasi AP ke IPAM']],
+ kantor:['Jaringan kantor',['Gambar topologi dan rencana IP','Konfigurasi router dan WAN','Atur DHCP dan DNS','Buat VLAN sesuai divisi','Atur firewall dan NAT','Ganti password dan matikan layanan tak terpakai','Backup konfigurasi router','Tes internet dan antar-VLAN','Dokumentasi: IPAM dan label kabel','Serah terima dan pelatihan singkat']]};
+function ckLoad(){try{return JSON.parse(localStorage.getItem('netkit.check')||'{}')}catch(e){return{}}}
+function ckSave(o){try{localStorage.setItem('netkit.check',JSON.stringify(o))}catch(e){toast('Penyimpanan tidak tersedia')}}
+function ckRender(){const k=$('cl-t').value,st=ckLoad(),cur=st[k]||{site:'',d:[]},its=CKT[k][1];$('cl-site').value=cur.site||'';
+ const done=its.filter((_,i)=>cur.d[i]).length;$('cl-pr').textContent=done+' dari '+its.length+' selesai';$('cl-bar').style.width=(done/its.length*100)+'%';
+ $('cl-list').innerHTML=its.map((t,i)=>'<label class="ck'+(cur.d[i]?' done':'')+'"><input type="checkbox" data-i="'+i+'"'+(cur.d[i]?' checked':'')+'><span>'+esc(t)+'</span></label>').join('')}
+$('cl-t').onchange=ckRender;
+$('cl-list').addEventListener('change',e=>{const i=+e.target.dataset.i,k=$('cl-t').value,st=ckLoad();st[k]=st[k]||{site:'',d:[]};st[k].d[i]=e.target.checked;st[k].site=$('cl-site').value;ckSave(st);ckRender()});
+$('cl-site').addEventListener('input',()=>{const k=$('cl-t').value,st=ckLoad();st[k]=st[k]||{site:'',d:[]};st[k].site=$('cl-site').value;ckSave(st)});
+$('cl-reset').onclick=()=>{if(!confirm('Kosongkan semua centang di checklist ini?'))return;const k=$('cl-t').value,st=ckLoad();st[k]={site:$('cl-site').value,d:[]};ckSave(st);ckRender()};
+function ckText(k){const st=ckLoad()[k]||{site:'',d:[]};return CKT[k][0]+(st.site?' - '+st.site:'')+'\n'+CKT[k][1].map((t,i)=>(st.d[i]?'[x] ':'[ ] ')+t).join('\n')}
+$('cl-copy').onclick=()=>copyTxt(ckText($('cl-t').value),'Hasil checklist tersalin');
+
+/* ---------- Laporan ---------- */
+function rpLoad(){try{const o=JSON.parse(localStorage.getItem('netkit.rpt')||'{}');['co','ti','lo','te'].forEach(k=>{if(o[k]!==undefined)$('rp-'+k).value=o[k]})}catch(e){}}
+function rpSave(){try{const o={};['co','ti','lo','te'].forEach(k=>o[k]=$('rp-'+k).value);localStorage.setItem('netkit.rpt',JSON.stringify(o))}catch(e){}}
+function rpBuild(){rpSave();const v=k=>esc($('rp-'+k).value),tg=new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+ let h='<div class="rp"><div class="kop"><h1>'+v('co')+'</h1><div>'+v('ti')+'</div></div><table><tr><td style="width:28%">Tanggal</td><td>'+tg+'</td></tr><tr><td>Lokasi / klien</td><td>'+v('lo')+'</td></tr><tr><td>Teknisi</td><td>'+v('te')+'</td></tr></table>';
+ if($('rp-i').checked)h+='<h2>Daftar IP</h2>'+(ipam.length?'<table><tr><th>IP</th><th>Nama</th><th>Tipe</th><th>Lokasi</th><th>MAC</th></tr>'+ipam.slice().sort((a,b)=>ip2n(a.ip)-ip2n(b.ip)).map(r=>'<tr><td>'+esc(r.ip)+'</td><td>'+esc(r.name)+'</td><td>'+esc(r.type)+'</td><td>'+esc(r.loc)+'</td><td>'+esc(r.mac)+'</td></tr>').join('')+'</table>':'<p>Belum ada data.</p>');
+ if($('rp-n').checked)h+='<h2>Catatan lapangan</h2>'+(notes.length?notes.slice().reverse().map(n=>'<p><b>'+esc(n.t)+'</b>'+(n.g?' ['+esc(n.g)+']':'')+' <i>'+new Date(n.id).toLocaleDateString('id-ID')+'</i><br>'+esc(n.b).replace(/\n/g,'<br>')+'</p>').join(''):'<p>Belum ada catatan.</p>');
+ if($('rp-c').checked){const st=ckLoad(),ks=Object.keys(st).filter(k=>CKT[k]&&st[k].d.some(Boolean));h+='<h2>Checklist</h2>'+(ks.length?ks.map(k=>'<p><b>'+esc(CKT[k][0])+(st[k].site?' - '+esc(st[k].site):'')+'</b><br>'+CKT[k][1].map((t,i)=>(st[k].d[i]?'&#9745; ':'&#9744; ')+esc(t)).join('<br>')+'</p>').join(''):'<p>Belum ada checklist yang dikerjakan.</p>')}
+ return h+'</div>'}
+$('rp-pv').onclick=()=>{$('rp-out').innerHTML=rpBuild()};
+$('rp-pr').onclick=()=>{const h=rpBuild();$('rp-out').innerHTML=h;printHtml(h)};
+
+/* ---------- Label kabel ---------- */
+function lbBuild(){const p=$('lb-p').value.trim(),s0=+$('lb-s').value||1,n=Math.min(200,Math.max(1,+$('lb-n').value||1)),d=esc($('lb-d').value.trim()),two=$('lb-2').value==='1';
+ let a='';for(let i=0;i<n;i++){const t=esc(p)+(p?'-':'')+String(s0+i).padStart(2,'0');for(let j=0;j<(two?2:1);j++)a+='<div class="lb"><b>'+t+'</b>'+(d?'<small>'+d+'</small>':'')+'</div>'}
+ return '<div class="lbls">'+a+'</div>'}
+$('lb-go').onclick=()=>{$('lb-out').innerHTML=lbBuild()};
+$('lb-pr').onclick=()=>{const h=lbBuild();$('lb-out').innerHTML=h;printHtml(h)};
+
+/* ---------- Simulator ---------- */
+const SIM={dhcp:[['DISCOVER','PC baru tersambung dan belum punya IP. Ia berteriak ke seluruh jaringan (broadcast): ada server DHCP di sini?'],[2,0,'OFFER','Router (server DHCP) menawarkan IP, misalnya 192.168.10.25, lengkap dengan gateway dan DNS.'],[0,2,'REQUEST','PC menjawab: oke, saya pakai IP yang itu.'],[2,0,'ACK','Router mengonfirmasi dan mencatat sewa (lease). PC resmi memakai IP tersebut.']],
+ arp:[[0,2,'ARP request','PC mau kirim data ke gateway 192.168.10.1 tapi belum tahu MAC-nya. Ia bertanya ke semua (broadcast): siapa pemilik 192.168.10.1?'],[2,0,'ARP reply','Router menjawab langsung ke PC: IP itu milik saya, MAC saya AA:BB:CC:DD:EE:FF.'],[0,2,'Kirim data','PC menyimpan jawaban di tabel ARP dan mengirim data ke MAC tersebut.']],
+ nat:[[0,2,'Paket keluar','PC (192.168.10.25:51000) mengirim permintaan ke 8.8.8.8:53. IP privat tidak bisa dirutekan di internet.'],[2,3,'NAT sumber','Router mengganti alamat sumber menjadi IP publik miliknya, misalnya 203.0.113.5:40001, dan mencatatnya di tabel NAT.'],[3,2,'Balasan','Server membalas ke 203.0.113.5:40001 (IP publik router).'],[2,0,'NAT balik','Router melihat tabel NAT, mengganti tujuan kembali ke 192.168.10.25:51000, lalu meneruskan ke PC.']]};
+SIM.dhcp[0]=[0,2,SIM.dhcp[0][0],SIM.dhcp[0][1]];
+const SM={i:0};
+function simRender(){const sc=SIM[$('sm-sc').value],n=sc.length;SM.i=Math.min(Math.max(SM.i,0),n-1);const st=sc[SM.i],xs=[40,120,200,290],nm=['PC','Switch','Router','Internet'];
+ let h='<svg class="topo" viewBox="0 0 330 90" role="img" aria-label="Diagram simulasi">';for(let k=0;k<3;k++)h+='<path class="tl" d="M'+(xs[k]+30)+' 55H'+(xs[k+1]-30)+'"/>';
+ h+='<path d="M'+xs[st[0]]+' 55H'+xs[st[1]]+'" stroke="var(--k)" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="'+xs[st[1]]+'" cy="55" r="5" fill="var(--k)"/>';
+ xs.forEach((x,k)=>h+='<rect class="tn" x="'+(x-30)+'" y="40" width="60" height="30" rx="4"/><text x="'+x+'" y="59">'+nm[k]+'</text>');
+ h+='<text x="'+((xs[st[0]]+xs[st[1]])/2)+'" y="28" style="font-weight:700">'+st[2]+'</text></svg><div class="head"><div class="sub">Langkah '+(SM.i+1)+' dari '+n+'</div><div style="margin-top:4px">'+esc(st[3])+'</div></div>';
+ $('sm-out').innerHTML=h;$('sm-prev').disabled=SM.i===0;$('sm-next').disabled=SM.i===n-1}
+$('sm-sc').onchange=()=>{SM.i=0;simRender()};$('sm-prev').onclick=()=>{SM.i--;simRender()};$('sm-next').onclick=()=>{SM.i++;simRender()};
+
+/* ---------- Kuis konsep ---------- */
+const KQ=[['Port default SSH?',['22','23','80','3389'],'SSH memakai TCP 22. Port 23 adalah Telnet yang tidak terenkripsi.'],['Protokol yang mengubah nama domain menjadi alamat IP?',['DNS','DHCP','ARP','NAT'],'DNS menerjemahkan nama (google.com) menjadi IP.'],['Port yang dipakai WinBox MikroTik?',['8291','8080','8728','443'],'WinBox di 8291. Port 8728 adalah API MikroTik.'],['Fungsi utama VLAN?',['Memisahkan jaringan secara logis di switch yang sama','Mempercepat internet','Menambah jumlah IP publik','Mengenkripsi lalu lintas'],'VLAN membagi satu switch fisik menjadi beberapa jaringan logis.'],['Perangkat dapat IP 169.254.x.x. Artinya?',['DHCP gagal memberi IP','IP publik','IP gateway','IP multicast'],'169.254.0.0/16 adalah alamat otomatis (APIPA) saat DHCP tidak menjawab.'],['Panjang maksimal satu segmen kabel UTP?',['100 meter','50 meter','200 meter','1 kilometer'],'Maksimal 100 m total (90 m kabel permanen + patch cord).'],['Kanal WiFi 2.4 GHz yang tidak saling tumpang tindih?',['1, 6, 11','1, 2, 3','2, 4, 6','5, 9, 13'],'Kanal 1, 6, dan 11 berjarak cukup untuk tidak bertabrakan.'],['Ping ke 8.8.8.8 berhasil, tapi ping google.com gagal. Penyebab paling mungkin?',['DNS bermasalah','Kabel putus','Gateway salah','IP bentrok'],'Koneksi ada (IP berhasil), hanya penerjemahan nama yang gagal.'],['Urutan proses DHCP?',['Discover, Offer, Request, Ack','Request, Ack, Offer, Discover','Offer, Discover, Ack, Request','Ack, Request, Discover, Offer'],'Disingkat DORA.'],['Fungsi NAT masquerade?',['Mengubah IP privat menjadi IP publik saat keluar ke internet','Membagi bandwidth','Memblokir virus','Memberi IP otomatis'],'Banyak perangkat privat berbagi satu IP publik.'],['Port trunk membawa?',['Banyak VLAN dengan tag 802.1Q','Satu VLAN tanpa tag','Hanya lalu lintas internet','Hanya broadcast'],'Trunk antar switch atau ke router membawa banyak VLAN bertag.'],['Jumlah host yang bisa dipakai di /26?',['62','64','60','30'],'2^6 = 64 alamat dikurangi network dan broadcast = 62.'],['Cara firewall membaca aturan?',['Dari atas, aturan pertama yang cocok dipakai','Dari bawah ke atas','Semua dijalankan bersamaan','Acak'],'Urutan penting: aturan drop terakhir jangan sampai mendahului aturan izin.'],['Alamat mana yang termasuk IP privat?',['192.168.1.5','8.8.8.8','172.32.0.1','11.0.0.1'],'Privat: 10/8, 172.16-172.31, 192.168/16. 172.32.x.x sudah publik.'],['Port 554 umumnya dipakai untuk?',['Streaming RTSP kamera CCTV','Email','Remote desktop','DNS'],'RTSP di TCP/UDP 554.'],['Standar PoE dengan daya maksimal 15,4 W per port?',['802.3af','802.3at','802.3bt','802.11ac'],'af 15,4 W, at (PoE+) 30 W, bt sampai 60-90 W.'],['Langkah pertama troubleshooting jaringan?',['Cek fisik: kabel, lampu link, daya','Reset semua perangkat','Ganti router','Instal ulang OS'],'Masalah lapisan fisik sering jadi penyebab yang tampak rumit.'],['Netmask /24?',['255.255.255.0','255.255.0.0','255.255.255.128','255.255.255.252'],'24 bit pertama bernilai 1 = tiga oktet penuh.'],['Broadcast untuk 192.168.1.0/24?',['192.168.1.255','192.168.1.254','192.168.1.0','192.168.255.255'],'Alamat terakhir di blok adalah broadcast.']];
+const K={cur:null,ok:0,all:0,st:0,done:false};
+function newK(){const q=KQ[R(KQ.length)],o=q[1].map((t,i)=>({t,c:i===0}));for(let i=o.length-1;i>0;i--){const j=R(i+1);[o[i],o[j]]=[o[j],o[i]]}
+ K.cur={q,o};K.done=false;$('k-q').textContent=q[0];$('k-res').innerHTML='';$('k-opts').innerHTML=o.map((x,i)=>'<button class="opt" data-ko="'+i+'">'+esc(x.t)+'</button>').join('')}
+$('k-opts').onclick=e=>{const b=e.target.closest('.opt');if(!b||K.done)return;K.done=true;const i=+b.dataset.ko,ok=K.cur.o[i].c;K.all++;if(ok){K.ok++;K.st++}else K.st=0;
+ $('k-ok').textContent=K.ok;$('k-all').textContent=K.all;$('k-st').textContent=K.st;
+ document.querySelectorAll('#k-opts .opt').forEach((x,j)=>{if(K.cur.o[j].c)x.classList.add('good');else if(j===i)x.classList.add('no')});
+ $('k-res').innerHTML=(ok?'<b class="ok">Benar.</b> ':'<b class="bad">Belum tepat.</b> ')+esc(K.cur.q[2])};
+$('k-next').onclick=newK;
+
+
+/* ---------- Pecah dan ringkas ---------- */
+$('pc-go').onclick=()=>{const c=parseCidr($('pc-net').value),p=+$('pc-p').value,o=$('pc-out');
+ if(!c){o.innerHTML='<div class="err">Network tidak valid. Contoh: 192.168.0.0/24</div>';return}
+ if(!(p>c.p&&p<=30)){o.innerHTML='<div class="err">Prefix baru harus lebih besar dari /'+c.p+' dan maksimal /30.</div>';return}
+ const cnt=Math.pow(2,p-c.p),size=Math.pow(2,32-p);let r='';
+ for(let i=0;i<Math.min(cnt,128);i++){const n=c.net+i*size,cc={p,net:n,bc:n+size-1};r+='<tr><td>'+(i+1)+'</td><td>'+n2ip(n)+'/'+p+'</td><td>'+n2ip(firstH(cc))+' - '+n2ip(lastH(cc))+'</td><td>'+n2ip(n+size-1)+'</td></tr>'}
+ o.innerHTML='<p class="lead" style="margin-top:10px">'+cnt+' subnet, masing-masing '+hosts(p)+' host'+(cnt>128?' (ditampilkan 128 pertama)':'')+'.</p><div class="scroll"><table><tr><th>#</th><th>Network</th><th>Range host</th><th>Broadcast</th></tr>'+r+'</table></div>'};
+$('rs-go').onclick=()=>{const o=$('rs-out'),L=$('rs-in').value.split('\n').map(x=>x.trim()).filter(Boolean),cs=[],bad=[];
+ L.forEach(l=>{const c=parseCidr(l);c?cs.push(c):bad.push(l)});
+ if(!cs.length){o.innerHTML='<div class="err">Isi minimal satu network CIDR yang valid.</div>';return}
+ const mn=Math.min(...cs.map(c=>c.net)),mx=Math.max(...cs.map(c=>c.bc));let p=32;while(p>0&&Math.floor(mn/Math.pow(2,32-p))!==Math.floor(mx/Math.pow(2,32-p)))p--;
+ const sz=Math.pow(2,32-p),net=Math.floor(mn/sz)*sz,used=cs.reduce((a,c)=>a+(c.bc-c.net+1),0),extra=sz-used;
+ o.innerHTML=(bad.length?'<div class="err">Baris dilewati (tidak valid): '+esc(bad.join(', '))+'</div>':'')+'<div class="head"><div class="rng">'+n2ip(net)+'/'+p+'</div><div class="sub">Satu route yang mencakup '+cs.length+' network</div></div><dl class="kv"><dt>Mencakup</dt><dd>'+sz.toLocaleString('id-ID')+' alamat</dd><dt>Dipakai daftar</dt><dd>'+used.toLocaleString('id-ID')+' alamat (jika tidak tumpang tindih)</dd><dt>Alamat ekstra</dt><dd>'+(extra>0?'<span class="bad">'+extra.toLocaleString('id-ID')+' alamat di luar daftar ikut tercakup</span>':'<span class="ok">Tepat, tidak ada ekstra</span>')+'</dd></dl>'};
+
+/* ---------- Bandwidth ---------- */
+function fmtT(sec){sec=Math.round(sec);const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;return (h?h+' jam ':'')+(m?m+' menit ':'')+(s||(!h&&!m)?s+' detik':'')}
+$('bw-go').onclick=()=>{const sz=(+$('bw-s').value||0)*(+$('bw-u').value),v=+$('bw-v').value||0,e=(+$('bw-e').value||0)/100,o=$('bw-out');
+ if(sz<=0||v<=0||e<=0){o.innerHTML='<div class="err">Isi ukuran, kecepatan, dan efisiensi lebih dari 0.</div>';return}
+ const mbs=v*e/8;o.innerHTML='<dl class="kv" style="margin-top:10px"><dt>Kecepatan nyata</dt><dd>'+(v*e).toFixed(1)+' Mbps = '+mbs.toFixed(2)+' MB/s</dd><dt>Perkiraan waktu</dt><dd><b>'+fmtT(sz/mbs)+'</b></dd><dt>Pada kecepatan penuh</dt><dd>'+fmtT(sz/(v/8))+'</dd></dl>'};
+$('bw-go2').onclick=()=>{const n=+$('bw-n').value||0,per=+$('bw-p').value,c=(+$('bw-c').value||0)/100,o=$('bw-out2');
+ if(n<=0||c<=0){o.innerHTML='<div class="err">Isi jumlah user dan persentase aktif lebih dari 0.</div>';return}
+ const tot=n*per*c,rec=tot*1.3,pk=[10,20,30,50,75,100,150,200,300,500,1000,2000].find(x=>x>=rec)||'lebih dari 2000';
+ o.innerHTML='<dl class="kv" style="margin-top:10px"><dt>Kebutuhan puncak</dt><dd>'+tot.toFixed(1)+' Mbps</dd><dt>Dengan cadangan 30%</dt><dd>'+rec.toFixed(1)+' Mbps</dd><dt>Paket disarankan</dt><dd><b>'+pk+' Mbps</b></dd></dl><p class="lead">Untuk CCTV yang diakses dari luar, hitung upload terpisah (lihat menu CCTV).</p>'};
+
+/* ---------- Urutan UTP ---------- */
+const UW={B:[['Putih-oranye','#e8731a',1],['Oranye','#e8731a',0],['Putih-hijau','#2f9e57',1],['Biru','#2a6fb8',0],['Putih-biru','#2a6fb8',1],['Hijau','#2f9e57',0],['Putih-coklat','#8a5a38',1],['Coklat','#8a5a38',0]],
+ A:[['Putih-hijau','#2f9e57',1],['Hijau','#2f9e57',0],['Putih-oranye','#e8731a',1],['Biru','#2a6fb8',0],['Putih-biru','#2a6fb8',1],['Oranye','#e8731a',0],['Putih-coklat','#8a5a38',1],['Coklat','#8a5a38',0]]};
+const UF=['TX+','TX-','RX+','PoE B','PoE B','RX-','PoE B','PoE B'];
+function utRow(t,lbl){return '<h3>'+lbl+' (T568'+t+')</h3><div style="display:grid;grid-template-columns:repeat(8,1fr);gap:4px">'+UW[t].map((w,i)=>'<div style="text-align:center"><div style="font:600 12px ui-monospace,monospace">'+(i+1)+'</div><div style="height:54px;border-radius:3px;border:1px solid var(--ln);background:'+(w[2]?'repeating-linear-gradient(45deg,'+w[1]+' 0 6px,#fff 6px 12px)':w[1])+'"></div><div style="font-size:10.5px;line-height:1.2;margin-top:3px">'+w[0]+'</div><div style="font:10px ui-monospace,monospace;color:var(--mu)">'+UF[i]+'</div></div>').join('')+'</div>'}
+function utRender(){const t=$('ut-t').value;$('ut-out').innerHTML=utRow(t[0],'Ujung 1')+utRow(t[1],'Ujung 2')+'<p class="lead" style="margin-top:10px">10/100 Mbps memakai pin 1, 2, 3, 6. Gigabit memakai semua 8 pin. PoE mode A memakai pin 1, 2, 3, 6, mode B memakai pin 4, 5, 7, 8.</p>'}
+$('ut-t').onchange=utRender;
+
+/* ---------- Listrik dan UPS ---------- */
+const KHA={'1.5':15,'2.5':20,'4':27,'6':34,'10':46,'16':62},MCBS=[2,4,6,10,16,20,25,32,40,50,63];
+$('ls-go').onclick=()=>{const P=+$('ls-p').value,V=+$('ls-v').value,cf=+$('ls-c').value,L=+$('ls-l').value||0,A=$('ls-a').value,o=$('ls-out');
+ if(!(P>0&&V>0&&cf>0&&cf<=1)){o.innerHTML='<div class="err">Isi daya, tegangan, dan cos phi (0 sampai 1) dengan benar.</div>';return}
+ const I=P/(V*cf),mcb=MCBS.find(x=>x>=I),kha=KHA[A],dv=2*L*I*0.0178/(+A),pc=dv/V*100;
+ const w=[];if(!mcb)w.push('Arus melebihi 63 A, perlu perhitungan khusus.');else if(mcb>kha)w.push('MCB '+mcb+' A melebihi perkiraan kemampuan kabel '+A+' mm2 ('+kha+' A). Pakai kabel lebih besar.');if(I>kha)w.push('Arus beban melebihi perkiraan kemampuan hantar arus kabel '+A+' mm2.');if(pc>3)w.push('Drop tegangan di atas 3%. Pakai kabel lebih besar atau perpendek jalur.');
+ o.innerHTML='<dl class="kv" style="margin-top:10px"><dt>Arus beban</dt><dd>'+I.toFixed(1)+' A</dd><dt>MCB minimal</dt><dd>'+(mcb?mcb+' A':'-')+'</dd><dt>Perkiraan KHA kabel</dt><dd>'+kha+' A (konservatif)</dd><dt>Drop tegangan</dt><dd>'+dv.toFixed(1)+' V ('+pc.toFixed(1)+'%)</dd></dl>'+(w.length?'<ul style="margin:8px 0">'+w.map(x=>'<li class="bad">'+esc(x)+'</li>').join('')+'</ul>':'<div class="ok" style="margin-top:8px">Dalam batas wajar untuk perkiraan awal.</div>')+'<p class="lead">KHA di atas perkiraan konservatif. Cek PUIL dan datasheet kabel untuk kondisi pemasangan sebenarnya.</p>'};
+$('up-go').onclick=()=>{const W=+$('up-w').value,pf=+$('up-f').value,V=+$('up-v').value,Ah=+$('up-a').value,o=$('up-out');
+ if(!(W>0&&pf>0&&pf<=1&&V>0&&Ah>0)){o.innerHTML='<div class="err">Isi beban, faktor daya, tegangan aki, dan kapasitas Ah dengan benar.</div>';return}
+ const va=W/pf*1.25,std=[650,850,1000,1200,1500,2000,3000,5000,6000,10000].find(x=>x>=va),run=V*Ah*0.5*0.85/W*60;
+ o.innerHTML='<dl class="kv" style="margin-top:10px"><dt>Beban</dt><dd>'+(W/pf).toFixed(0)+' VA</dd><dt>UPS disarankan</dt><dd><b>'+(std||'lebih dari 10000')+' VA</b> (cadangan 25%)</dd><dt>Perkiraan waktu cadangan</dt><dd>'+run.toFixed(0)+' menit</dd></dl><p class="lead">Waktu cadangan memakai asumsi aki dipakai sampai 50% dan efisiensi inverter 85%. Aki yang sudah lama lebih pendek dari hitungan.</p>'};
+
+/* ---------- Port forward ---------- */
+function pfBuild(){const e=$('pf-err');e.textContent='';const d=$('pf-d').value,w=$('pf-w').value.trim(),r=$('pf-r').value,ep=+$('pf-e').value,tp=+$('pf-t').value,ip=$('pf-i').value.trim(),cm=$('pf-c').value.trim().replace(/"/g,''),sr=$('pf-s').value.trim();
+ if(!(ep>0&&ep<65536&&tp>0&&tp<65536)){e.textContent='Port harus 1 sampai 65535.';return null}
+ if(ip2n(ip)===null){e.textContent='IP tujuan tidak valid.';return null}
+ if(sr&&!parseCidr(sr)){e.textContent='Batas sumber harus berformat CIDR, contoh 203.0.113.10/32.';return null}
+ const risky=[21,22,23,135,139,445,3389,5900,8291].filter(x=>x===ep||x===tp);
+ if(risky.length)e.textContent='Perhatian: port '+risky.join(', ')+' sering diserang. Sebaiknya lewat VPN, atau batasi sumber.';
+ if(d==='mt')return '/ip firewall nat add chain=dst-nat in-interface='+w+' protocol='+r+' dst-port='+ep+(sr?' src-address='+sr:'')+' action=dst-nat to-addresses='+ip+' to-ports='+tp+' comment="'+cm+'"\n/ip firewall filter add chain=forward action=accept connection-nat-state=dstnat protocol='+r+' dst-address='+ip+' dst-port='+tp+' comment="'+cm+'" place-before=0\n# Aturan filter ditaruh paling atas agar tidak kalah oleh rule drop.\n# Kalau akses dari dalam LAN lewat IP publik, tambahkan hairpin NAT (srcnat masquerade).';
+ return 'ip nat inside source static '+r+' '+ip+' '+tp+' interface '+w+' '+ep+'\n! Pastikan interface LAN: ip nat inside, WAN: ip nat outside.'+(sr?'\n! Pembatasan sumber ('+sr+') dibuat lewat access-list di interface WAN.':'')}
+$('pf-go').onclick=()=>{const t=pfBuild();if(t)$('pf-out').textContent=t};
+$('pf-cp').onclick=()=>{const t=pfBuild();if(t)copyTxt(t,'Aturan tersalin')};
+
+/* ---------- Kumpulan perintah ---------- */
+const SN=[['MikroTik','Backup dan export konfigurasi','/system backup save name=backup-harian\n/export file=config-harian'],
+['MikroTik','Batasi bandwidth per IP','/queue simple add name=limit-pc1 target=192.168.10.50/32 max-limit=5M/10M\n# format max-limit: upload/download'],
+['MikroTik','Blokir IP dengan address-list','/ip firewall address-list add list=blokir address=203.0.113.10\n/ip firewall filter add chain=forward src-address-list=blokir action=drop place-before=0'],
+['MikroTik','DHCP static lease (IP tetap)','/ip dhcp-server lease add address=192.168.10.50 mac-address=AA:BB:CC:DD:EE:FF server=dhcp-cctv comment="Kamera 1"'],
+['MikroTik','DNS statis','/ip dns static add name=nvr.lokal address=192.168.10.20'],
+['MikroTik','Batasi akses WinBox ke LAN','/ip service set winbox address=192.168.10.0/24\n# Pastikan IP kamu termasuk rentang ini sebelum menjalankan'],
+['MikroTik','Matikan layanan tidak aman','/ip service disable telnet,ftp,api,api-ssl\n# www dan ssh dibiarkan; matikan hanya jika tidak dipakai'],
+['MikroTik','Pantau perangkat (Netwatch)','/tool netwatch add host=192.168.10.20 interval=30s timeout=2s comment="NVR"'],
+['MikroTik','Ping dan monitor trafik','/ping 8.8.8.8 count=4\n/interface monitor-traffic ether1'],
+['MikroTik','Zona waktu dan NTP (v7)','/system clock set time-zone-name=Asia/Pontianak\n/system ntp client set enabled=yes\n/system ntp client servers add address=id.pool.ntp.org'],
+['MikroTik','Reboot terjadwal tiap malam','/system scheduler add name=reboot-malam start-time=03:00:00 interval=1d on-event="/system reboot"'],
+['MikroTik','Ganti password admin','/user set admin password="GantiDenganYangKuat"'],
+['MikroTik','Matikan neighbor discovery di WAN (v7)','/ip neighbor discovery-settings set discover-interface-list=LAN'],
+['MikroTik','Lihat log error','/log print where topics~"error"'],
+['Cisco','Port akses ke VLAN','interface range gigabitethernet0/1-12\n switchport mode access\n switchport access vlan 10\n spanning-tree portfast'],
+['Cisco','Port trunk','interface gigabitethernet0/24\n switchport mode trunk\n switchport trunk allowed vlan 10,20,30'],
+['Cisco','Cek status','show ip interface brief\nshow vlan brief\nshow mac address-table\nshow interfaces status'],
+['Cisco','Simpan konfigurasi','copy running-config startup-config'],
+['Linux/Windows','Cari perangkat aktif di jaringan','nmap -sn 192.168.10.0/24\narp -a'],
+['Linux/Windows','Cek jalur dan DNS','traceroute 8.8.8.8\ntracert 8.8.8.8\nnslookup google.com'],
+['Linux/Windows','Lihat port yang terbuka di komputer','ss -tulpn\nnetstat -an'],
+['Linux/Windows','Tangkap paket DNS','tcpdump -i eth0 port 53']];
+function snRender(){const q=$('sn-q').value.toLowerCase();const r=SN.map((x,i)=>[x,i]).filter(o=>(o[0][0]+' '+o[0][1]+' '+o[0][2]).toLowerCase().includes(q));
+ $('sn-list').innerHTML=r.length?r.map(o=>'<details><summary>'+esc(o[0][1])+' <span class="chip">'+o[0][0]+'</span></summary><div class="bd"><pre>'+esc(o[0][2])+'</pre><button class="btn alt sm" style="margin:6px 0 0" data-sn="'+o[1]+'">Salin</button></div></details>').join(''):'<div class="empty">Tidak ada yang cocok.</div>'}
+$('sn-q').addEventListener('input',snRender);
+$('sn-list').addEventListener('click',e=>{const i=e.target.dataset.sn;if(i!==undefined)copyTxt(SN[i][2],'Perintah tersalin')});
+
+/* ---------- Daftar port ---------- */
+const PT=[['20/21','TCP','FTP','File transfer, tidak terenkripsi',1],['22','TCP','SSH','Akses terminal aman',1],['23','TCP','Telnet','Tidak terenkripsi, hindari',1],['25','TCP','SMTP','Kirim email',0],['53','UDP/TCP','DNS','Terjemah nama ke IP',0],['67/68','UDP','DHCP','IP otomatis',0],['69','UDP','TFTP','Transfer file sederhana',0],['80','TCP','HTTP','Web',0],['110','TCP','POP3','Ambil email',0],['123','UDP','NTP','Sinkron waktu',0],['135','TCP','RPC Windows','Sering diserang',1],['137-139','UDP/TCP','NetBIOS','Berbagi file lama',1],['143','TCP','IMAP','Email',0],['161/162','UDP','SNMP','Monitoring perangkat',0],['389','TCP','LDAP','Direktori',0],['443','TCP','HTTPS','Web aman',0],['445','TCP','SMB','Berbagi file Windows',1],['500/4500','UDP','IPsec','VPN',0],['514','UDP','Syslog','Log jarak jauh',0],['554','TCP/UDP','RTSP','Streaming kamera CCTV',0],['587','TCP','SMTP submission','Kirim email aman',0],['993','TCP','IMAPS','Email aman',0],['1194','UDP','OpenVPN','VPN',0],['1701','UDP','L2TP','VPN',0],['1723','TCP','PPTP','VPN lama, tidak aman',1],['1812/1813','UDP','RADIUS','Autentikasi',0],['1883','TCP','MQTT','IoT',0],['3306','TCP','MySQL','Database',1],['3389','TCP','RDP','Remote desktop Windows',1],['5060','UDP/TCP','SIP','Telepon IP',0],['5432','TCP','PostgreSQL','Database',1],['5900','TCP','VNC','Remote desktop',1],['8000','TCP','Hikvision','Port server kamera Hikvision',0],['8080','TCP','HTTP alternatif','Web alternatif, proxy',0],['8291','TCP','WinBox','Manajemen MikroTik',1],['8728/8729','TCP','API MikroTik','API biasa / SSL',1],['9100','TCP','Printer RAW','Cetak langsung',0],['37777','TCP','Dahua','Port server DVR Dahua',0],['51820','UDP','WireGuard','VPN',0]];
+function ptRender(){const q=$('pt-q').value.toLowerCase().trim();const r=PT.filter(x=>!q||x.slice(0,4).join(' ').toLowerCase().includes(q));
+ $('pt-list').innerHTML=r.length?'<table><tr><th>Port</th><th>Proto</th><th>Layanan</th><th>Keterangan</th></tr>'+r.map(x=>'<tr><td>'+x[0]+'</td><td>'+x[1]+'</td><td>'+x[2]+(x[4]?' <span class="chip" style="color:var(--wn)">berisiko</span>':'')+'</td><td style="white-space:normal">'+x[3]+'</td></tr>').join('')+'</table>':'<div class="empty">Tidak ada yang cocok.</div>'}
+$('pt-q').addEventListener('input',ptRender);
+
+/* ---------- MAC address ---------- */
+const OUI={'4C5E0C':'MikroTik','B869F4':'MikroTik','D4CA6D':'MikroTik','CC2DE0':'MikroTik','744D28':'MikroTik','2CC81B':'MikroTik','E48D8C':'MikroTik','488F5A':'MikroTik','6C3B6B':'MikroTik','DC2C6E':'MikroTik','245A4C':'Ubiquiti','788A20':'Ubiquiti','F09FC2':'Ubiquiti','FCECDA':'Ubiquiti','802AA8':'Ubiquiti','44D9E7':'Ubiquiti','7483C2':'Ubiquiti','B4FBE4':'Ubiquiti','4419B6':'Hikvision','BCAD28':'Hikvision','C056E3':'Hikvision','54C415':'Hikvision','2857BE':'Hikvision','4CBD8F':'Hikvision','A41437':'Hikvision','1868CB':'Hikvision','3CEF8C':'Dahua','4C11BF':'Dahua','9002A9':'Dahua','E0508B':'Dahua','9C1463':'Dahua'};
+function macGo(){const raw=$('mc-in').value.replace(/[^0-9a-f]/gi,'').toUpperCase(),o=$('mc-out');if(!raw){o.innerHTML='';return}
+ if(raw.length!==12){o.innerHTML='<div class="err">MAC harus 12 karakter hex (sekarang '+raw.length+').</div>';return}
+ const b=raw.match(/../g),f=parseInt(b[0],16),lc=raw.toLowerCase(),v=OUI[raw.slice(0,6)];
+ const rows=[['Titik dua',b.join(':')],['Strip',b.join('-')],['Gaya Cisco',lc.slice(0,4)+'.'+lc.slice(4,8)+'.'+lc.slice(8)],['Polos',raw],['OUI (3 byte awal)',b.slice(0,3).join(':')],['Pabrikan',v||'Tidak ada di daftar kecil ini'],['Tipe',f&1?'Multicast/broadcast':'Unicast (satu perangkat)'],['Asal',f&2?'Dikelola lokal (bisa acak atau diubah, mis. privasi HP)':'Universal (dari pabrikan)']];
+ o.innerHTML='<dl class="kv">'+rows.map(r=>'<dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd>').join('')+'</dl>'}
+$('mc-in').addEventListener('input',macGo);
+
+/* ---------- Buat sandi ---------- */
+function rnd(n){const m=Math.floor(4294967296/n)*n,a=new Uint32Array(1);do{crypto.getRandomValues(a)}while(a[0]>=m);return a[0]%n}
+function pwGo(){const len=Math.min(64,Math.max(6,+$('pw-l').value||16)),ns=+$('pw-n').value,am=$('pw-a').checked;
+ const sets=[am?'abcdefghijkmnopqrstuvwxyz':'abcdefghijklmnopqrstuvwxyz'];if($('pw-u').checked)sets.push(am?'ABCDEFGHJKLMNPQRSTUVWXYZ':'ABCDEFGHIJKLMNOPQRSTUVWXYZ');if($('pw-d').checked)sets.push(am?'23456789':'0123456789');if($('pw-y').checked)sets.push('!@#$%^&*-_=+?');
+ const pool=sets.join(''),bits=Math.round(len*Math.log2(pool.length));let h='';
+ for(let k=0;k<ns;k++){const c=sets.map(x=>x[rnd(x.length)]);while(c.length<len)c.push(pool[rnd(pool.length)]);for(let i=c.length-1;i>0;i--){const j=rnd(i+1);[c[i],c[j]]=[c[j],c[i]]}
+  h+='<div class="note" style="display:flex;align-items:center;justify-content:space-between;gap:8px"><code style="font-size:15px;word-break:break-all">'+esc(c.join(''))+'</code><button class="btn alt sm" data-pw="'+esc(c.join(''))+'">Salin</button></div>'}
+ $('pw-out').innerHTML=h+'<p class="lead">Kekuatan sekitar '+bits+' bit. Di atas 70 bit sudah sangat kuat untuk perangkat jaringan.</p>'}
+$('pw-go').onclick=pwGo;$('pw-out').addEventListener('click',e=>{const t=e.target.dataset.pw;if(t)copyTxt(t,'Sandi tersalin')});
+
+
+/* ---------- Denah CCTV ---------- */
+const DN={W:20,H:15,walls:[],cams:[],nvr:null,bg:null,n:0,z:{i:1,r:1,o:0}};
+const VB={x:0,y:0,w:20,h:15};
+let dnMode='pilih',dnSel=null,dnDrag=null,dnTmp=null,dnHist=[],dnReady=false,dnPinch=null,dnIgn=false;const dnPtr=new Map();
+const LENS=[['2.8 mm',100],['3.6 mm',85],['4 mm',80],['6 mm',54],['8 mm',40],['12 mm',28],['Fisheye 360',360]];
+const RES=[['2 MP',1920],['4 MP',2560],['5 MP',2592],['8 MP',3840]];
+const DHINT={pilih:'Ketuk kamera untuk mengatur. Seret untuk memindah, seret titik putih di ujung kerucut untuk memutar arah.',kamera:'Ketuk di denah untuk menaruh kamera.',dinding:'Seret di denah untuk menggambar dinding. Garis menempel ke kelipatan 0,5 m.',nvr:'Ketuk lokasi NVR atau switch.'};
+function dnLoad(){try{const o=JSON.parse(localStorage.getItem('netkit.denah')||'null');if(o&&Array.isArray(o.cams))Object.assign(DN,o)}catch(e){}try{DN.bg=localStorage.getItem('netkit.denahbg')||null}catch(e){}if(!DN.z)DN.z={i:1,r:1,o:0}}
+function dnSave(){try{const o=Object.assign({},DN);delete o.bg;localStorage.setItem('netkit.denah',JSON.stringify(o))}catch(e){toast('Penyimpanan penuh, ekspor PNG')}}
+const dsvg=()=>$('dn-svg');
+function dPt(e){const s=dsvg(),p=s.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(s.getScreenCTM().inverse());return{x:q.x,y:q.y}}
+const sn5=v=>Math.round(v*2)/2,sn25=v=>Math.round(v*4)/4;
+function vbFit(){VB.x=0;VB.y=0;VB.w=DN.W;VB.h=DN.H}
+function vbSet(x,y,w){w=Math.min(DN.W*1.5,Math.max(DN.W/12,w));const h=w*DN.H/DN.W;VB.w=w;VB.h=h;VB.x=Math.min(DN.W-w*.15,Math.max(-w*.85,x));VB.y=Math.min(DN.H-h*.15,Math.max(-h*.85,y))}
+const nice=v=>{const p=Math.pow(10,Math.floor(Math.log10(v))),m=v/p;return (m<1.5?1:m<3.5?2:m<7.5?5:10)*p};
+function dori(c){const f=c.fov;if(f>=180)return null;const t=2*Math.tan(f*Math.PI/360),h=c.res||2560;return{i:h/(250*t),r:h/(125*t),o:h/(62*t),d:h/(25*t)}}
+function dnRange(c){const d=dori(c),cap=c.cap>0?c.cap:0;if(!d)return{o:cap||6,r:0,i:0};const m=x=>cap?Math.min(x,cap):x;return{i:m(d.i),r:m(d.r),o:m(d.o)}}
+function sector(c,r){const f=c.fov;if(f>=360)return '<circle cx="'+c.x+'" cy="'+c.y+'" r="'+r+'"/>';const a1=(c.a-f/2)*Math.PI/180,a2=(c.a+f/2)*Math.PI/180,x1=c.x+r*Math.sin(a1),y1=c.y-r*Math.cos(a1),x2=c.x+r*Math.sin(a2),y2=c.y-r*Math.cos(a2);return '<path d="M'+c.x+' '+c.y+'L'+x1+' '+y1+'A'+r+' '+r+' 0 '+(f>180?1:0)+' 1 '+x2+' '+y2+'Z"/>'}
+function dnDraw(){const W=DN.W,H=DN.H,u=VB.w,rs=u*.022,fs=u*.032,pw=u*.004,S=dnSel,st=u<=40?1:u<=200?5:20;let g='';
+ for(let x=st;x<W;x+=st)g+='M'+x+' 0V'+H;for(let y=st;y<H;y+=st)g+='M0 '+y+'H'+W;
+ let h='<rect width="'+W+'" height="'+H+'" fill="#fff"/>'+(DN.bg?'<image href="'+DN.bg+'" width="'+W+'" height="'+H+'" preserveAspectRatio="none" opacity=".85"/>':'')+'<path d="'+g+'" stroke="#d3dce3" stroke-width="1" fill="none" vector-effect="non-scaling-stroke"/><rect width="'+W+'" height="'+H+'" fill="none" stroke="#9aa8b4" stroke-width="1" vector-effect="non-scaling-stroke"/>';
+ DN.walls.forEach((w,i)=>{const sel=S&&S.t==='w'&&S.i===i,a='x1="'+w[0]+'" y1="'+w[1]+'" x2="'+w[2]+'" y2="'+w[3]+'"';h+='<line '+a+' stroke="'+(sel?'#e8731a':'#1b2a36')+'" stroke-width="'+(sel?5:3.5)+'" stroke-linecap="round" vector-effect="non-scaling-stroke"/><line '+a+' stroke="transparent" stroke-width="18" data-t="w" data-i="'+i+'" vector-effect="non-scaling-stroke"/>'});
+ h+='<clipPath id="dnc"><rect width="'+W+'" height="'+H+'"/></clipPath><g clip-path="url(#dnc)">';
+ DN.cams.forEach((c,i)=>{const sel=S&&S.t==='c'&&S.i===i,k=sel?1:.65,r=dnRange(c);
+  h+='<g stroke="#2a6fb8" stroke-width="'+pw+'" stroke-opacity=".6">'+(DN.z.o?'<g fill="#2a6fb8" fill-opacity="'+(.16*k)+'">'+sector(c,r.o)+'</g>':'')+(DN.z.r&&r.r?'<g fill="#e8c32a" fill-opacity="'+(.32*k)+'">'+sector(c,r.r)+'</g>':'')+(DN.z.i&&r.i?'<g fill="#2f9e57" fill-opacity="'+(.42*k)+'">'+sector(c,r.i)+'</g>':'')+(!r.i&&!r.r&&!DN.z.o?'<g fill="#2a6fb8" fill-opacity="'+(.16*k)+'">'+sector(c,r.o)+'</g>':'')+'</g>'});
+ h+='</g>';
+ DN.cams.forEach((c,i)=>{const sel=S&&S.t==='c'&&S.i===i;h+='<circle cx="'+c.x+'" cy="'+c.y+'" r="'+rs+'" fill="'+(sel?'#2a6fb8':'#e8731a')+'" stroke="#fff" stroke-width="'+pw+'"/><text x="'+c.x+'" y="'+(c.y+rs+fs)+'" font-size="'+fs+'" text-anchor="middle" fill="#17212b" font-family="Arial,sans-serif" font-weight="700">'+esc(c.name)+'</text><circle cx="'+c.x+'" cy="'+c.y+'" r="'+(rs*2.2)+'" fill="transparent" data-t="c" data-i="'+i+'"/>'});
+ if(DN.nvr){const n=DN.nvr,z=rs*1.3;h+='<rect x="'+(n.x-z)+'" y="'+(n.y-z)+'" width="'+(z*2)+'" height="'+(z*2)+'" rx="'+(z*.2)+'" fill="#17212b" stroke="'+(S&&S.t==='n'?'#e8731a':'#fff')+'" stroke-width="'+pw*1.5+'"/><text x="'+n.x+'" y="'+(n.y+fs*.35)+'" font-size="'+fs*.8+'" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-weight="700">NVR</text><rect x="'+(n.x-z*1.6)+'" y="'+(n.y-z*1.6)+'" width="'+(z*3.2)+'" height="'+(z*3.2)+'" fill="transparent" data-t="n" data-i="0"/>'}
+ if(S&&S.t==='c'&&DN.cams[S.i]){const c=DN.cams[S.i],r=dnRange(c),hr=Math.max(rs*3,Math.min(r.o*.9,u*.15)),hx=c.x+hr*Math.sin(c.a*Math.PI/180),hy=c.y-hr*Math.cos(c.a*Math.PI/180);h+='<line x1="'+c.x+'" y1="'+c.y+'" x2="'+hx+'" y2="'+hy+'" stroke="#2a6fb8" stroke-width="'+pw+'" stroke-dasharray="'+pw*3+'"/><circle cx="'+hx+'" cy="'+hy+'" r="'+rs*.8+'" fill="#fff" stroke="#2a6fb8" stroke-width="'+pw*1.5+'"/><circle cx="'+hx+'" cy="'+hy+'" r="'+rs*2+'" fill="transparent" data-t="h"/>'}
+ if(dnTmp)h+='<line x1="'+dnTmp.x1+'" y1="'+dnTmp.y1+'" x2="'+dnTmp.x2+'" y2="'+dnTmp.y2+'" stroke="#e8731a" stroke-width="3.5" stroke-dasharray="6 4" vector-effect="non-scaling-stroke"/>';
+ const L=nice(u*.25),bx=VB.x+u*.04,by=VB.y+VB.h-VB.h*.06;h+='<rect x="'+(bx-u*.01)+'" y="'+(by-fs*1.7)+'" width="'+(L+u*.02)+'" height="'+(fs*2.3)+'" fill="#fff" fill-opacity=".8"/><path d="M'+bx+' '+by+'h'+L+'" stroke="#17212b" stroke-width="2.5" vector-effect="non-scaling-stroke"/><text x="'+(bx+L/2)+'" y="'+(by-fs*.4)+'" font-size="'+fs*.9+'" text-anchor="middle" fill="#17212b" font-family="Arial,sans-serif">'+L+' m</text>';
+ dsvg().setAttribute('viewBox',VB.x+' '+VB.y+' '+VB.w+' '+VB.h);dsvg().parentNode.style.setProperty('--ar',DN.W/DN.H);dsvg().innerHTML=h}
+function dnDori(){const el=$('dn-dori');if(!el||!dnSel||dnSel.t!=='c')return;const c=DN.cams[dnSel.i],d=dori(c);
+ el.innerHTML=d?'Jarak efektif (perkiraan):<br>Identifikasi wajah sampai <b>'+d.i.toFixed(1)+' m</b><br>Kenali orang sampai <b>'+d.r.toFixed(1)+' m</b><br>Amati kejadian sampai <b>'+d.o.toFixed(1)+' m</b><br>Deteksi sampai '+d.d.toFixed(1)+' m':'Kamera 360 derajat: jarak efektif tergantung model. Atur lewat Batasi jarak.'}
+function dnPanel(){const o=$('dn-pn'),s=dnSel;
+ if(!s){o.innerHTML='';return}
+ if(s.t==='w'){const w=DN.walls[s.i];if(!w){o.innerHTML='';return}o.innerHTML='<p class="lead">Dinding terpilih, panjang '+Math.hypot(w[2]-w[0],w[3]-w[1]).toFixed(1)+' m. Tekan Hapus terpilih untuk menghapus.</p>';return}
+ if(s.t==='n'){o.innerHTML='<p class="lead">NVR/switch terpilih. Seret untuk memindah, jarak kabel dihitung dari titik ini.</p>';return}
+ const c=DN.cams[s.i];if(!c){o.innerHTML='';return}
+ o.innerHTML='<div class="row keep"><div><label>Nama</label><input data-f="name" value="'+esc(c.name)+'"></div><div><label>Resolusi</label><select data-f="res">'+RES.map(r=>'<option value="'+r[1]+'"'+(c.res===r[1]?' selected':'')+'>'+r[0]+'</option>').join('')+'</select></div></div><div class="row keep"><div><label>Lensa</label><select data-f="lens">'+LENS.map((l,i)=>'<option value="'+i+'"'+(c.lens===i?' selected':'')+'>'+l[0]+'</option>').join('')+'</select></div><div><label>Sudut pandang (derajat)</label><input data-f="fov" type="number" value="'+c.fov+'" min="10" max="360"></div></div><label>Arah: <b id="dn-av">'+Math.round(c.a)+'</b> derajat (0 = atas, 90 = kanan)</label><input data-f="a" type="range" min="0" max="359" value="'+Math.round(c.a)+'"><label>Batasi jarak (m, 0 = otomatis)</label><input data-f="cap" type="number" value="'+(c.cap||0)+'" min="0" step="0.5"><div id="dn-dori" class="lead" style="margin-top:8px"></div>';dnDori()}
+$('dn-pn').addEventListener('input',e=>{const f=e.target.dataset.f;if(!f||!dnSel||dnSel.t!=='c'||!DN.cams[dnSel.i])return;const c=DN.cams[dnSel.i],v=e.target.value;
+ if(f==='name')c.name=v;else if(f==='res')c.res=+v;else if(f==='lens'){c.lens=+v;c.fov=LENS[c.lens][1];dnPanel()}else if(f==='fov')c.fov=Math.min(360,Math.max(10,+v||90));else if(f==='a'){c.a=+v;$('dn-av').textContent=v}else if(f==='cap')c.cap=Math.max(0,+v||0);
+ dnDraw();dnDori();dnSave();dnSum()});
+function dnSum(){const o=$('dn-sum');if(!DN.cams.length){o.innerHTML='<div class="empty">Belum ada kamera. Pilih Kamera lalu ketuk denah.</div>';return}
+ let tot=0;const rows=DN.cams.map(c=>{let d='-';if(DN.nvr){const L=Math.hypot(c.x-DN.nvr.x,c.y-DN.nvr.y)*1.3+3;tot+=L;d=L.toFixed(1)}return '<tr><td>'+esc(c.name)+'</td><td>'+LENS[c.lens||0][0]+' / '+(RES.find(r=>r[1]===c.res)||RES[1])[0]+'</td><td>'+Math.round(c.a)+'&deg;</td><td>'+d+'</td></tr>'}).join('');
+ o.innerHTML='<p class="lead">'+DN.cams.length+' kamera'+(DN.nvr?', perkiraan total kabel '+tot.toFixed(0)+' m.':'. Taruh titik NVR untuk menghitung kabel.')+'</p><div class="scroll"><table><tr><th>Kamera</th><th>Lensa / resolusi</th><th>Arah</th><th>Kabel ke NVR (m)</th></tr>'+rows+'</table></div><p class="lead" style="margin-top:6px">Kabel = jarak lurus x 1,3 ditambah 3 m naik-turun. Perkiraan kasar, ukur ulang jalur sebenarnya.</p>'}
+function dnMode_(m){dnMode=m;document.querySelectorAll('#dn-seg button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));$('dn-hint').textContent=DHINT[m]}
+$('dn-seg').onclick=e=>{const b=e.target.closest('button');if(b)dnMode_(b.dataset.m)};
+function dnZones(){document.querySelectorAll('#dn-lg .zt').forEach(b=>b.classList.toggle('on',!!DN.z[b.dataset.z]))}
+$('dn-lg').onclick=e=>{const b=e.target.closest('.zt');if(!b)return;DN.z[b.dataset.z]=DN.z[b.dataset.z]?0:1;dnZones();dnSave();dnDraw()};
+function dnAll(){dnDraw();dnPanel();dnSum()}
+const dsv=$('dn-svg');
+dsv.addEventListener('pointerdown',e=>{e.preventDefault();dnPtr.set(e.pointerId,{x:e.clientX,y:e.clientY});try{dsv.setPointerCapture(e.pointerId)}catch(x){}
+ if(dnPtr.size>=2){const v=[...dnPtr.values()],a=v[0],b=v[1],r=dsv.getBoundingClientRect(),sx=((a.x+b.x)/2-r.left)/r.width,sy=((a.y+b.y)/2-r.top)/r.height;
+  dnTmp=null;dnDrag=null;dnIgn=true;dnPinch={d0:Math.hypot(a.x-b.x,a.y-b.y)||1,w0:VB.w,ax:VB.x+sx*VB.w,ay:VB.y+sy*VB.h};dnDraw();return}
+ if(dnIgn)return;const p=dPt(e),t=e.target.closest('[data-t]');
+ if(dnMode==='kamera'){const x=sn25(p.x),y=sn25(p.y);DN.n=(DN.n||0)+1;const a=Math.round((Math.atan2(DN.W/2-x,-(DN.H/2-y))*180/Math.PI+360)%360);DN.cams.push({name:'C'+DN.n,x,y,a,lens:0,fov:LENS[0][1],res:2560,cap:0});dnHist.push('c');dnSel={t:'c',i:DN.cams.length-1};dnMode_('pilih');dnSave();dnAll();return}
+ if(dnMode==='dinding'){const x=sn5(p.x),y=sn5(p.y);dnTmp={x1:x,y1:y,x2:x,y2:y};dnDraw();return}
+ if(dnMode==='nvr'){DN.nvr={x:sn25(p.x),y:sn25(p.y)};dnSel={t:'n',i:0};dnMode_('pilih');dnSave();dnAll();return}
+ if(t){const k=t.dataset.t;if(k==='h'){if(dnSel&&dnSel.t==='c')dnDrag={k:'h'}}else{dnSel={t:k,i:+t.dataset.i};if(k==='c'&&DN.cams[dnSel.i]){const c=DN.cams[dnSel.i];dnDrag={k:'c',dx:c.x-p.x,dy:c.y-p.y}}else if(k==='n'&&DN.nvr)dnDrag={k:'n',dx:DN.nvr.x-p.x,dy:DN.nvr.y-p.y}}dnDraw();dnPanel()}
+ else{dnDrag={k:'p',cx:e.clientX,cy:e.clientY,vx:VB.x,vy:VB.y,m:0}}});
+dsv.addEventListener('pointermove',e=>{if(dnPtr.has(e.pointerId))dnPtr.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ if(dnPinch&&dnPtr.size>=2){const v=[...dnPtr.values()],a=v[0],b=v[1],r=dsv.getBoundingClientRect(),d=Math.hypot(a.x-b.x,a.y-b.y)||1,sx=((a.x+b.x)/2-r.left)/r.width,sy=((a.y+b.y)/2-r.top)/r.height,w=dnPinch.w0*dnPinch.d0/d;vbSet(dnPinch.ax-sx*w,dnPinch.ay-sy*w*DN.H/DN.W,w);dnDraw();return}
+ if(dnIgn||(!dnTmp&&!dnDrag))return;const p=dPt(e);
+ if(dnTmp){dnTmp.x2=sn5(p.x);dnTmp.y2=sn5(p.y)}
+ else if(dnDrag.k==='p'){const dx=e.clientX-dnDrag.cx,dy=e.clientY-dnDrag.cy;if(Math.hypot(dx,dy)>5)dnDrag.m=1;if(dnDrag.m){const r=dsv.getBoundingClientRect();vbSet(dnDrag.vx-dx*VB.w/r.width,dnDrag.vy-dy*VB.h/r.height,VB.w)}}
+ else if(dnDrag.k==='n'&&DN.nvr){DN.nvr.x=sn25(p.x+dnDrag.dx);DN.nvr.y=sn25(p.y+dnDrag.dy)}
+ else if((dnDrag.k==='c'||dnDrag.k==='h')&&dnSel&&DN.cams[dnSel.i]){const c=DN.cams[dnSel.i];if(dnDrag.k==='c'){c.x=sn25(p.x+dnDrag.dx);c.y=sn25(p.y+dnDrag.dy)}else c.a=Math.round((Math.atan2(p.x-c.x,-(p.y-c.y))*180/Math.PI+360)%360)}
+ dnDraw()});
+function dnUp(){if(dnTmp){if(Math.hypot(dnTmp.x2-dnTmp.x1,dnTmp.y2-dnTmp.y1)>=.3){DN.walls.push([dnTmp.x1,dnTmp.y1,dnTmp.x2,dnTmp.y2]);dnHist.push('w')}dnTmp=null;dnSave();dnAll()}
+ else if(dnDrag){const d=dnDrag;dnDrag=null;if(d.k==='p'){if(!d.m){dnSel=null;dnPanel()}dnDraw()}else{dnSave();dnPanel();dnSum();dnDraw()}}}
+const dnEnd=e=>{dnPtr.delete(e.pointerId);if(dnPtr.size<2)dnPinch=null;if(dnPtr.size===0){if(!dnIgn)dnUp();dnIgn=false;dnDrag=null;dnTmp=null}};
+dsv.addEventListener('pointerup',dnEnd);dsv.addEventListener('pointercancel',dnEnd);
+dsv.addEventListener('wheel',e=>{e.preventDefault();const r=dsv.getBoundingClientRect(),sx=(e.clientX-r.left)/r.width,sy=(e.clientY-r.top)/r.height,w=VB.w*(e.deltaY<0?1/1.2:1.2);vbSet(VB.x+sx*VB.w-sx*w,VB.y+sy*VB.h-sy*w*DN.H/DN.W,w);dnDraw()},{passive:false});
+document.querySelector('.zc').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const z=b.dataset.z;if(z==='fit')vbFit();else{const w=VB.w*(z==='in'?1/1.4:1.4);vbSet(VB.x+VB.w/2-w/2,VB.y+VB.h/2-w*DN.H/DN.W/2,w)}dnDraw()});
+$('dn-del').onclick=()=>{if(!dnSel){toast('Pilih dulu kamera, dinding, atau NVR');return}
+ if(dnSel.t==='c')DN.cams.splice(dnSel.i,1);else if(dnSel.t==='w')DN.walls.splice(dnSel.i,1);else DN.nvr=null;dnSel=null;dnSave();dnAll()};
+$('dn-undo').onclick=()=>{while(dnHist.length){const t=dnHist.pop();if(t==='w'&&DN.walls.length){DN.walls.pop();dnSel=null;dnSave();dnAll();return}if(t==='c'&&DN.cams.length){DN.cams.pop();dnSel=null;dnSave();dnAll();return}}toast('Tidak ada yang bisa diurungkan')};
+$('dn-clr').onclick=()=>{if(!confirm('Kosongkan seluruh denah (dinding, kamera, NVR)?'))return;DN.walls=[];DN.cams=[];DN.nvr=null;DN.n=0;dnSel=null;dnHist=[];dnSave();dnAll()};
+['dn-w','dn-h'].forEach(id=>$(id).addEventListener('change',()=>{const w=+$('dn-w').value,h=+$('dn-h').value;if(w>=3&&h>=3&&w<=500&&h<=500){DN.W=w;DN.H=h;vbFit();dnSave();dnDraw()}else toast('Ukuran 3 sampai 500 meter')}));
+$('dn-img').onclick=()=>$('dn-file').click();
+$('dn-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const m=Math.min(1,1400/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*m);c.height=Math.round(im.height*m);c.getContext('2d').drawImage(im,0,0,c.width,c.height);DN.bg=c.toDataURL('image/jpeg',.8);
+  DN.H=Math.max(3,Math.round(DN.W*im.height/im.width*2)/2);$('dn-h').value=DN.H;vbFit();try{localStorage.setItem('netkit.denahbg',DN.bg)}catch(x){toast('Gambar terlalu besar untuk disimpan, hilang saat ditutup')}dnSave();dnDraw();toast('Gambar terpasang. Sesuaikan lebar area dengan skala sebenarnya.')};im.onerror=()=>toast('File bukan gambar yang valid');im.src=r.result};r.readAsDataURL(f);e.target.value=''};
+$('dn-noimg').onclick=()=>{DN.bg=null;try{localStorage.removeItem('netkit.denahbg')}catch(x){}dnDraw()};
+function dnSvgStr(w){const sv=Object.assign({},VB),ss=dnSel;dnSel=null;vbFit();dnDraw();const s=dsv.cloneNode(true);s.setAttribute('xmlns','http://www.w3.org/2000/svg');s.setAttribute('width',w);s.setAttribute('height',Math.round(w*DN.H/DN.W));s.removeAttribute('role');const out=new XMLSerializer().serializeToString(s);Object.assign(VB,sv);dnSel=ss;dnDraw();return out}
+$('dn-png').onclick=()=>{const W=1400,H=Math.round(W*DN.H/DN.W),img=new Image();img.onload=()=>{try{const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,W,H);x.drawImage(img,0,0);saveFile('denah-cctv.png',c.toDataURL('image/png').split(',')[1],'image/png',true)}catch(e){toast('Gagal membuat PNG di perangkat ini, pakai Cetak')}};img.onerror=()=>toast('Gagal membuat PNG');img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(dnSvgStr(W))};
+$('dn-pr').onclick=()=>{const svg=dnSvgStr(900).replace(/width="900" height="\d+"/,'style="width:100%;height:auto"');let tb='';if(DN.cams.length)tb='<h2>Daftar kamera</h2><table><tr><th>Kamera</th><th>Lensa</th><th>Resolusi</th><th>Sudut</th><th>Arah</th>'+(DN.nvr?'<th>Kabel (m)</th>':'')+'</tr>'+DN.cams.map(c=>'<tr><td>'+esc(c.name)+'</td><td>'+LENS[c.lens||0][0]+'</td><td>'+(RES.find(r=>r[1]===c.res)||RES[1])[0]+'</td><td>'+c.fov+'&deg;</td><td>'+Math.round(c.a)+'&deg;</td>'+(DN.nvr?'<td>'+(Math.hypot(c.x-DN.nvr.x,c.y-DN.nvr.y)*1.3+3).toFixed(1)+'</td>':'')+'</tr>').join('')+'</table>';
+ printHtml('<div class="rp"><div class="kop"><h1>Denah CCTV</h1><div>Skala area '+DN.W+' x '+DN.H+' m. Jarak efektif adalah perkiraan.</div></div>'+svg+tb+'</div>')};
+function dnInit(){if(!dnReady){dnReady=true;dnLoad();$('dn-w').value=DN.W;$('dn-h').value=DN.H;vbFit();dnMode_('pilih');dnZones()}dnAll()}
+
+/* ---------- Tema, mode layar, sidebar ---------- */
+const MQ=matchMedia('(prefers-color-scheme: dark)');
+const gp=(k,d)=>{try{return localStorage.getItem(k)||d}catch(e){return d}},sp=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+function applyTheme(){const m=gp('netkit.theme','auto'),dk=m==='dark'||(m==='auto'&&MQ.matches);document.documentElement.dataset.theme=dk?'dark':'light';const mt=document.querySelector('meta[name=theme-color]');if(mt)mt.content=dk?'#18202a':'#fbfcfc'}
+function applyLayout(){const m=gp('netkit.layout','auto');document.documentElement.dataset.layout=m==='auto'?(innerWidth>=900?'desktop':'mobile'):m}
+function stMark(){[['st-theme','netkit.theme'],['st-layout','netkit.layout']].forEach(a=>{const v=gp(a[1],'auto');document.querySelectorAll('#'+a[0]+' button').forEach(b=>b.classList.toggle('on',b.dataset.v===v))})}
+MQ.addEventListener&&MQ.addEventListener('change',applyTheme);addEventListener('resize',applyLayout);
+$('themeBtn').onclick=()=>{sp('netkit.theme',document.documentElement.dataset.theme==='dark'?'light':'dark');applyTheme();stMark()};
+$('setBtn').onclick=()=>{stMark();$('sheet').hidden=false};
+$('sheet').addEventListener('click',e=>{if(e.target.dataset.close||e.target.id==='st-close')$('sheet').hidden=true});
+$('st-theme').onclick=e=>{const b=e.target.closest('button');if(b){sp('netkit.theme',b.dataset.v);applyTheme();stMark()}};
+$('st-layout').onclick=e=>{const b=e.target.closest('button');if(b){sp('netkit.layout',b.dataset.v);applyLayout();stMark()}};
+function buildSide(){let h='<div class="sb"><svg class="logo i" viewBox="0 0 26 26" style="width:26px;height:26px;color:var(--k)" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 7v6M13 13l-6 6M13 13l6 6"/><circle cx="13" cy="5" r="3" fill="currentColor"/><circle cx="6" cy="20" r="3" fill="currentColor"/><circle cx="20" cy="20" r="3" fill="currentColor"/></svg>NetKit</div><input id="ss" type="search" placeholder="Filter alat" autocomplete="off"><button class="sl" data-go="home" data-k="o"><svg class="i"><use href="#i-home"/></svg><span>Beranda</span></button>';
+ document.querySelectorAll('#gl .grp').forEach(g=>{h+='<div class="sg">'+esc(g.querySelector('.gh').textContent)+'</div>';g.querySelectorAll('.tile').forEach(t=>{h+='<button class="sl" data-go="'+t.dataset.go+'" data-k="'+t.dataset.k+'">'+t.querySelector('svg').outerHTML+'<span>'+esc(t.querySelector('b').textContent)+'</span></button>'})});
+ $('side').innerHTML=h;$('ss').addEventListener('input',()=>{const q=$('ss').value.toLowerCase();document.querySelectorAll('#side .sl').forEach(b=>{b.hidden=!!q&&!b.textContent.toLowerCase().includes(q)})})}
+buildSide();applyTheme();applyLayout();stMark();
+
+/* ---------- Buka tab terakhir ---------- */
+render('home');
+</script>
+</body>
+</html>
